@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Visual Timetabling</title>
+    <head>
+        <title>Kawai Game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="./css/index.css" />
+    </head>
 
-  <!--<link rel="icon" type="image/png" href="logo.png" />-->
+    <body>
 
-  <link rel="stylesheet" type="text/css" href="VT.css">
-  <script type="text/javascript" src="jquery-1.11.3.js"></script>
-  <script type="text/javascript" src="js.js"></script>
-
-  <!-- Bootstrap -->
-<link rel="stylesheet" type="text/css" href="bootstrap-3.3.5-dist/css/bootstrap.css"/>
-<!--<link rel="stylesheet" type="text/css" href="bootstrap-3.3.5-dist/css/bootstrap-theme.min.css"/>-->
-<script type="text/javascript" src="bootstrap-3.3.5-dist/js/bootstrap.js"></script>
-
-
-
-
-
-
-</head>
-<body>
-	<h1>HELLO IN KAWAI GAME VIA NODEJS</h1>
-</body>
+        <div class="canvas">
+            <canvas id="canvas" width="1000" height="800"></canvas>
+            <div id="chat">
+                <div id="messages"></div>
+                <div id="input_texte">
+                    <input type="text" id="texte_ecrit" />
+                    <input type="button" id="envoyer" value="Envoyer" />
+                </div>
+            </div>
+            <br/><br/>
+        </div>
+        
+        <script type="text/javascript" src="js/Objets.js"></script>
+        <script type="text/javascript" src="js/Loading.js"></script>
+        <script type="text/javascript" src="js/Map.js"></script>
+        <script type="text/javascript" src="js/Utils.js"></script>
+        <script type="text/javascript" src="js/Projectiles.js"></script>
+        <script type="text/javascript" src="js/Joueur.js"></script>
+        <script type="text/javascript" src="js/App.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
 </html>
