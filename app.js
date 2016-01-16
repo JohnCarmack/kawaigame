@@ -8,11 +8,11 @@ var bodyParser     = require( 'body-parser' );
 var logger         = require( 'morgan' );
 
 var static         = require( 'serve-static' );
-var mongoose = require('mongoose');
-var app    = express();
+var mongoose       = require('mongoose');
+var app    		   = express();
 
-var router = express.Router();
-var nib = require('nib');
+var router 		   = express.Router();
+var nib            = require('nib');
 //var Sequelize = require('sequelize');
 
 /*sequelize = new Sequelize('vtmiage', 'root', 'root', {
