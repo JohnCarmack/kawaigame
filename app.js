@@ -5,14 +5,13 @@ var fs             = require('fs');
 
 var bodyParser     = require( 'body-parser' );
 
-var logger         = require( 'morgan' );
-
 var static         = require( 'serve-static' );
 var mongoose       = require('mongoose');
 var app    		   = express();
-
+ var ent = require('ent');
 var router 		   = express.Router();
-var nib            = require('nib');
+
+
 //var Sequelize = require('sequelize');
 
 /*sequelize = new Sequelize('vtmiage', 'root', 'root', {
@@ -40,7 +39,7 @@ app.set( 'views',  __dirname + '/public/' );
 
 
 
-app.use( logger( 'dev' ));
+//app.use( logger( 'dev' ));
 app.set('json spaces', 4);
 app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({ extended : true  }));
@@ -53,6 +52,25 @@ app.get('/', function(req, res) {
 
 
 
-  http.createServer( app ).listen(3000, function (){
+var server =  http.createServer( app ).listen(3000, function (){
     console.log( 'Express server listening on port 3000 ');
+  });
+
+  var io = require('socket.io')(server);
+  io.on('connection', function(socket, pseudo) {
+
+socket.on('nouveau_client', function(pseudo){
+  socket.pseudo = pseudo;
+  socket.pseudo = ent.encode(pseudo);
+  socket.broadcast.emit('nouveau_client ', pseudo);
+
+});
+
+
+// Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
+socket.on('message', function (message) {
+    message = ent.encode(message);
+    socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
+});
+
   });
