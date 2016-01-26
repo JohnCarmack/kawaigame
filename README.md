@@ -7,7 +7,8 @@
 2) on ajoute des niveaux et on code la logique de changement de niveau/game over -> Done  (Mazen Faouzy Quentin Benjamin Camille)
 
 3) Tester avec n joueurs simultanés en clavier partagé -> Done (Benjamin) 
-JSBIN) Lien JSBIN du projet : http://output.jsbin.com/tijuze/4/
+3) bis) JSBIN) Lien JSBIN du projet : http://output.jsbin.com/tijuze/4/
+                               (MAJ)  http://jsbin.com/rujobivato/edit?html,output
 
 4) préparer le terrain pour des updates des joueurs via socket.io -> In progress
 
