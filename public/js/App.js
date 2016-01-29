@@ -1,7 +1,7 @@
 // variables relatives au canvas
 var canvas, w, h;
 //variable d'affichage, -1 ==> menu de pause, 1 ==> menu de départ, 2 ==> infos, 3 ==> scores, 0 ==> pas de menu (jeu en cours)
-var displayMenu=1;
+//var displayMenu=1;
 //espace (y) entre les différents menu 
 var spaceBetweenMenus;
 var spaceBetweenPauseMenu;
@@ -10,6 +10,7 @@ var cooldown=true;
 // "taille" des différents menus
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
+var allPlayers = {};
 
 //menu de pause
 var homeLength, resumeLength;
@@ -19,6 +20,16 @@ var homeX, homeY, resumeX, resumeY;
 var pausePoliceSize;
 //états des différents les listeners
 var inputStates = {};
+//etat du jeu 
+var currentGameState;
+var gameStates = {
+	home: 0,
+    running: 1,
+    over: 2,
+    pause: 3,
+    homeScores: 4,
+    homeInfos: 5
+};
 
 function App() {
 
@@ -34,13 +45,14 @@ function App() {
 
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
+    currentGameState = gameStates.home;
     //set le cooldown à 400ms (un clic tous les 400ms sera pris en compte)
     setInterval(setCooldown,400);   
 }
 
 var mainLoop = function(time)
 {
-	console.log(cooldown);
+	//console.log(cooldown);
 	clearCanvas();
 	//console.log("k");
 	//console.log(displayMenu);
@@ -67,16 +79,15 @@ function clearCanvas() {
 function keyFunctions(){
 	if(inputStates.esc)
 	{
-		console.log("displayMenu = "+displayMenu);
-		if(displayMenu == 0)
+		//console.log("displayMenu = "+displayMenu);
+		if(currentGameState == gameStates.running)
 		{
-			console.log("dans le jeu, on print donc le menu de pause");
-			displayMenu = -1;
+			//console.log("dans le jeu, on print donc le menu de pause");
+			currentGameState = gameStates.pause;
 		}
-		else if(displayMenu!=-1)
+		else if(currentGameState!=gameStates.pause)
 		{
-			console.log("pas dans le jeu, on revient donc à l'accueil");
-			displayMenu = 1;
+			currentGameState = gameStates.home;
 		}
 	}
 }
@@ -86,7 +97,7 @@ function drawCurrentMenu(){
 	context.save();
 	context.restore();
 	//menu de départ
-	if(displayMenu==-1)
+	if(currentGameState == gameStates.pause)
 	{
 		context.save();
 		//context.fillStyle= "rgba(0, 0, 0, 100)";
@@ -110,7 +121,7 @@ function drawCurrentMenu(){
 		context.restore();
 	}
 
-	if(displayMenu==1)
+	if(currentGameState == gameStates.home)
 	{
 		//console.log("drawing menu 1");
 		context.textBaseline = 'middle';
@@ -134,7 +145,7 @@ function drawCurrentMenu(){
 		context.fillText(scoresText, w/2, spaceBetweenMenus*3);
 	}
 
-	if(displayMenu==0) // pas de menu
+	if(currentGameState == gameStates.running) // pas de menu
 	{
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
@@ -146,7 +157,7 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 	}
 
-	if(displayMenu==2) // pas de menu
+	if(currentGameState == gameStates.homeInfos) // pas de menu
 	{
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
@@ -158,7 +169,7 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur infos !!", w/2, spaceBetweenMenus*2);
 	}
 
-	if(displayMenu==3) // pas de menu
+	if(currentGameState == gameStates.homeScores) // pas de menu
 	{
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
@@ -238,7 +249,7 @@ function addMenuClicks(){
 	if(inputStates.mousedown)
 	{
 		//menu de départ
-		if(displayMenu==1 && cooldown==true)
+		if(currentGameState == gameStates.home && cooldown==true)
 		{
 			//START
 			if((inputStates.mousePos.x >= (w/2-startLength/2)) && (inputStates.mousePos.x <= (w/2+startLength/2)))
@@ -247,7 +258,7 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))))
 				{
 					//console.log("clique sur le menu start");
-					displayMenu = 0;
+					currentGameState = gameStates.running;
 				}
 			}
 			//INFOS
@@ -257,7 +268,7 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (spaceBetweenMenus*2-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus*2+(policeSize/2))))
 				{
 					//console.log("clique sur le menu infos");
-					displayMenu = 2;
+					currentGameState = gameStates.homeInfos;
 				}
 			}
 			//SCORES
@@ -267,12 +278,13 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (spaceBetweenMenus*3-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus*3+(policeSize/2))))
 				{
 					//console.log("clique sur le menu scores");
-					displayMenu = 3;
+
+					currentGameState = gameStates.homeScores;
 				}
 			}
 		}
 		//Menu de pause
-		if(displayMenu==-1 && cooldown==true)
+		if(currentGameState == gameStates.pause && cooldown==true)
 		{
 			//HOME
 			if((inputStates.mousePos.x >= (homeX-homeLength/2)) && (inputStates.mousePos.x <= (homeX+homeLength/2)))
@@ -281,7 +293,7 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (homeY-(pausePoliceSize/2))) && (inputStates.mousePos.y <= (homeY+(pausePoliceSize/2))))
 				{
 					//console.log("clique sur le menu home");
-					displayMenu = 1;
+					currentGameState = gameStates.home;
 				}
 			}
 			//Resume
@@ -291,7 +303,7 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (resumeY-(pausePoliceSize/2))) && (inputStates.mousePos.y <= (resumeY+(pausePoliceSize/2))))
 				{
 					//console.log("clique sur le menu resume");
-					displayMenu = 0;
+					currentGameState = gameStates.running;
 				}
 			}
 		}
