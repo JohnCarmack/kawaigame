@@ -12,7 +12,7 @@
 
 4) préparer le terrain pour des updates des joueurs via socket.io -> In progress
 
-5) ajouter un chat mono salle dans le jeu
+5) ajouter un chat mono salle dans le jeu => done
 
 6) faire en sorte que le jeu en ligne marche et que les joueurs puissent chatter (on mélange le code du jeu et le code du chat)
 
