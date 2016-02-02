@@ -22,6 +22,7 @@ var pausePoliceSize;
 var inputStates = {};
 //etat du jeu 
 var currentGameState;
+var obstacles = [];
 var gameStates = {
 	home: 0,
     running: 1,
@@ -154,8 +155,62 @@ function drawCurrentMenu(){
 		context.fillStyle = 'white';
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
-		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
+		clearCanvas();
+		
+	//	context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
+	function createObstacles() {
+        var obstacle1 = {
+      x:200,
+      y:0,
+      w: 20,
+      h:200,
+      speedX: 0,
+      speedY: 100
+    };
+ 
+     var obstacle2 = {
+      x:100,
+      y:80,
+      w: 20,
+      h:200,
+      speedX: 0,
+      speedY: 0
+     };
+      
+     var obstacle3 = {
+      x:300,
+      y:200,
+      w: 20,
+      h:200,
+       speedX: 0,
+      speedY: 0
+     };
+      
+      obstacles.push(obstacle1);
+      obstacles.push(obstacle2);
+      obstacles.push(obstacle3);
+    }
+	displayObstacles(12);
 	}
+	 function displayObstacles(delta) {
+     for(var i =0; i < obstacles.length; i++) {
+       var o = obstacles[i];
+       o.x += calcDistanceToMove(delta, o.speedX);
+        o.y += calcDistanceToMove(delta, o.speedY);
+       
+       if(((o.y+o.h) > canvas.height) || (o.y < 0)) {
+         o.speedY = -o.speedY;
+       }
+       
+       displayOneObstacle(o);
+     }
+    }
+  
+  function displayOneObstacle(obstacle) {
+     ctx.save();
+      ctx.fillRect(obstacle.x,obstacle.y, obstacle.w, obstacle.h);
+      ctx.restore();
+  }
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
 	{
