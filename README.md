@@ -8,7 +8,7 @@
 
 3) Tester avec n joueurs simultanés en clavier partagé -> Done (Benjamin) 
 3) bis) JSBIN) Lien JSBIN du projet : http://output.jsbin.com/tijuze/4/
-                               (MAJ)  http://jsbin.com/rujobivato/edit?html,output
+                               (MAJ)  http://jsbin.com/qodela/7/
 
 4) préparer le terrain pour des updates des joueurs via socket.io -> In progress
 
