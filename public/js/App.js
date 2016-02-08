@@ -1,3 +1,5 @@
+
+
 // variables relatives au canvas
 var canvas, w, h;
 //variable d'affichage, -1 ==> menu de pause, 1 ==> menu de départ, 2 ==> infos, 3 ==> scores, 0 ==> pas de menu (jeu en cours)
@@ -11,6 +13,8 @@ var cooldown=true;
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
 var allPlayers = {};
+var brique = new Image();
+brique.src = "images/brique.png";
 
 //menu de pause
 var homeLength, resumeLength;
@@ -40,6 +44,7 @@ function App() {
     context = canvas.getContext('2d');
     w = canvas.width;
     h = canvas.height;
+   
     spaceBetweenMenus = h/5;
     //ajout listeners 
     addKeyListeners();
@@ -48,7 +53,8 @@ function App() {
     requestAnimationFrame(mainLoop);
     currentGameState = gameStates.home;
     //set le cooldown à 400ms (un clic tous les 400ms sera pris en compte)
-    setInterval(setCooldown,400);   
+    setInterval(setCooldown,400);
+
 }
 
 var mainLoop = function(time)
@@ -62,6 +68,7 @@ var mainLoop = function(time)
 	addMenuClicks(); 
 	//console.log(inputStates.mousePos);
 	requestAnimationFrame(mainLoop);
+	     
 
 }
 
@@ -156,7 +163,22 @@ function drawCurrentMenu(){
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
 		clearCanvas();
-		
+		dessinerMap(1,context);
+		context.fillStyle = "#FF0000";
+//context.fillRect(0,0,150,75);
+//context.fillRect(100,100,250,175);
+
+//for (var i = 0; i < 500 ; i++){
+
+
+
+
+//	context.drawImage(brique, 250, 80);
+
+	//context.restore();
+//}
+//context.drawImage(brique, 250, 80);
+
 	//	context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 	function createObstacles() {
         var obstacle1 = {
