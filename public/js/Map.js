@@ -13,21 +13,22 @@ function dessinerMap(index, canvas){
 
        dataType : 'json', // Le type de données à recevoir, ici, du HTML.
        success: function(result){
-        console.log(result.tilesets[0].name); 
-        
+        console.log(result.tilesets[0].name);
+
         image.src = 'images/'+result.tilesets[0].name+'.png';
         l = result.height;
         k = result.width  ;
         data = result.layers[0].data;
-        
- 
+
+
     }});
     var x = 0;
     for(var i = 0; i < l ; i++) {
 		var y = i * 32;
-		//	canvas.drawImage(image, 0, y);
-		for(var j = 1; j <= k ; j++) {
-		    x++;
+
+    //	canvas.drawImage(image, 0, y);
+		for( var j = 0; j < k ; j++) {
+
 		//	this.tileset.dessinerTile(ligne[j], context, j * 32, y);
 		if(data[x] == "1"){
 		    /*if(j == "1"){
@@ -39,11 +40,11 @@ function dessinerMap(index, canvas){
 			canvas.drawImage(image, j*32, y);
 			canvas.restore();
 		}
-		    
+  x++;
 		}
 		//}
 		console.log("data length " + data.length);
 	}
-   
-    
+
+
 }
