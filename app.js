@@ -53,7 +53,7 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
-var server =  http.createServer( app ).listen(process.env.PORT,process.env.IP, function (){
+var server =  http.createServer( app ).listen(3000, function (){
     console.log( 'Express server listening');
 });
 
