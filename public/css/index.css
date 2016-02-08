@@ -1,15 +1,53 @@
 .canvas {
-    text-align: center;
-    margin-top: 50px;
+	margin-left:2%;
 }
 
 .canvas canvas {
-    border: 2px solid black;
-    background-color: black;
+	float: left;
+    border: 3px solid gray;
+    background-color: silver;
 }
 
 body {
-    background-color: grey;
+    background-color: white;
+}
+body h1{
+	font-family: "century gothic", serif;
+	text-align:center;
+}
+
+#P_serveurs{
+	float:left;
+	width:25%;
+	height:15%;
+	padding:10px;
+	overflow:scroll-y;
+}
+
+#serveurs{
+	width:80%;
+}
+
+#P_users{
+	float:left;
+	width:25%;
+	height:15%;
+	padding:10px;
+	overflow:scroll-y;
+}
+
+#P_conversation{
+	float:left;
+	width:25%;
+	height:15%;
+	overflow:scroll-y;
+	padding:5px;
+	border-left:1px solid black;
+	margin-left:10px;
+}
+
+#data{
+	width:80%;
 }
 
 div#chat {

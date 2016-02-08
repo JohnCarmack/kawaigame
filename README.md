@@ -17,7 +17,11 @@
 6) faire en sorte que le jeu en ligne marche et que les joueurs puissent chatter (on mélange le code du jeu et le code du chat)
 
 7) On essaie de faire passer juste les positions des joueurs via le chat en mode texte, pour débugger
+
 8) on passe les positions en tant qu'objets, et on essaie d'updater les positions des autres joueurs
+
 9) On essaie de faire marcher la logique du jeu (écran d'accueil, game over, changement de niveau)
+
 10) On passe tout en multi room (gestion de parties simultanées mais indépendantes)
+
 11) On commence à réfléchir aux ghosts et à la persistence.
