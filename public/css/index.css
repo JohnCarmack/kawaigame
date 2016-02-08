@@ -18,36 +18,32 @@ body h1{
 
 #P_serveurs{
 	float:left;
-	width:300px;
-	height:50px;
+	width:25%;
+	height:15%;
 	padding:10px;
 	overflow:scroll-y;
 }
 
 #serveurs{
-	width:200px;
+	width:80%;
 }
 
 #P_users{
 	float:left;
-	width:300px;
-	height:80px;
+	width:25%;
+	height:15%;
 	padding:10px;
 	overflow:scroll-y;
 }
 
 #P_conversation{
 	float:left;
-	width:300px;
-	height:350px;
+	width:25%;
+	height:15%;
 	overflow:scroll-y;
 	padding:5px;
-	border:1px solid black;
+	border-left:1px solid black;
 	margin-left:10px;
-}
-
-#conversation{
-	margin-top:100%;
 }
 
 #data{
