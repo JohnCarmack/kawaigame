@@ -108,9 +108,8 @@ var image = new Image();
 
 	}
 	*/
-	function Map(index, canvas){
+	function Map(index){
 		this.index= index;
-		this.canvas= canvas;
 		this.width= 0;
 		this.height= 0;
 		this.layersT= [];
@@ -142,7 +141,7 @@ var image = new Image();
 		}.bind(this)});
 		};
 		
-		this.drawMap = function(){
+		this.drawMap = function(canvasC){
 			var imageC = new Image();
 			//console.log("Dans DRAWMAP , layersT est : " + this.layersT.length);
 			var x = 0 ;
@@ -159,9 +158,9 @@ var image = new Image();
 					//console.log("DANS IF GID: " + this.tiles[u].firstgid );
 					//console.log(this.layersT[a].data[x] == this.tiles[u].firstgid);
 					//console.log("SOURCE IMAGE : " + imageC.src);
-					this.canvas.save();
-					this.canvas.drawImage(imageC, j*this.tiles[u].imagewidth, i*this.tiles[u].imageheight);
-					this.canvas.restore();
+					canvasC.save();
+					canvasC.drawImage(imageC, j*this.tiles[u].imagewidth, i*this.tiles[u].imageheight);
+					canvasC.restore();
 					}
 				x++;
 				}

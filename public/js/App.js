@@ -52,6 +52,8 @@ function App() {
     currentGameState = gameStates.home;
     //set le cooldown ‡ 400ms (un clic tous les 400ms sera pris en compte)
     setInterval(setCooldown,400);   
+	
+	MapLevel1.getMap();
 }
 
 var mainLoop = function(time)
@@ -73,11 +75,7 @@ function setCooldown(){
 }
 
 function clearCanvas() {
-  context.save();
   context.clearRect(0, 0, w, h);
-  //ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-  //ctx.fillRect(0, 0, w, h);
-  context.restore();
 }
 
 function keyFunctions(){
@@ -159,7 +157,7 @@ function drawCurrentMenu(){
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
 		//context.fillText("Vous avez cliqu√© sur start !!", w/2, spaceBetweenMenus*2);
-	MapLevel1.getMap();
+	
 	MapLevel1.drawMap();
 		//dessinerMapLayer(2,context);
 	}
