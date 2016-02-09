@@ -6,101 +6,108 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="./css/index.css" />
     </head>
-        <script type="text/javascript" src="js/Objets.js"></script>
-        <script type="text/javascript" src="js/Loading.js"></script>
-        <script type="text/javascript" src="js/Map.js"></script>
-        <script type="text/javascript" src="js/Utils.js"></script>
-        <script type="text/javascript" src="js/Projectiles.js"></script>
-        <script type="text/javascript" src="js/Joueur.js"></script>
-        <script type="text/javascript" src="js/App.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>  
-            var username = prompt("What's your name?");  
-            var conversation, data, datasend, users;  
-          
-            var socket = io.connect();  
-          
-            // on connection to server, ask for user's name with an anonymous callback  
-            socket.on('connect', function(){  
-                // call the server-side function 'adduser' and send one parameter (value of prompt)  
-                socket.emit('adduser', username);  
-            });  
-          
-            // listener, whenever the server emits 'updatechat', this updates the chat body   
-            socket.on('updatechat', function (username, data) {  
-                var chatMessage = "<b>" + username + ":</b> " + data + "<br>";  
-                conversation.innerHTML += chatMessage;   
-            });  
-          
-          
-            // listener, whenever the server emits 'updateusers', this updates the username list  
-            socket.on('updateusers', function(listOfUsers) {  
-                users.innerHTML = "";  
-                for(var name in listOfUsers) {  
-                    var userLineOfHTML = '<div>' + name + '</div>';  
-                    users.innerHTML += userLineOfHTML;  
-                }  
-            });  
-          
-            // update the whole list of players, useful when a player  
-            // connects or disconnects, we must update the whole list  
-            //socket.on('updatePlayers', function(listOfplayers) {  
-              //  updatePlayers(listOfplayers);  
-            //});  
-          
-            // on load of page  
-            window.addEventListener("load", function(){  
-                // get handles on various GUI components  
-                conversation = document.querySelector("#conversation");  
-                data = document.querySelector("#data");  
-                datasend = document.querySelector("#datasend");  
-                users = document.querySelector("#users");  
-          
-                // Listener for send button  
-                datasend.addEventListener("click", function(evt) {  
-                    sendMessage();  
-            });  
-          
-                // detect if enter key pressed in the input field  
-                data.addEventListener("keypress", function(evt) {  
-                        // if pressed ENTER, then send  
-                        if(evt.keyCode == 13) {  
-                    this.blur();  
-                        sendMessage();  
-                        }  
-                });  
-          
-                // sends the chat message to the server  
-                function sendMessage() {
-                    console.log("sendind a message : "+data.value);  
-                    var message = data.value;  
-                    data.value = "";  
-                    // tell server to execute 'sendchat' and send along one parameter  
-                    socket.emit('sendchat', message);  
-                }         
-            });  
-          
-        </script>  
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    
+    <script type="text/javascript" src="js/Objets.js"></script>
+    <script type="text/javascript" src="js/Tileset.js"></script>
+    <script type="text/javascript" src="js/Loading.js"></script>
+    <script type="text/javascript" src="js/Map.js"></script>
+    <script type="text/javascript" src="js/Utils.js"></script>
+    <script type="text/javascript" src="js/Projectiles.js"></script>
+    <script type="text/javascript" src="js/Joueur.js"></script>
+    <script type="text/javascript" src="js/App.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var username = "test";//prompt("What's your name?");  
+        var conversation, data, datasend, users;
+
+        var socket = io.connect();
+
+        // on connection to server, ask for user's name with an anonymous callback  
+        socket.on('connect', function () {
+            // call the server-side function 'adduser' and send one parameter (value of prompt)  
+            socket.emit('adduser', username);
+        });
+
+        // listener, whenever the server emits 'updatechat', this updates the chat body   
+        socket.on('updatechat', function (username, data) {
+            var chatMessage = "<b>" + username + ":</b> " + data + "<br>";
+            conversation.innerHTML += chatMessage;
+        });
+
+
+        // listener, whenever the server emits 'updateusers', this updates the username list  
+        socket.on('updateusers', function (listOfUsers) {
+            users.innerHTML = "";
+            for (var name in listOfUsers) {
+                var userLineOfHTML = '<div>' + name + '</div>';
+                users.innerHTML += userLineOfHTML;
+            }
+        });
+
+        // update the whole list of players, useful when a player  
+        // connects or disconnects, we must update the whole list  
+        //socket.on('updatePlayers', function(listOfplayers) {  
+        //  updatePlayers(listOfplayers);  
+        //});  
+
+        // on load of page  
+        window.addEventListener("load", function () {
+            // get handles on various GUI components  
+            conversation = document.querySelector("#conversation");
+            data = document.querySelector("#data");
+            datasend = document.querySelector("#datasend");
+            users = document.querySelector("#users");
+
+            // Listener for send button  
+            datasend.addEventListener("click", function (evt) {
+                sendMessage();
+            });
+
+            // detect if enter key pressed in the input field  
+            data.addEventListener("keypress", function (evt) {
+                // if pressed ENTER, then send  
+                if (evt.keyCode == 13) {
+                    this.blur();
+                    sendMessage();
+                }
+            });
+
+            // sends the chat message to the server  
+            function sendMessage() {
+                console.log("sendind a message : " + data.value);
+                var message = data.value;
+                data.value = "";
+                // tell server to execute 'sendchat' and send along one parameter  
+                socket.emit('sendchat', message);
+            }
+        });
+
+    </script>  
     <body>
-		<h1>Kawaigame</h1>
-        <div class="canvas"><canvas id="canvas" width="800" height="640"></canvas>
-        <div id="P_serveurs">  
-            <b>Serveurs:</b>  
-            <select name="serveurs" id="serveurs">
-				<option value=""></option>
-			</select> 
-        </div> 
-		<div id="P_users">  
-            <b>Joueurs:</b>  
-            <div id="users"></div>  
-        </div>  
-        <div id="P_conversation">  
-			<b>Tchat:</b> 
-            <div id="conversation"></div>  
-            <input id="data" placeholder="Ecrivez ici..."/>  
-            <input type="button" id="datasend" value="send" />  
-        </div>
+        <h1>Kawaigame</h1>
+        <div class="canvas">
+            <canvas id="canvas" width="960" height="640"></canvas>
+            <div id="loading">
+                <img src="./img/loading.gif" alt="Chargement du jeu" title="En cours de chargement" id="img_loading"/>
+                <p id="texte_loading">Chargement du jeu</p>
+            </div>
+            <div id="P_serveurs">  
+                <b>Serveurs:</b>  
+                <select name="serveurs" id="serveurs">
+                    <option value=""></option>
+                </select> 
+            </div> 
+            <div id="P_users">  
+                <b>Joueurs:</b>  
+                <div id="users"></div>  
+            </div>  
+            <div id="P_conversation">  
+                <b>Tchat:</b> 
+                <div id="conversation"></div>  
+                <input id="data" placeholder="Ecrivez ici..."/>  
+                <input type="button" id="datasend" value="send" />  
+            </div>
     </body>
 </html>
