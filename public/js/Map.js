@@ -1,4 +1,4 @@
-	var image = new Image();
+/*	var image = new Image();
 	var l,k,data ;
 	var layers = [];
 	var tilesets = [];
@@ -11,7 +11,7 @@
 
 		   /**
 			* Le paramètre data n'est plus renseigné, nous ne faisons plus passer de variable
-			*/
+			
 
 		   dataType : 'json', // Le type de données à recevoir, ici, du HTML.
 		   success: function(result){
@@ -47,7 +47,10 @@
 
 	}
 
-
+var image = new Image();
+	var l,k,data ;
+	var layers = [];
+	var tilesets = [];
 	function dessinerMapLayer(index, canvas){
 
 		$.ajax(
@@ -55,9 +58,8 @@
 		url : '../map/' + "level"+index+'.json', // La ressource ciblée
 		   type : 'GET', // Le type de la requête HTTP
 
-		   /**
-			* Le paramètre data n'est plus renseigné, nous ne faisons plus passer de variable
-			*/
+		   // Le paramètre data n'est plus renseigné, nous ne faisons plus passer de variable
+			
 
 		   dataType : 'json', // Le type de données à recevoir, ici, du HTML.
 		   success: function(result){
@@ -105,16 +107,73 @@
 	}
 
 	}
-	
-	function getTilesetsName(){
+	*/
+	function Map(index, canvas){
+		this.index= index;
+		this.canvas= canvas;
+		this.width= 0;
+		this.height= 0;
+		this.layersT= [];
+		this.tiles= [];
 		
-	}
-	
-	
+		this.getMap = function(){
+		$.ajax(
+		{
+		url : '../map/' + "level"+this.index+'.json', // La ressource ciblée
+		   type : 'GET', // Le type de la requête HTTP
+		   
 
-	function getLayers(map){
-	for (var  i = 0; i < map.length; i++)
-	{
-	  console.log(map[i]);
+		
+
+		   dataType : 'json', // Le type de données à recevoir, ici, du HTML.
+		   success: function(result){
+			//console.log(result.tilesets[0].name);
+			this.height = result.height;
+			this.width = result.width;
+			
+			for(var t = 0; t < result.tilesets.length; t++){
+				this.tiles.push(result.tilesets[t]);
+			}
+			
+			for(var r =0 ; r < result.layers.length; r++){
+				this.layersT.push(result.layers[r]);
+			}
+			
+		}.bind(this)});
+		};
+		
+		this.drawMap = function(){
+			var imageC = new Image();
+			//console.log("Dans DRAWMAP , layersT est : " + this.layersT.length);
+			var x = 0 ;
+		for(var a = 0; a < this.layersT.length; a++){
+			x = 0;
+			console.log("Dans LAYER , LAYER NAME  : " + this.layersT[a].name);
+				for( var u = 0; u < this.tiles.length; u++){
+					//console.log("Dans TILES , TILES NAME  : " + this.tiles[u].image);
+					imageC.src = this.tiles[u].image;
+					for(var i = 0; i < this.height ; i++) {
+						for( var j = 0; j < this.width ; j++) {
+						console.log("GID TILES : " + this.tiles[u].firstgid );
+					if(this.layersT[a].data[x] == this.tiles[u].firstgid){
+					//console.log("DANS IF GID: " + this.tiles[u].firstgid );
+					//console.log(this.layersT[a].data[x] == this.tiles[u].firstgid);
+					//console.log("SOURCE IMAGE : " + imageC.src);
+					this.canvas.save();
+					this.canvas.drawImage(imageC, j*this.tiles[u].imagewidth, i*this.tiles[u].imageheight);
+					this.canvas.restore();
+					}
+				x++;
+				}
+				
+				
+			}
+			//console.log("data length " + data.length);
+		}
+
 	}
+
+	};
 	}
+	
+	

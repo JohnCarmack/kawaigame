@@ -12,6 +12,8 @@ var cooldown=true;
 var startLength, infosLength, scoresLength, policeSize;
 var allPlayers = {};
 
+var MapLevel1;
+
 //menu de pause
 var homeLength, resumeLength;
 //position des élements du menu
@@ -42,6 +44,8 @@ function App() {
     spaceBetweenMenus = h/5;
     //ajout listeners 
     addKeyListeners();
+	
+	MapLevel1 = new Map(3, context);
 
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
@@ -155,7 +159,9 @@ function drawCurrentMenu(){
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
 		//context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
-		dessinerMapLayer(2,context);
+	MapLevel1.getMap();
+	MapLevel1.drawMap();
+		//dessinerMapLayer(2,context);
 	}
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
