@@ -11,7 +11,7 @@ var cooldown=true;
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
 var allPlayers = {};
-
+var j;
 //menu de pause
 var homeLength, resumeLength;
 //position des élements du menu
@@ -20,6 +20,7 @@ var homeX, homeY, resumeX, resumeY;
 var pausePoliceSize;
 //états des différents les listeners
 var inputStates = {};
+var dir = {};
 //etat du jeu 
 var currentGameState;
 var gameStates = {
@@ -42,7 +43,8 @@ function App() {
     spaceBetweenMenus = h/5;
     //ajout listeners 
     addKeyListeners();
-
+    //joueur test
+    j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
     currentGameState = gameStates.home;
@@ -61,6 +63,7 @@ var mainLoop = function(time)
 	addMenuClicks(); 
 	//console.log(inputStates.mousePos);
 	requestAnimationFrame(mainLoop);
+
 
 }
 
@@ -147,6 +150,8 @@ function drawCurrentMenu(){
 
 	if(currentGameState == gameStates.running) // pas de menu
 	{
+		drawPlayer(j);
+		/*
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
@@ -155,6 +160,8 @@ function drawCurrentMenu(){
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
+		*/
+
 	}
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
@@ -194,38 +201,63 @@ function getMousePos(evt) {
 function addKeyListeners() {
   //add the listener to the main, window object, and update the states  
   window.addEventListener('keydown', function(event) {
-  	if(event.keyCode === 27) {
+  	if(event.keyCode === 27){
   		inputStates.esc = true;
   	}
-    if (event.keyCode === 37) {
+    if (event.keyCode === 37){
       inputStates.left = true;
-    } else if (event.keyCode === 38) {
+      movePlayer(j);
+      //console.log("left");
+  	}
+    if (event.keyCode === 38){
       inputStates.up = true;
-    } else if (event.keyCode === 39) {
-      inputStates.right = true;
-    } else if (event.keyCode === 40) {
-      inputStates.down = true;
-    } else if (event.keyCode === 32) {
-      inputStates.space = true;
+      movePlayer(j);
+      //console.log("down");
+  	}
+    if (event.keyCode === 39){
+        inputStates.right = true;
+        movePlayer(j);
+        //console.log("right");
     }
+    if (event.keyCode === 40){
+      inputStates.down = true;
+      movePlayer(j);
+  	}
+    if (event.keyCode === 32)
+      inputStates.space = true;
   }, false);
 
   //if the key will be released, change the states object   
   window.addEventListener('keyup', function(event) {
-  	if(event.keyCode === 27) {
+  	if(event.keyCode === 27){
   		inputStates.esc = false;
+  		stopPlayer(j);
+  		//setPlayerMoving(j, false);
   	}
-    if (event.keyCode === 37) {
+    if (event.keyCode === 37){
       inputStates.left = false;
-    } else if (event.keyCode === 38) {
-      inputStates.up = false;
-    } else if (event.keyCode === 39) {
-      inputStates.right = false;
-    } else if (event.keyCode === 40) {
-      inputStates.down = false;
-    } else if (event.keyCode === 32) {
-      inputStates.space = false;
+      stopPlayer(j);
+      //setPlayerMoving(j, false);
     }
+    if (event.keyCode === 38){
+      inputStates.up = false;
+      stopPlayer(j);
+      //setPlayerMoving(j, false);
+  	}
+    if (event.keyCode === 39){
+      inputStates.right = false;
+      stopPlayer(j);
+      //setPlayerMoving(j, false);
+  	}
+    if (event.keyCode === 40){
+      inputStates.down = false;
+      stopPlayer(j);
+      //setPlayerMoving(j, false);
+  	}
+    if (event.keyCode === 32){
+      inputStates.space = false;
+      //setPlayerMoving(j, false);
+  	}
   }, false);
 
   // Mouse event listeners
@@ -243,6 +275,18 @@ function addKeyListeners() {
   }, false);
 }
 
+function drawPlayer(player){
+	player.draw(context);
+}
+
+function movePlayer(player){
+	player.moving=true;
+	player.move();
+}
+
+function stopPlayer(player){
+	player.moving=false;
+}
 function addMenuClicks(){
 
 	//clique sur le menu start
