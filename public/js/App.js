@@ -45,7 +45,7 @@ function App() {
     //ajout listeners 
     addKeyListeners();
 	
-	MapLevel1 = new Map(3, context);
+	MapLevel1 = new Map(4, context);
 	
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
