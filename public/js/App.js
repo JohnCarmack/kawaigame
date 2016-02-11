@@ -46,14 +46,15 @@ function App() {
     addKeyListeners();
 	
 	MapLevel1 = new Map(3, context);
-
+	
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
+	recupereMap(MapLevel1);
+
     currentGameState = gameStates.home;
-    //set le cooldown à 400ms (un clic tous les 400ms sera pris en compte)
-    setInterval(setCooldown,400);   
+    //set le cooldown à ´00ms (un clic tous les 400ms sera pris en compte)
+    setInterval(setCooldown,400); 
 	
-	MapLevel1.getMap();
 }
 
 var mainLoop = function(time)
@@ -98,7 +99,7 @@ function drawCurrentMenu(){
 	
 	context.save();
 	context.restore();
-	//menu de départ
+	//menu de dê±¡rt
 	if(currentGameState == gameStates.pause)
 	{
 		context.save();
@@ -149,17 +150,16 @@ function drawCurrentMenu(){
 
 	if(currentGameState == gameStates.running) // pas de menu
 	{
-		context.textBaseline = 'middle';
+		/*context.textBaseline = 'middle';
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
 		policeSize = 40;
 		context.fillStyle = 'white';
 		context.textBaseline = 'middle';
-		context.textAlign = 'center'; 
+		context.textAlign = 'center'; */
 		//context.fillText("Vous avez cliquÃ© sur start !!", w/2, spaceBetweenMenus*2);
-	
-	MapLevel1.drawMap();
-		//dessinerMapLayer(2,context);
+
+		dessineMap(MapLevel1, context);
 	}
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
@@ -254,7 +254,7 @@ function addMenuClicks(){
 	//clique sur le menu start
 	if(inputStates.mousedown)
 	{
-		//menu de départ
+		//menu de dê±¡rt
 		if(currentGameState == gameStates.home && cooldown==true)
 		{
 			//START
@@ -315,4 +315,12 @@ function addMenuClicks(){
 		}
 		cooldown=false;
 	}
+}
+
+function recupereMap(map){
+	map.getMap();
+}
+
+function dessineMap(map,ctx){
+	map.drawMap(ctx);
 }
