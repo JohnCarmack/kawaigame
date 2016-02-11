@@ -11,7 +11,11 @@ var cooldown=true;
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
 var allPlayers = {};
+
 var j;
+
+var MapLevel1;
+
 //menu de pause
 var homeLength, resumeLength;
 //position des élements du menu
@@ -43,13 +47,20 @@ function App() {
     spaceBetweenMenus = h/5;
     //ajout listeners 
     addKeyListeners();
+
     //joueur test
     j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
+
+	MapLevel1 = new Map(3, context);
+	
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
+	recupereMap(MapLevel1);
+
     currentGameState = gameStates.home;
-    //set le cooldown à 400ms (un clic tous les 400ms sera pris en compte)
-    setInterval(setCooldown,400);   
+    //set le cooldown ࠴00ms (un clic tous les 400ms sera pris en compte)
+    setInterval(setCooldown,400); 
+	
 }
 
 var mainLoop = function(time)
@@ -72,11 +83,7 @@ function setCooldown(){
 }
 
 function clearCanvas() {
-  context.save();
   context.clearRect(0, 0, w, h);
-  //ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-  //ctx.fillRect(0, 0, w, h);
-  context.restore();
 }
 
 function keyFunctions(){
@@ -99,7 +106,7 @@ function drawCurrentMenu(){
 	
 	context.save();
 	context.restore();
-	//menu de départ
+	//menu de d걡rt
 	if(currentGameState == gameStates.pause)
 	{
 		context.save();
@@ -152,7 +159,6 @@ function drawCurrentMenu(){
 	{
 		drawPlayer(j);
 		/*
-		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
 		policeSize = 40;
@@ -161,6 +167,7 @@ function drawCurrentMenu(){
 		context.textAlign = 'center'; 
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
+		dessineMap(MapLevel1, context);
 
 	}
 
@@ -174,6 +181,7 @@ function drawCurrentMenu(){
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
 		context.fillText("Vous avez cliqué sur infos !!", w/2, spaceBetweenMenus*2);
+		
 	}
 
 	if(currentGameState == gameStates.homeScores) // pas de menu
@@ -292,7 +300,7 @@ function addMenuClicks(){
 	//clique sur le menu start
 	if(inputStates.mousedown)
 	{
-		//menu de départ
+		//menu de d걡rt
 		if(currentGameState == gameStates.home && cooldown==true)
 		{
 			//START
@@ -353,4 +361,12 @@ function addMenuClicks(){
 		}
 		cooldown=false;
 	}
+}
+
+function recupereMap(map){
+	map.getMap();
+}
+
+function dessineMap(map,ctx){
+	map.drawMap(ctx);
 }
