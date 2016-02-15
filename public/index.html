@@ -5,7 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="./css/index.css" />
+		  <!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css" href="bootstrap-3.3.6-dist/css/bootstrap.css"/>
+
     </head>
+		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>  
+		<script type="text/javascript" src="bootstrap-3.3.6-dist/js/bootstrap.js"></script>
         <script type="text/javascript" src="js/Objets.js"></script>
         <script type="text/javascript" src="js/Loading.js"></script>
         <script type="text/javascript" src="js/Map.js"></script>
@@ -84,6 +89,32 @@
           
         </script>  
     <body>
+	<div class="modal fade" id="Accueil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="NomJeu">Kawaigame</h4>
+			  </div>
+			  <div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+					<div>
+					<label class="col-sm-3 control-label" for="pseudo">Pseudo</label>
+					<div class="col-sm-4">
+					<input type="text" name="pseudo" id="nomPseudo" class="form-control"/>
+					</div>
+					</div>
+					</div>
+				</form>
+				<div>
+					<input type="submit" name="Inscription" value="Inscription" class="btn btn-primary" />
+					<input type="submit" name="Connexion" value="Connexion" class="btn btn-primary" />
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
 		<h1>Kawaigame</h1>
         <div class="canvas"><canvas id="canvas" width="800" height="640"></canvas>
         <div id="P_serveurs">  
