@@ -1,3 +1,5 @@
+// mongoose setup
+require( './db' );
 var express        = require( 'express' );
 var http           = require( 'http' );
 var path           = require( 'path' );
@@ -14,6 +16,7 @@ var router       = express.Router();
 // usernames which are currently connected to the chat
 var usernames = {};
 var listOfPlayers = {};
+var Joueur = mongoose.model('Joueur','joueur');
 
 //var Sequelize = require('sequelize');
 
@@ -55,6 +58,35 @@ app.get('/', function(req, res) {
 
 var server =  http.createServer( app ).listen(3000, function (){
     console.log( 'Express server listening');
+});
+
+app.post('/newJoueur', function (req, res){
+  var pseudo = req.body.nomPseudo;
+    console.log("POST: ");
+  console.log("Pseudo: "+req.body.nomPseudo );// + "\nDiagramme:" + JSON.stringify(req.body.diagramme["cells"]));
+  //Here we miss the diagram.cells part no ? yes but that's not required?
+  /*if(User.findOne({mail : userMail, password : userPass})){
+    console.log("already exist !!");
+
+  }
+  else {*/
+  joueur = new Joueur({
+    pseudo: req.body.nomPseudo,
+	highScore : 0,
+	ghost : [],
+    //diagramme: req.body.diagramme["cells"]
+  });
+
+  joueur.save(function (err) {
+    if (!err) {
+      return console.log("created");
+      res.redirect('index.html');
+    } else {
+      return console.log(err);
+    }
+  });
+  return res.redirect('index.html');
+//}
 });
 
 var io = require('socket.io')(server);
