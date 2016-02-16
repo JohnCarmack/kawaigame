@@ -49,6 +49,34 @@
             //socket.on('updatePlayers', function(listOfplayers) {  
               //  updatePlayers(listOfplayers);  
             //});  
+
+            //update players positions 
+              // just one player moved
+            socket.on('updatepos', function (username, newPos) {
+              updatePlayerNewPos(username, newPos);
+            });
+
+            //when the game is starting
+            socket.on('startGame', function (lvl, listOfPlayers) {
+              startGame(lvl, listOfPlayers);
+            });
+
+            // update players (isLvLDone? isDead?)
+            socket.on('updatePlayers', function (listOfPlayer) {
+              updatePlayers(listOfPlayer);
+            });
+
+            //updateGame
+            socket.on('updategame', function (lvl, deads, isLost, menu,starting) {
+              updateGame(lvl, deads, isLost, menu,starting);
+            });
+
+            //on commence le jeu
+            socket.on('sendStart', function (lvl) {
+              startGame(pos, lvl);
+            });
+
+
           
             // on load of page  
             window.addEventListener("load", function(){  
