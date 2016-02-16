@@ -12,7 +12,19 @@ var cooldown=true;
 var startLength, infosLength, scoresLength, policeSize;
 var allPlayers = {};
 
+var delta, oldTime = 0;
+
 var j;
+
+var nbImages =0;
+var nbFramesOfAnimationBetweenRedraws = 0;
+
+var DIR_S=  0;
+var DIR_W=  1;
+var DIR_N = 3;
+var DIR_E = 2;
+var NB_DIRECTIONS = 4;
+var NB_FRAMES_PER_POSTURE = 4;
 
 var MapLevel1;
 
@@ -49,8 +61,10 @@ function App() {
     addKeyListeners();
 
     //joueur test
-    j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
-
+    j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+	j.spritesheet.onload = function(){
+	j.initSprites(51, 77, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+	}
 	MapLevel1 = new Map(3, context);
 	
     //ajout des actions pour chaque menu
@@ -66,6 +80,7 @@ function App() {
 var mainLoop = function(time)
 {
 	//console.log(cooldown);
+	delta = timer(time, oldTime);
 	clearCanvas();
 	//console.log("k");
 	//console.log(displayMenu);
@@ -168,7 +183,7 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
 		dessineMap(MapLevel1, context);
-
+		MonsterCollisionWithWalls(j, h, w);
 	}
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
@@ -289,7 +304,7 @@ function drawPlayer(player){
 
 function movePlayer(player){
 	player.moving=true;
-	player.move();
+	player.move(delta);
 }
 
 function stopPlayer(player){
@@ -311,6 +326,7 @@ function addMenuClicks(){
 				{
 					//console.log("clique sur le menu start");
 					currentGameState = gameStates.running;
+					
 				}
 			}
 			//INFOS
