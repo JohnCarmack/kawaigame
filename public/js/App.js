@@ -71,9 +71,7 @@ function App() {
 
    // j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
     //j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
-	j.spritesheet.onload = function(){
-	j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
-	}
+
 
 	MapLevel1 = new Map(3, context);
 	
@@ -191,7 +189,9 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
 		dessineMap(MapLevel1, context);
-		MonsterCollisionWithWalls(j, h, w);
+		for( name in allPlayers){
+		MonsterCollisionWithWalls(allPlayers[name], h, w);
+		}
 	}
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
@@ -429,7 +429,7 @@ function updatePlayerNewPos(user, newPos){
 
 //le jeu commence,  au niveau lvl
 function startGame(lvl,listOfPlayers){
-	currentGameState = gameStates.running;
+	
 	allPlayersStates = listOfPlayers;
 	level = lvl;
 	if(level == 0)
@@ -439,6 +439,11 @@ function startGame(lvl,listOfPlayers){
 			createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
 	//		console.log(name+" crée");
 		}
+		for (name in allPlayers)
+		{
+			allPlayers[name].initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+		}
+		currentGameState = gameStates.running;
 	}
 	//console.log("on commence le jeu, au niveau : "+level);
 }
@@ -451,6 +456,9 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 }
 function createOnePlayer(name,x,y,speed){
 	var j = new Joueur(name, 0, x, y, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+	//j.spritesheet.onload = function(){
+	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+	//};
 	//var j = new Joueur(name, x, y, speed);
 	allPlayers[name]=j;
 	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
