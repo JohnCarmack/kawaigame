@@ -10,10 +10,14 @@ var cooldown=true;
 // "taille" des différents menus
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
-var allPlayers = {};
-
+var allPlayersStates = {};
+var allPlayers={};
+//position du joueur
+var pos;
+//pseudo du joueur
+var username;
 var j;
-
+var level=0;
 var MapLevel1;
 
 //menu de pause
@@ -49,7 +53,7 @@ function App() {
     addKeyListeners();
 
     //joueur test
-    j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
+   // j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
 
 	MapLevel1 = new Map(3, context);
 	
@@ -74,8 +78,6 @@ var mainLoop = function(time)
 	addMenuClicks(); 
 	//console.log(inputStates.mousePos);
 	requestAnimationFrame(mainLoop);
-
-
 }
 
 function setCooldown(){
@@ -157,7 +159,7 @@ function drawCurrentMenu(){
 
 	if(currentGameState == gameStates.running) // pas de menu
 	{
-		drawPlayer(j);
+		drawAllPlayers();
 		/*
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
@@ -168,7 +170,6 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
 		dessineMap(MapLevel1, context);
-
 	}
 
 	if(currentGameState == gameStates.homeInfos) // pas de menu
@@ -214,22 +215,22 @@ function addKeyListeners() {
   	}
     if (event.keyCode === 37){
       inputStates.left = true;
-      movePlayer(j);
+      movePlayer(allPlayers[username]);
       //console.log("left");
   	}
     if (event.keyCode === 38){
       inputStates.up = true;
-      movePlayer(j);
+      movePlayer(allPlayers[username]);
       //console.log("down");
   	}
     if (event.keyCode === 39){
         inputStates.right = true;
-        movePlayer(j);
+        movePlayer(allPlayers[username]);
         //console.log("right");
     }
     if (event.keyCode === 40){
       inputStates.down = true;
-      movePlayer(j);
+      movePlayer(allPlayers[username]);
   	}
     if (event.keyCode === 32)
       inputStates.space = true;
@@ -239,27 +240,27 @@ function addKeyListeners() {
   window.addEventListener('keyup', function(event) {
   	if(event.keyCode === 27){
   		inputStates.esc = false;
-  		stopPlayer(j);
+  		stopPlayer(allPlayers[username]);
   		//setPlayerMoving(j, false);
   	}
     if (event.keyCode === 37){
       inputStates.left = false;
-      stopPlayer(j);
+      stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
     }
     if (event.keyCode === 38){
       inputStates.up = false;
-      stopPlayer(j);
+      stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 39){
       inputStates.right = false;
-      stopPlayer(j);
+      stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 40){
       inputStates.down = false;
-      stopPlayer(j);
+      stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 32){
@@ -285,15 +286,27 @@ function addKeyListeners() {
 
 function drawPlayer(player){
 	player.draw(context);
+	//console.log(player.x + ":"+player.y);
+}
+
+function drawAllPlayers(){
+	for(var name in allPlayers) {
+		//console.log("on déssine tous les joueurs");
+		drawPlayer(allPlayers[name]);
+	}
 }
 
 function movePlayer(player){
 	player.moving=true;
 	player.move();
+	pos = {'user':username, 'posX':player.x, 'posY':player.y};
+	socket.emit('sendpos', pos);
 }
 
 function stopPlayer(player){
 	player.moving=false;
+	pos = {'user':username, 'posX':player.x, 'posY':player.y};
+	socket.emit('sendpos', pos);
 }
 function addMenuClicks(){
 
@@ -310,6 +323,7 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))))
 				{
 					//console.log("clique sur le menu start");
+					socket.emit('sendStartGame', level);
 					currentGameState = gameStates.running;
 				}
 			}
@@ -369,4 +383,51 @@ function recupereMap(map){
 
 function dessineMap(map,ctx){
 	map.drawMap(ctx);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////// Fonctions "réponses" socket.on /////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function updatePlayers(listOfPlayers){
+	allPlayersStates = listOfPlayers;
+	for (name in allPlayersStates){
+	//	console.log(name);
+		if(typeof allPlayersStates[name] != 'undefined')
+			updateOnePlayer(name, allPlayersStates[name].v,allPlayersStates[name].isLvLDone,allPlayersStates[name].isDead);
+	}
+}
+
+function updatePlayerNewPos(user, newPos){
+	allPlayers[user].x = newPos.posX;
+	allPlayers[user].y = newPos.posY;
+}
+
+//le jeu commence,  au niveau lvl
+function startGame(lvl,listOfPlayers){
+	currentGameState = gameStates.running;
+	allPlayersStates = listOfPlayers;
+	level = lvl;
+	if(level == 0)
+	{
+		for (name in allPlayersStates)
+		{
+			createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
+	//		console.log(name+" crée");
+		}
+	}
+	//console.log("on commence le jeu, au niveau : "+level);
+}
+function updateOnePlayer(name,speed,isLvLDone,isDead){
+	if(typeof allPlayers[name]!='undefined'){
+		allPlayers[name].speed = speed;
+		allPlayers[name].isLevelDone = isLvLDone;
+		allPlayers[name].isDead = dead;
+	}
+}
+function createOnePlayer(name,x,y,speed){
+	var j = new Joueur(name, x, y, speed);
+	allPlayers[name]=j;
+	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
 }

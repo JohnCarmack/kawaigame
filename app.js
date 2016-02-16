@@ -72,10 +72,9 @@ io.sockets.on('connection', function (socket) {
         console.log(data);
         io.sockets.emit('updatechat', socket.username, data);  
     });  
-  
+
     // when the client emits 'adduser', this listens and executes  
     socket.on('adduser', function(username){
-        console.log("adding a user : "+username);
         // we store the username in the socket session for this client  
         // the 'socket' variable is unique for each client connected,  
         // so we can use it as a sort of HTTP session  
@@ -94,10 +93,20 @@ io.sockets.on('connection', function (socket) {
         // we have an object that is a "list of players" in that form  
         // listOfPlayer = {'michel':{'x':0, 'y':0, 'v':0},   
         //                          john:{'x':10, 'y':10, 'v':0}}  
-        // for this example we have x, y and v for speed... ?  
-        var player = {'x':0, 'y':0, 'v':0}  
+        // for this example we have x, y and v for speed... ? 
+        var player = {'x':0, 'y':0, 'v':4};
         listOfPlayers[username] = player;  
+        console.log("user created : "+username);
         io.sockets.emit('updatePlayers',listOfPlayers);  
+    });
+
+    
+
+    //when a player moves
+    socket.on('sendpos', function (newPos) {  
+        // we tell the client to execute 'updatepos' with 2 parameters  
+        //console.log("recu sendPos : ");  
+        socket.broadcast.emit('updatepos', socket.username, newPos);  
     });  
   
     // when the user disconnects.. perform this  
@@ -113,5 +122,12 @@ io.sockets.on('connection', function (socket) {
           
         // echo globally that this client has left  
         socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');  
-    });  
+    }); 
+
+    // when the game starts
+    socket.on('sendStartGame', function (lvl) { 
+        // we tell the client to execute 'updatechat' with 2 parameters 
+        console.log("on commence le jeu")
+        io.sockets.emit('startGame', lvl, listOfPlayers);  
+    });   
 });  

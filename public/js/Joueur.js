@@ -1,8 +1,8 @@
 
-function Joueur(pseudo, highScore, sprite, x, y, speed, width, height, dir) {
+function Joueur(pseudo, x, y, speed) {
     this.pseudo = pseudo;
-	this.highScore = highScore;
-	this.sprite = sprite;
+	this.highScore;
+	this.sprite;
 	this.dead = false;
 	this.moving = false;
 	this.x = x;
@@ -10,9 +10,10 @@ function Joueur(pseudo, highScore, sprite, x, y, speed, width, height, dir) {
 	this.speed = speed;
     this.speedX;
     this.speedY;
-	this.width = width;
-	this.height = width;
-	this.dir=dir;
+	this.width;
+	this.height;
+	this.dir;
+    this.isLevelDone=false;
 	
     this.draw = function(context) {
         context.save();
@@ -49,19 +50,15 @@ function Joueur(pseudo, highScore, sprite, x, y, speed, width, height, dir) {
                 this.speedX = this.speedY = 0; 
 
                 if (inputStates.left) {
-                    console.log("left");
                     this.speedX = -this.speed;
                 }  
                 if (inputStates.up) {   
                    this.speedY = -this.speed;  
-                   console.log("up");
                 }  
                if (inputStates.right) {  
                     this.speedX = this.speed; 
-                    console.log("right"); 
                 }  
                 if (inputStates.down) {  
-                    console.log("down");
                     this.speedY = this.speed;  
                 }   
 
