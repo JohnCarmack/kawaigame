@@ -1,4 +1,3 @@
-function Utils() {
         // Collisions between rectangle and circle
     function circRectsOverlap(x0, y0, w0, h0, cx, cy, r) {
         var testX = cx;
@@ -51,7 +50,7 @@ function rectsOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
         }
     }
 
-    function MonsterCollisionWithWalls(joueur) {
+    function MonsterCollisionWithWalls(joueur, h, w) {
         // left
         if (joueur.x < '0') {
             joueur.x = 0;
@@ -69,4 +68,15 @@ function rectsOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
             joueur.y = h - (joueur.height);
         }
     }
-}
+
+	calcDistanceToMove = function (delta, speed) {
+        //console.log("#delta = " + delta + " speed = " + speed);
+        return (speed * delta) / 1000;
+    }
+	
+	function timer(currentTime, oldTime) {
+        var delta = currentTime - oldTime;
+        oldTime = currentTime;
+        return delta;
+
+    }
