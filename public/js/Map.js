@@ -7,6 +7,8 @@
 		this.images = [];
 		this.tilewidth = 0;
 		this.tileheight = 0;
+                
+                this.objetsCollision = [];
 		
 		this.getMap = function(){
 		$.ajax(
@@ -30,6 +32,8 @@
 			for(var r =0 ; r < result.layers.length; r++){
 				this.layersT[r] = result.layers[r];
 			}
+                        
+                        this.initialiserCollisions();
 			
 		}.bind(this)});
 		};
@@ -51,6 +55,21 @@
 		}
 	}
 	};
+        
+        this.initialiserCollisions = function () {
+            var index;
+            for (var i = 0; i < this.layersT.length; i++) {
+                if (this.layersT[i].name === "objetCollision") {
+                    index = i;
+                }
+            }
+
+            var collision = this.layersT[index];
+            var objetsArray = collision.objects;
+
+            this.objetsCollision = objetsArray;
+        };
+
 	}
 	
 	

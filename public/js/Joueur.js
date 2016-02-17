@@ -5,7 +5,7 @@
 	this.highScore;
 	this.sprite;*/
 
-function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImages, nbFramesOfAnimationBetweenRedraws, context) {
+function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImages, nbFramesOfAnimationBetweenRedraws, context, map) {
     this.pseudo = pseudo;
 	this.highScore = highScore;
 	this.spritesheet = new Image();
@@ -28,6 +28,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 	this.context=context;
 	this.nbImages =nbImages;
     this.nbFramesOfAnimationBetweenRedraws = nbFramesOfAnimationBetweenRedraws;
+    this.map = map;
 	
 	this.initSprites = function(spriteWidth, spriteHeight, nbLinesOfSprites,nbSpritesPerLine) { 	
 		// on parcour l'image et pour chaque ligne (correspondant à une direction)
@@ -90,9 +91,34 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 			}
                 
             } 
-			this.x += calcDistanceToMove(delta, this.speedX);  
-            this.y += calcDistanceToMove(delta, this.speedY);
-        }
+            
+            var deplX = calcDistanceToMove(delta, this.speedX);
+            var deplY = calcDistanceToMove(delta, this.speedY);
+            
+			this.x += deplX;  
+            this.y += deplY;
+            
+            if(this.isCollision()){
+                this.x -= deplX;
+                this.y -= deplY;
+            }
+        };
+        
+        this.isCollision = function () {
+            var listeObjets = this.map.objetsCollision;
+            var utils = new Utils();
+
+            for (var objetIndex in listeObjets) {
+                var objet = listeObjets[objetIndex];
+
+                if (objet.properties.blocking) {
+                    var boolCollision = utils.collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
+                    if (boolCollision) {
+                        return true;
+                    }
+                }
+            }
+        };
 		
     }
 

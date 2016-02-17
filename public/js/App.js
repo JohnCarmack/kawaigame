@@ -69,11 +69,13 @@ function App() {
 
     //joueur test
 
+
+	MapLevel1 = new Map(3, context);
+
    // j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
     //j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
 
 
-	MapLevel1 = new Map(3, context);
 	
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
@@ -455,7 +457,7 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 	}
 }
 function createOnePlayer(name,x,y,speed){
-	var j = new Joueur(name, 0, x, y, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+	var j = new Joueur(name, 0, x, y, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
