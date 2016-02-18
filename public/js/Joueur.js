@@ -85,13 +85,15 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 					this.dir = DIR_S;					
 					this.spritesMan[this.dir].renderMoving(this.x, this.y);
                 }
+				
+				
 			} if(!this.moving){
 				this.spritesMan[this.dir].render(this.x, this.y);
 			}
-                
+             
             } 
 			this.x += calcDistanceToMove(delta, this.speedX);  
-            this.y += calcDistanceToMove(delta, this.speedY);
+			this.y += calcDistanceToMove(delta, this.speedY);
         }
 		
     }

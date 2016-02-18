@@ -1,7 +1,9 @@
 window.onload = function () {
+	document.querySelector("#LienAccueil").getElementsByTagName('a')[0].click();
     main();
-	var accueil = document.querySelector("#Accueil");
-	accueil.click();
+	//document.querySelector("#LienAccueil").click();
+	//var accueil = document.querySelector("#Accueil");
+	//accueil.click();
 };
 
 function main() {

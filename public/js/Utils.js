@@ -69,14 +69,8 @@ function rectsOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
         }
     }
 
-	calcDistanceToMove = function (delta, speed) {
+	var calcDistanceToMove = function(delta, speed) {
         //console.log("#delta = " + delta + " speed = " + speed);
-        return (speed * delta) / 1000;
-    }
+        return (speed * delta) /10;
+    };
 	
-	function timer(currentTime, oldTime) {
-        var delta = currentTime - oldTime;
-        oldTime = currentTime;
-        return delta;
-
-    }
