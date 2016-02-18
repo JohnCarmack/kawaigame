@@ -55,6 +55,12 @@ var gameStates = {
     homeInfos: 5
 };
 
+var timer = function(currentTime) {
+	var delta = currentTime - oldTime;
+	oldTime = currentTime;
+	return delta;
+};
+
 function App() {
 
     //console.log("Constructeur principal");
@@ -88,7 +94,7 @@ function App() {
 var mainLoop = function(time)
 {
 	//console.log(cooldown);
-	delta = timer(time, oldTime);
+	delta = timer(time);
 	clearCanvas();
 	//console.log("k");
 	//console.log(displayMenu);
@@ -237,22 +243,22 @@ function addKeyListeners() {
   	}
     if (event.keyCode === 37){
       inputStates.left = true;
-      movePlayer(allPlayers[username]);
+      movePlayer(allPlayers[username], delta);
       //console.log("left");
   	}
     if (event.keyCode === 38){
       inputStates.up = true;
-      movePlayer(allPlayers[username]);
+      movePlayer(allPlayers[username], delta);
       //console.log("down");
   	}
     if (event.keyCode === 39){
         inputStates.right = true;
-        movePlayer(allPlayers[username]);
+        movePlayer(allPlayers[username], delta);
         //console.log("right");
     }
     if (event.keyCode === 40){
       inputStates.down = true;
-      movePlayer(allPlayers[username]);
+      movePlayer(allPlayers[username], delta);
   	}
     if (event.keyCode === 32)
       inputStates.space = true;
@@ -318,7 +324,7 @@ function drawAllPlayers(){
 	}
 }
 
-function movePlayer(player){
+function movePlayer(player, delta){
 	player.moving=true;
 	player.move(delta);
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
@@ -451,11 +457,11 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 	if(typeof allPlayers[name]!='undefined'){
 		allPlayers[name].speed = speed;
 		allPlayers[name].isLevelDone = isLvLDone;
-		allPlayers[name].isDead = dead;
+		allPlayers[name].dead = isDead;
 	}
 }
 function createOnePlayer(name,x,y,speed){
-	var j = new Joueur(name, 0, x, y, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+	var j = new Joueur(name, 0, x, y, 4, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
