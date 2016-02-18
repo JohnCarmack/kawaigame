@@ -25,11 +25,15 @@
     </head>
 		
         <script>  
-            var username = prompt("What's your name?");  
+			$(document).ready(function() {
+            //var username = document.querySelector('#nomPseudo').value;
+			
+			var username = prompt("What's your name?");  
+			
             var conversation, data, datasend, users;  
           
             var socket = io.connect();  
-          
+
             // on connection to server, ask for user's name with an anonymous callback  
             socket.on('connect', function(){  
                 // call the server-side function 'adduser' and send one parameter (value of prompt)  
@@ -117,9 +121,10 @@
                     socket.emit('sendchat', message);  
                 }         
             });  
-          
+          });
         </script>  
     <body>
+	<div id="LienAccueil"><a href="#Accueil" data-toggle="modal" data-target="#Accueil">Modal</a></div>
 	<div class="modal fade" id="Accueil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -130,12 +135,12 @@
 			  <div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group">
-					<div>
-					<label class="col-sm-3 control-label" for="pseudo">Pseudo</label>
-					<div class="col-sm-4">
-					<input type="text" name="pseudo" id="nomPseudo" class="form-control"/>
-					</div>
-					</div>
+						<div>
+							<label class="col-sm-3 control-label" for="pseudo">Pseudo</label>
+							<div class="col-sm-4">
+								<input type="text" name="pseudo" id="nomPseudo" class="form-control"/>
+							</div>
+						</div>
 					</div>
 				</form>
 				<div>
@@ -146,6 +151,7 @@
 			</div>
 		  </div>
 		</div>
+		
 		<h1>Kawaigame</h1>
         <div class="canvas"><canvas id="canvas" width="800" height="640"></canvas>
         <div id="P_serveurs">  
