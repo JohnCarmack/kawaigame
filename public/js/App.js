@@ -25,12 +25,12 @@ var delta, oldTime = 0;
 var nbImages =0;
 var nbFramesOfAnimationBetweenRedraws = 0;
 
-var DIR_S=  0;
-var DIR_W=  1;
-var DIR_N = 3;
-var DIR_E = 2;
+var DIR_S=  1;
+var DIR_W=  2;
+var DIR_N = 0;
+var DIR_E = 3;
 var NB_DIRECTIONS = 4;
-var NB_FRAMES_PER_POSTURE = 4;
+var NB_FRAMES_PER_POSTURE = 3;
 
 
 var MapLevel1;
@@ -447,7 +447,7 @@ function startGame(lvl,listOfPlayers){
 		}
 		for (name in allPlayers)
 		{
-			allPlayers[name].initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			allPlayers[name].initSprites(33, 33, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 		}
 		currentGameState = gameStates.running;
 	}
@@ -461,7 +461,7 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 	}
 }
 function createOnePlayer(name,x,y,speed){
-	var j = new Joueur(name, 0, x, y, 4, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+	var j = new Joueur(name, 0, x, y, 2, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
