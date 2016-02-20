@@ -32,6 +32,8 @@ var DIR_E = 2;
 var NB_DIRECTIONS = 4;
 var NB_FRAMES_PER_POSTURE = 4;
 
+var etoile = new Image();
+etoile.src = "images/etoile.png";
 
 var MapLevel1;
 
@@ -218,11 +220,20 @@ function drawCurrentMenu(){
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
-		policeSize = 40;
+		policeSize = 30;
 		context.fillStyle = 'white';
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
-		context.fillText("Vous avez cliqué sur scores !!", w/2, spaceBetweenMenus*2);
+		context.fillText("Meilleurs scores", w/2, spaceBetweenMenus+50);
+		//context.fillText("Score:", w/2, spaceBetweenMenus + 100);
+		var t = 120;
+		for( name in allPlayers){
+			context.save();
+			drawHighScore(allPlayers[name],context, t);
+			t += 50;
+			context.restore();
+		}
+		context.drawImage(etoile, w/4+25, 0);
 	}
 }
 
@@ -414,6 +425,15 @@ function dessineMap(map,ctx){
 	map.drawMap(ctx);
 }
 
+function drawHighScore(joueur, context, t){
+	var pseudo = joueur.pseudo;
+	var highScore = joueur.highScore;
+	//context.save();
+	policeSize = 10;
+	context.fillText(pseudo + " : " + highScore, w/2, spaceBetweenMenus + t);
+	//context.restore();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////// Fonctions "réponses" socket.on /////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -469,3 +489,5 @@ function createOnePlayer(name,x,y,speed){
 	allPlayers[name]=j;
 	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
 }
+
+
