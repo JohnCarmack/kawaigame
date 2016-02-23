@@ -25,10 +25,12 @@
 				var image = new Image();
 				image.src = result.tilesets[t].image;
 				this.images[t] = image;
+				console.log("Nom image : "  +result.tilesets[t].name);
 			}
 			
 			for(var r =0 ; r < result.layers.length; r++){
 				this.layersT[r] = result.layers[r];
+				console.log("Nom Layer : "  +this.layersT[r].name);
 			}
 			
 		}.bind(this)});

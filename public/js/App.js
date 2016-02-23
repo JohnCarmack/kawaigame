@@ -79,7 +79,7 @@ function App() {
     //j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
 
 
-	MapLevel1 = new Map(3, context);
+	MapLevel1 = new Map(4, context);
 	
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
