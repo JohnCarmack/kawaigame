@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.6-dist/css/bootstrap.css"/>
 
 
-		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>  
+		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.6-dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="js/SpritesSheet.js"></script>
         <script type="text/javascript" src="js/Objets.js"></script>
@@ -23,46 +23,53 @@
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
     </head>
-		
-        <script>  
+
+        <script>
 			//$(document).ready(function() {
             //var username = document.querySelector('#nomPseudo').value;
-			
-			var username = prompt("What's your name?");  
-			
-            var conversation, data, datasend, users;  
-          
-            var socket = io.connect();  
 
-            // on connection to server, ask for user's name with an anonymous callback  
-            socket.on('connect', function(){  
-                // call the server-side function 'adduser' and send one parameter (value of prompt)  
-                socket.emit('adduser', username);  
-            });  
-          
-            // listener, whenever the server emits 'updatechat', this updates the chat body   
-            socket.on('updatechat', function (username, data) {  
-                var chatMessage = "<b>" + username + ":</b> " + data + "<br>";  
-                conversation.innerHTML += chatMessage;   
-            });  
-          
-          
-            // listener, whenever the server emits 'updateusers', this updates the username list  
-            socket.on('updateusers', function(listOfUsers) {  
-                users.innerHTML = "";  
-                for(var name in listOfUsers) {  
-                    var userLineOfHTML = '<div>' + name + '</div>';  
-                    users.innerHTML += userLineOfHTML;  
-                }  
-            });  
-          
-            // update the whole list of players, useful when a player  
-            // connects or disconnects, we must update the whole list  
-            //socket.on('updatePlayers', function(listOfplayers) {  
-              //  updatePlayers(listOfplayers);  
-            //});  
+			var username = prompt("What's your name?");
 
-            //update players positions 
+            var conversation, data, datasend, users;
+
+            var socket = io.connect();
+
+            // on connection to server, ask for user's name with an anonymous callback
+            socket.on('connect', function(){
+                // call the server-side function 'adduser' and send one parameter (value of prompt)
+                socket.emit('adduser', username);
+            });
+
+            // listener, whenever the server emits 'updatechat', this updates the chat body
+            socket.on('updatechat', function (username, data) {
+                var chatMessage = "<b>" + username + ":</b> " + data + "<br>";
+                conversation.innerHTML += chatMessage;
+            });
+
+            // listener, whenever the server emits 'updatechat', this updates the chat body
+            socket.on('updateroom', function (room) {
+                var chatMessage = "<b>" + room + ":</b> " + data + "<br>";
+                conversation.innerHTML += chatMessage;
+            });
+
+
+
+            // listener, whenever the server emits 'updateusers', this updates the username list
+            socket.on('updateusers', function(listOfUsers) {
+                users.innerHTML = "";
+                for(var name in listOfUsers) {
+                    var userLineOfHTML = '<div>' + name + '</div>';
+                    users.innerHTML += userLineOfHTML;
+                }
+            });
+
+            // update the whole list of players, useful when a player
+            // connects or disconnects, we must update the whole list
+            //socket.on('updatePlayers', function(listOfplayers) {
+              //  updatePlayers(listOfplayers);
+            //});
+
+            //update players positions
               // just one player moved
             socket.on('updatepos', function (username, newPos) {
               updatePlayerNewPos(username, newPos);
@@ -89,40 +96,40 @@
             });
 
 
-          
-            // on load of page  
-            window.addEventListener("load", function(){  
-                // get handles on various GUI components  
-                conversation = document.querySelector("#conversation");  
-                data = document.querySelector("#data");  
-                datasend = document.querySelector("#datasend");  
-                users = document.querySelector("#users");  
-          
-                // Listener for send button  
-                datasend.addEventListener("click", function(evt) {  
-                    sendMessage();  
-            });  
-          
-                // detect if enter key pressed in the input field  
-                data.addEventListener("keypress", function(evt) {  
-                        // if pressed ENTER, then send  
-                        if(evt.keyCode == 13) {  
-                    this.blur();  
-                        sendMessage();  
-                        }  
-                });  
-          
-                // sends the chat message to the server  
+
+            // on load of page
+            window.addEventListener("load", function(){
+                // get handles on various GUI components
+                conversation = document.querySelector("#conversation");
+                data = document.querySelector("#data");
+                datasend = document.querySelector("#datasend");
+                users = document.querySelector("#users");
+
+                // Listener for send button
+                datasend.addEventListener("click", function(evt) {
+                    sendMessage();
+            });
+
+                // detect if enter key pressed in the input field
+                data.addEventListener("keypress", function(evt) {
+                        // if pressed ENTER, then send
+                        if(evt.keyCode == 13) {
+                    this.blur();
+                        sendMessage();
+                        }
+                });
+
+                // sends the chat message to the server
                 function sendMessage() {
-                    console.log("sendind a message : "+data.value);  
-                    var message = data.value;  
-                    data.value = "";  
-                    // tell server to execute 'sendchat' and send along one parameter  
-                    socket.emit('sendchat', message);  
-                }         
-            });  
+                    console.log("sendind a message : "+data.value);
+                    var message = data.value;
+                    data.value = "";
+                    // tell server to execute 'sendchat' and send along one parameter
+                    socket.emit('sendchat', message);
+                }
+            });
           //});
-        </script>  
+        </script>
     <body>
 	<div id="LienAccueil"><a href="#Accueil" data-toggle="modal" data-target="#Accueil">Modal</a></div>
 	<div class="modal fade" id="Accueil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -151,24 +158,24 @@
 			</div>
 		  </div>
 		</div>
-		
+
 		<h1>Kawaigame</h1>
         <div class="canvas"><canvas id="canvas" width="800" height="640"></canvas>
-        <div id="P_serveurs">  
-            <b>Serveurs:</b>  
+        <div id="P_serveurs">
+            <b>Serveurs:</b>
             <select name="serveurs" id="serveurs">
 				<option value=""></option>
-			</select> 
-        </div> 
-		<div id="P_users">  
-            <b>Joueurs:</b>  
-            <div id="users"></div>  
-        </div>  
-        <div id="P_conversation">  
-			<b>Tchat:</b> 
-            <div id="conversation"></div>  
-            <input id="data" placeholder="Ecrivez ici..."/>  
-            <input type="button" id="datasend" value="send" />  
+			</select>
+        </div>
+		<div id="P_users">
+            <b>Joueurs:</b>
+            <div id="users"></div>
+        </div>
+        <div id="P_conversation">
+			<b>Tchat:</b>
+            <div id="conversation"></div>
+            <input id="data" placeholder="Ecrivez ici..."/>
+            <input type="button" id="datasend" value="send" />
         </div>
     </body>
 </html>
