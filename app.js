@@ -96,7 +96,8 @@ var io = require('socket.io')(server);
 var usernames = {};
 var listOfPlayers = {};
 var rooms=["room1", "room2"];
-console.log(rooms[1]);
+var welcome = "Bienvenue dans la ";
+console.log(rooms);
 io.sockets.on('connection', function (socket) {
 
     // when the client emits 'sendchat', this listens and executes
@@ -126,7 +127,7 @@ io.sockets.on('connection', function (socket) {
 
         socket.join(defaultRoom);
 
-        io.in(defaultRoom).emit('updateroom',defaultRoom);
+        io.in(defaultRoom).emit('updateroom',welcome, defaultRoom);
         io.in(rooms[1]).emit('updateroom', rooms[1]);
         // Create a new player and store his position too... for that
         // we have an object that is a "list of players" in that form

@@ -47,8 +47,8 @@
             });
 
             // listener, whenever the server emits 'updatechat', this updates the chat body
-            socket.on('updateroom', function (room) {
-                var chatMessage = "<b>" + room + ":</b> " + data + "<br>";
+            socket.on('updateroom', function (message , room) {
+                var chatMessage = "<b>" + message + ":</b> " + room + "<br>";
                 conversation.innerHTML += chatMessage;
             });
 
