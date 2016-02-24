@@ -48,6 +48,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         context.save();
         if(!this.dead){
 			if(!this.moving) {
+				//console.log(this.dir);
             this.spritesMan[this.dir].render(this.x, this.y);
         } else {
             this.spritesMan[this.dir].renderMoving(this.x, this.y);
@@ -71,16 +72,16 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                    this.speedY = -this.speed; 
 				   this.dir = DIR_N;	
 					this.spritesMan[this.dir].renderMoving(this.x, this.y);				   
-                   console.log("up");
+                   //console.log("up");
                 }  
                if (inputStates.right) {  
                     this.speedX = this.speed; 
 					this.dir = DIR_E;
 					this.spritesMan[this.dir].renderMoving(this.x, this.y);
-                    console.log("right"); 
+                    //console.log("right"); 
                 }  
                 if (inputStates.down) {  
-                    console.log("down");
+                    //console.log("down");
                     this.speedY = this.speed; 
 					this.dir = DIR_S;					
 					this.spritesMan[this.dir].renderMoving(this.x, this.y);
