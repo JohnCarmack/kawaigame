@@ -18,6 +18,7 @@
         <script type="text/javascript" src="js/Utils.js"></script>
         <script type="text/javascript" src="js/Projectiles.js"></script>
         <script type="text/javascript" src="js/Joueur.js"></script>
+		<script type="text/javascript" src="js/bdd.js"></script>
         <script type="text/javascript" src="js/App.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -135,7 +136,7 @@
 			  <div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group">
-						<div>
+						<div id="divPseudo">
 							<label class="col-sm-3 control-label" for="pseudo">Pseudo</label>
 							<div class="col-sm-4">
 								<input type="text" name="pseudo" id="nomPseudo" class="form-control"/>
@@ -144,21 +145,46 @@
 					</div>
 				</form>
 				<div>
-					<input type="submit" name="Inscription" value="Inscription" class="btn btn-primary" />
-					<input type="submit" name="Connexion" value="Connexion" class="btn btn-primary" />
+					<input type="submit" name="Inscription" value="Inscription" class="btn btn-primary" onclick="inscription()"/>
+					<input type="submit" name="Connexion" value="Connexion" class="btn btn-primary" href="#Serveurs" data-toggle="modal" data-target="#Serveurs" data-dismiss="modal" aria-label="Close"/>
 				</div>
 			  </div>
 			</div>
 		  </div>
 		</div>
-		
+		<div class="modal fade" id="Serveurs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="NomJeuS">Kawaigame</h4>
+			  </div>
+			  <div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div>
+							<label class="col-sm-3 control-label" for="serveur">Serveur : </label>
+							<div class="col-sm-5">
+								<select name="serveur" id="serveur" class="form-control">
+									<option>Room 1</option>
+									<option>Room 2</option>
+									<option>Room 3</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<input type="submit" name="Sauvegarde" value="Sauvegarder" class="btn btn-primary" />
+				</form>
+				<div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
 		<h1>Kawaigame</h1>
-        <div class="canvas"><canvas id="canvas" width="800" height="640"></canvas>
+        <div class="canvas"><canvas id="canvas" width="800" height="640"></canvas></div>
         <div id="P_serveurs">  
-            <b>Serveurs:</b>  
-            <select name="serveurs" id="serveurs">
-				<option value=""></option>
-			</select> 
+            <b>Serveurs:</b>   
         </div> 
 		<div id="P_users">  
             <b>Joueurs:</b>  

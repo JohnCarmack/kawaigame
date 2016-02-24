@@ -65,11 +65,14 @@ app.post('/newJoueur', function (req, res){
     console.log("POST: ");
   console.log("Pseudo: "+req.body.nomPseudo );// + "\nDiagramme:" + JSON.stringify(req.body.diagramme["cells"]));
   //Here we miss the diagram.cells part no ? yes but that's not required?
-  /*if(User.findOne({mail : userMail, password : userPass})){
+  if(Joueur.findOne({pseudo : pseudo})){
     console.log("already exist !!");
-
+	var input = document.querySelector('#nomPseudo');
+	var div = document.querySelector('#divPseudo');
+	div.class="form-group has-error";
+	input.innerHTML += "<"+"span id='ErrorPseudo' class='help-block'"+">"+"Ce pseudo existe déjà. Veuillez en choisir un autre."+"<"+"/span"+">";
   }
-  else {*/
+  else {
   joueur = new Joueur({
     pseudo: req.body.nomPseudo,
 	highScore : 0,
@@ -86,7 +89,7 @@ app.post('/newJoueur', function (req, res){
     }
   });
   return res.redirect('index.html');
-//}
+}
 });
 
 var io = require('socket.io')(server);
