@@ -45,9 +45,9 @@
                 var chatMessage = "<b>" + username + ":</b> " + data + "<br>";  
                 conversation.innerHTML += chatMessage;   
             });  
-                   // listener, whenever the server emits 'updatechat', this updates the chat body
-            socket.on('updateroom', function (message , room) {
-                var chatMessage = "<b>" + message + ":</b> " + room + "<br>";
+                   // listener, whenever the server emits 'updateroom', this updates the chat body
+            socket.on('updateroom', function (message , room, clientSize) {
+                var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the room " + "<br>" ;
                 conversation.innerHTML += chatMessage;
             });
 

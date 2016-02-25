@@ -15,7 +15,6 @@ var router       = express.Router();
 
 // usernames which are currently connected to the chat
 var usernames = {};
-
 var listOfPlayers = {};
 var Joueur = mongoose.model('Joueur','joueur');
 
@@ -96,7 +95,7 @@ var io = require('socket.io')(server);
 var usernames = {};
 var listOfPlayers = {};
 var rooms=["room1", "room2"];
-var welcome = "Bienvenue dans la ";
+var welcome = "Welcome in room :  ";
 console.log(rooms);
 io.sockets.on('connection', function (socket) {
 
@@ -126,9 +125,12 @@ io.sockets.on('connection', function (socket) {
         defaultRoom = rooms[0];
 
         socket.join(defaultRoom);
-
-        io.in(defaultRoom).emit('updateroom',welcome, defaultRoom);
-        io.in(rooms[1]).emit('updateroom', rooms[1]);
+      var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
+        io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
+       // io.in(rooms[1]).emit('updateroom', defaultRoom);
+  
+        console.log(clientSize);
+        //io.sockets.clients(rooms[1]);
         // Create a new player and store his position too... for that
         // we have an object that is a "list of players" in that form
         // listOfPlayer = {'michel':{'x':0, 'y':0, 'v':0},
