@@ -17,7 +17,7 @@ var router       = express.Router();
 var usernames = {};
 var listOfPlayers = {};
 var Joueur = mongoose.model('Joueur','joueur');
-
+var rooms=["room1", "room2"];
 //var Sequelize = require('sequelize');
 
 /*sequelize = new Sequelize('vtmiage', 'root', 'root', {
@@ -56,8 +56,13 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+
+app.get('/rooms', function(req, res) {
+  res.send(rooms);
+});
+
 var server =  http.createServer( app ).listen(3000, function (){
-    console.log( 'Express server listening');
+    console.log( 'Express server listening on port 3000');
 });
 
 app.post('/newJoueur', function (req, res){
@@ -94,7 +99,7 @@ var io = require('socket.io')(server);
 // usernames which are currently connected to the chat
 var usernames = {};
 var listOfPlayers = {};
-var rooms=["room1", "room2"];
+
 var welcome = "Welcome in room :  ";
 console.log(rooms);
 io.sockets.on('connection', function (socket) {
@@ -123,9 +128,9 @@ io.sockets.on('connection', function (socket) {
         // tell all clients to update the list of users on the GUI
         io.sockets.emit('updateusers', usernames);
         defaultRoom = rooms[0];
-
+        
         socket.join(defaultRoom);
-      var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
+        var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
         io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
        // io.in(rooms[1]).emit('updateroom', defaultRoom);
   
