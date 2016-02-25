@@ -29,7 +29,7 @@
 			var username;
             var conversation, data, datasend, users;
             var form, connexion, inscription;
-            
+           //var currentRoom =  $( "#rooms").val();
             var socket = io.connect();  
 
             // on connection to server, ask for user's name with an anonymous callback
@@ -48,7 +48,7 @@
             });  
                    // listener, whenever the server emits 'updateroom', this updates the chat body
             socket.on('updateroom', function (message , room, clientSize) {
-                var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the room " + "<br>" ;
+                var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
                 conversation.innerHTML += chatMessage;
             });
 
@@ -90,6 +90,10 @@
               startGame(pos, lvl);
             });
 
+            socket.on('switchRoom', function (username, currentRoom, joiningRoom) {
+              console.log(username + " : " + currentRoom + joiningRoom);
+            });
+
 
 
             // on load of page  
@@ -122,6 +126,13 @@
                 // Listener for send button  
                 datasend.addEventListener("click", function(evt) {  
                     sendMessage();  
+                });  
+
+                 // Listener for send button  
+                switchRoom.addEventListener("click", function(evt) {
+               var currentRoom = $( "#rooms").val();  
+                  console.log(" clicked on switchRoom " + currentRoom)  ;
+                   socket.emit('switchRoom', username, currentRoom);
                 });  
           
                 // detect if enter key pressed in the input field  
@@ -179,8 +190,9 @@
         <div id="P_serveurs">
             <b>Rooms:</b>  
             <select name="rooms" id="rooms">
-				<option value=""></option>
+				
 			</select>
+            <button id="switchRoom">Switch room</button>
         </div>
 		<div id="P_users">
             <b>Joueurs:</b>

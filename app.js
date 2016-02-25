@@ -99,7 +99,7 @@ var io = require('socket.io')(server);
 // usernames which are currently connected to the chat
 var usernames = {};
 var listOfPlayers = {};
-
+ defaultRoom = rooms[0];
 var welcome = "Welcome in room :  ";
 console.log(rooms);
 io.sockets.on('connection', function (socket) {
@@ -127,8 +127,8 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
         // tell all clients to update the list of users on the GUI
         io.sockets.emit('updateusers', usernames);
-        defaultRoom = rooms[0];
-        
+       
+
         socket.join(defaultRoom);
         var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
         io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
@@ -147,7 +147,26 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit('updatePlayers',listOfPlayers);
     });
 
+//When a player switch a room
+  socket.on('switchRoom', function(username,joiningRoom){
 
+currentRoom = defaultRoom;
+socket.leave(currentRoom);
+
+console.log(username + " is  leaving currentRoom : " + currentRoom);
+
+io.in(currentRoom).emit('switchRoom', username, joiningRoom)
+
+console.log("Joining the room  " + joiningRoom);
+console.log("Current room  : " + currentRoom);
+
+socket.join(joiningRoom);
+currentRoom = joiningRoom;
+
+console.log("Current room after joiningRoom : " + currentRoom);
+ var clientSize = io.sockets.adapter.rooms[currentRoom].length;
+ io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+  });
 
     //when a player moves
 
