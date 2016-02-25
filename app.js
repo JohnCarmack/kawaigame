@@ -131,7 +131,8 @@ io.sockets.on('connection', function (socket) {
 
         socket.join(defaultRoom);
         var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
-        io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
+        //put that in switchRoom in order to avoid there is 3 in room2 (0 actually)
+       // io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
        // io.in(rooms[1]).emit('updateroom', defaultRoom);
   
         console.log(clientSize);
@@ -165,6 +166,7 @@ currentRoom = joiningRoom;
 
 console.log("Current room after joiningRoom : " + currentRoom);
  var clientSize = io.sockets.adapter.rooms[currentRoom].length;
+ console.log(clientSize + " People in the " + currentRoom );
  io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
   });
 
