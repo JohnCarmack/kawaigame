@@ -143,26 +143,27 @@ io.sockets.on('connection', function (socket) {
 
 
     //when a player moves
-    socket.on('sendpos', function (newPos) {
-        // we tell the client to execute 'updatepos' with 2 parameters
-        //console.log("recu sendPos : ");
-        socket.broadcast.emit('updatepos', socket.username, newPos);
-    });
 
-    // when the user disconnects.. perform this
-    socket.on('disconnect', function(){
-        // remove the username from global usernames list
-        delete usernames[socket.username];
-                // update list of users in chat, client-side
-        io.sockets.emit('updateusers', usernames);
-
-        // Remove the player too
-        delete listOfPlayers[socket.username];
-        io.sockets.emit('updatePlayers',listOfPlayers);
-
-        // echo globally that this client has left
-        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-    });
+    socket.on('sendpos', function (newPos, dir) {  
+        // we tell the client to execute 'updatepos' with 2 parameters  
+        //console.log("recu sendPos : dir = "+dir);  
+        socket.broadcast.emit('updatepos', socket.username, newPos, dir);  
+    });  
+  
+    // when the user disconnects.. perform this  
+    socket.on('disconnect', function(){  
+        // remove the username from global usernames list  
+        delete usernames[socket.username];  
+                // update list of users in chat, client-side  
+        io.sockets.emit('updateusers', usernames);  
+  
+        // Remove the player too  
+        delete listOfPlayers[socket.username];        
+        io.sockets.emit('updatePlayers',listOfPlayers);  
+          
+        // echo globally that this client has left  
+        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');  
+    }); 
 
     // when the game starts
     socket.on('sendStartGame', function (lvl) {

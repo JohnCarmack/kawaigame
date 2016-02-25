@@ -15,6 +15,8 @@ var allPlayersStates = {};
 var allPlayers={};
 //position du joueur
 var pos;
+//direction envoyée sous forme de string
+var direct;
 //pseudo du joueur
 var username;
 var j;
@@ -338,8 +340,19 @@ function drawAllPlayers(){
 function movePlayer(player, delta){
 	player.moving=true;
 	player.move(delta);
+
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
-	socket.emit('sendpos', pos);
+	//console.log("moving to the "+player.dir);
+	if(player.dir==0)
+		direct = "down";
+	if(player.dir==1)
+		direct = "left";
+	if(player.dir==2)
+		direct = "right";
+	if(player.dir==3)
+		direct = "up";
+	//console.log(direct);	
+	socket.emit('sendpos', pos, direct);
 }
 
 function stopPlayer(player){
@@ -448,9 +461,18 @@ function updatePlayers(listOfPlayers){
 	}
 }
 
-function updatePlayerNewPos(user, newPos){
+function updatePlayerNewPos(user, newPos, dir){
 	allPlayers[user].x = newPos.posX;
 	allPlayers[user].y = newPos.posY;
+	//console.log("newPlayerPos : dir="+dir);
+	if(dir=="down")
+		allPlayers[user].dir = DIR_S;
+	if(dir=="left")
+		allPlayers[user].dir = DIR_W;
+	if(dir=="up")
+		allPlayers[user].dir = DIR_N;
+	if(dir=="right")
+		allPlayers[user].dir = DIR_E;
 }
 
 //le jeu commence,  au niveau lvl
@@ -481,7 +503,10 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 	}
 }
 function createOnePlayer(name,x,y,speed){
+
 	var j = new Joueur(name, 0, x, y, 2, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+
+
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
