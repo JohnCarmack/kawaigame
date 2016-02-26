@@ -99,11 +99,13 @@ var io = require('socket.io')(server);
 // usernames which are currently connected to the chat
 var usernames = {};
 var listOfPlayers = {};
- defaultRoom = rooms[0];
+ var defaultRoom = rooms[0];
 var welcome = "Welcome in room :  ";
 console.log(rooms);
 io.sockets.on('connection', function (socket) {
 
+
+    //TODO : we need to pass the room for emiting only inside the correct one
     // when the client emits 'sendchat', this listens and executes
     socket.on('sendchat', function (data) {
         // we tell the client to execute 'updatechat' with 2 parameters
@@ -132,10 +134,10 @@ io.sockets.on('connection', function (socket) {
         socket.join(defaultRoom);
         var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
         //put that in switchRoom in order to avoid there is 3 in room2 (0 actually)
-       // io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
+        io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
        // io.in(rooms[1]).emit('updateroom', defaultRoom);
   
-        console.log(clientSize);
+        console.log("ADDUSER : Numer of people in " + defaultRoom + " is " + clientSize);
         //io.sockets.clients(rooms[1]);
         // Create a new player and store his position too... for that
         // we have an object that is a "list of players" in that form
@@ -148,26 +150,31 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit('updatePlayers',listOfPlayers);
     });
 
+//BUG : a : is leaving room1 and entering : room1
+//FIND : for him the player is always leaving the room1
+
 //When a player switch a room
   socket.on('switchRoom', function(username,joiningRoom){
 
-currentRoom = defaultRoom;
-socket.leave(currentRoom);
+  currentRoom = defaultRoom;
+  socket.leave(currentRoom);
+  console.log("DEFAULTROOM : " + defaultRoom);
+  console.log("CURRENT ROOM : " + currentRoom);
+  console.log(username + " is  leaving currentRoom : " + currentRoom);
 
-console.log(username + " is  leaving currentRoom : " + currentRoom);
+  io.in(currentRoom).emit('switchRoom', username, currentRoom, joiningRoom)
 
-io.in(currentRoom).emit('switchRoom', username, joiningRoom)
+  console.log("Joining the room  " + joiningRoom);
+  //console.log("Current room  : " + currentRoom);
 
-console.log("Joining the room  " + joiningRoom);
-console.log("Current room  : " + currentRoom);
+  socket.join(joiningRoom);
+  currentRoom = joiningRoom;
 
-socket.join(joiningRoom);
-currentRoom = joiningRoom;
-
-console.log("Current room after joiningRoom : " + currentRoom);
- var clientSize = io.sockets.adapter.rooms[currentRoom].length;
- console.log(clientSize + " People in the " + currentRoom );
- io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+  console.log("Current room after joiningRoom : " + joiningRoom);
+ var clientSize = io.sockets.adapter.rooms[joiningRoom].length;
+ console.log(clientSize + " People in the " + joiningRoom );
+         console.log("SWITCHROOM : Numer of people in " + joiningRoom + " is " + clientSize);
+ io.in(joiningRoom).emit('updateroom',welcome, joiningRoom, clientSize);
   });
 
     //when a player moves
@@ -177,7 +184,7 @@ console.log("Current room after joiningRoom : " + currentRoom);
         //console.log("recu sendPos : dir = "+dir);  
         socket.broadcast.emit('updatepos', socket.username, newPos, dir);  
     });  
-  
+    //TODO : add the room for emitting to the correct one 
     // when the user disconnects.. perform this  
     socket.on('disconnect', function(){  
         // remove the username from global usernames list  

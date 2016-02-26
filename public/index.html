@@ -51,6 +51,9 @@
                 var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
                 conversation.innerHTML += chatMessage;
             });
+               socket.on('switchRoom', function (username, currentRoom, joiningRoom) {
+              console.log(username + " : " + currentRoom + joiningRoom);
+            });
 
           
             // listener, whenever the server emits 'updateusers', this updates the username list  
@@ -90,9 +93,7 @@
               startGame(pos, lvl);
             });
 
-            socket.on('switchRoom', function (username, currentRoom, joiningRoom) {
-              console.log(username + " : " + currentRoom + joiningRoom);
-            });
+         
 
 
 
