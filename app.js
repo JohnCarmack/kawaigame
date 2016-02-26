@@ -135,10 +135,10 @@ io.sockets.on('connection', function (socket) {
     
 
     //when a player moves
-    socket.on('sendpos', function (newPos, dir) {  
+    socket.on('sendpos', function (newPos, dir, moving) {  
         // we tell the client to execute 'updatepos' with 2 parameters  
         //console.log("recu sendPos : dir = "+dir);  
-        socket.broadcast.emit('updatepos', socket.username, newPos, dir);  
+        socket.broadcast.emit('updatepos', socket.username, newPos, dir, moving);  
     });  
   
     // when the user disconnects.. perform this  
