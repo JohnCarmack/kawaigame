@@ -65,9 +65,9 @@
             //update players positions 
 
               // just one player moved
-            socket.on('updatepos', function (username, newPos, dir) {
-              console.log(dir);
-              updatePlayerNewPos(username, newPos, dir);
+            socket.on('updatepos', function (username, newPos, dir, moving) {
+              //console.log(dir);
+              updatePlayerNewPos(username, newPos, dir, moving);
             });
 
             //when the game is starting
