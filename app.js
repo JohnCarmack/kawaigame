@@ -17,7 +17,7 @@ var router       = express.Router();
 var usernames = {};
 var listOfPlayers = {};
 var Joueur = mongoose.model('Joueur','joueur');
-
+var rooms=["room1", "room2"];
 //var Sequelize = require('sequelize');
 
 /*sequelize = new Sequelize('vtmiage', 'root', 'root', {
@@ -56,8 +56,13 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+
+app.get('/rooms', function(req, res) {
+  res.send(rooms);
+});
+
 var server =  http.createServer( app ).listen(3000, function (){
-    console.log( 'Express server listening');
+    console.log( 'Express server listening on port 3000');
 });
 
 app.post('/newJoueur', function (req, res){
@@ -91,48 +96,79 @@ app.post('/newJoueur', function (req, res){
 
 var io = require('socket.io')(server);
 
-// usernames which are currently connected to the chat  
-var usernames = {};  
-var listOfPlayers = {};  
-  
-io.sockets.on('connection', function (socket) {  
-  
-    // when the client emits 'sendchat', this listens and executes  
-    socket.on('sendchat', function (data) {  
-        // we tell the client to execute 'updatechat' with 2 parameters 
-        console.log("dans le sendchat") 
-        console.log(data);
-        io.sockets.emit('updatechat', socket.username, data);  
-    });  
+// usernames which are currently connected to the chat
+var usernames = {};
+var listOfPlayers = {};
+ defaultRoom = rooms[0];
+var welcome = "Welcome in room :  ";
+console.log(rooms);
+io.sockets.on('connection', function (socket) {
 
-    // when the client emits 'adduser', this listens and executes  
-    socket.on('adduser', function(username){
-        // we store the username in the socket session for this client  
-        // the 'socket' variable is unique for each client connected,  
-        // so we can use it as a sort of HTTP session  
-        socket.username = username;  
-        // add the client's username to the global list  
-        // similar to usernames.michel = 'michel', usernames.toto = 'toto'  
-        usernames[username] = username;  
-        // echo to the current client that he is connecter  
-        socket.emit('updatechat', 'SERVER', 'you have connected');  
-        // echo to all client except current, that a new person has connected  
-        socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');  
-        // tell all clients to update the list of users on the GUI  
-        io.sockets.emit('updateusers', usernames);  
-  
-        // Create a new player and store his position too... for that  
-        // we have an object that is a "list of players" in that form  
-        // listOfPlayer = {'michel':{'x':0, 'y':0, 'v':0},   
-        //                          john:{'x':10, 'y':10, 'v':0}}  
-        // for this example we have x, y and v for speed... ? 
-        var player = {'x':0, 'y':0, 'v':4};
-        listOfPlayers[username] = player;  
-        console.log("user created : "+username);
-        io.sockets.emit('updatePlayers',listOfPlayers);  
+    // when the client emits 'sendchat', this listens and executes
+    socket.on('sendchat', function (data) {
+        // we tell the client to execute 'updatechat' with 2 parameters
+        console.log("dans le sendchat")
+        console.log(data);
+        io.sockets.emit('updatechat', socket.username, data);
     });
 
-    
+    // when the client emits 'adduser', this listens and executes
+    socket.on('adduser', function(username){
+        // we store the username in the socket session for this client
+        // the 'socket' variable is unique for each client connected,
+        // so we can use it as a sort of HTTP session
+        socket.username = username;
+        // add the client's username to the global list
+        // similar to usernames.michel = 'michel', usernames.toto = 'toto'
+        usernames[username] = username;
+        // echo to the current client that he is connecter
+        socket.emit('updatechat', 'SERVER', 'you have connected');
+        // echo to all client except current, that a new person has connected
+        socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+        // tell all clients to update the list of users on the GUI
+        io.sockets.emit('updateusers', usernames);
+       
+
+        socket.join(defaultRoom);
+        var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
+        //put that in switchRoom in order to avoid there is 3 in room2 (0 actually)
+       // io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
+       // io.in(rooms[1]).emit('updateroom', defaultRoom);
+  
+        console.log(clientSize);
+        //io.sockets.clients(rooms[1]);
+        // Create a new player and store his position too... for that
+        // we have an object that is a "list of players" in that form
+        // listOfPlayer = {'michel':{'x':0, 'y':0, 'v':0},
+        //                          john:{'x':10, 'y':10, 'v':0}}
+        // for this example we have x, y and v for speed... ?
+        var player = {'x':0, 'y':0, 'v':4};
+        listOfPlayers[username] = player;
+        console.log("user created : "+username);
+        io.sockets.emit('updatePlayers',listOfPlayers);
+    });
+
+//When a player switch a room
+  socket.on('switchRoom', function(username,joiningRoom){
+
+currentRoom = defaultRoom;
+socket.leave(currentRoom);
+
+console.log(username + " is  leaving currentRoom : " + currentRoom);
+
+io.in(currentRoom).emit('switchRoom', username, joiningRoom)
+
+console.log("Joining the room  " + joiningRoom);
+console.log("Current room  : " + currentRoom);
+
+socket.join(joiningRoom);
+currentRoom = joiningRoom;
+
+console.log("Current room after joiningRoom : " + currentRoom);
+ var clientSize = io.sockets.adapter.rooms[currentRoom].length;
+ console.log(clientSize + " People in the " + currentRoom );
+ io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+  });
 
     //when a player moves
     socket.on('sendpos', function (newPos, dir, moving) {  
@@ -157,9 +193,9 @@ io.sockets.on('connection', function (socket) {
     }); 
 
     // when the game starts
-    socket.on('sendStartGame', function (lvl) { 
-        // we tell the client to execute 'updatechat' with 2 parameters 
+    socket.on('sendStartGame', function (lvl) {
+        // we tell the client to execute 'updatechat' with 2 parameters
         console.log("on commence le jeu")
-        io.sockets.emit('startGame', lvl, listOfPlayers);  
-    });   
-});  
+        io.sockets.emit('startGame', lvl, listOfPlayers);
+    });
+});
