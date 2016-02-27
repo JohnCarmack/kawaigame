@@ -26,20 +26,19 @@
     </head>
 		
         <script>  
-			//$(document).ready(function() {
-            //var username = document.querySelector('#nomPseudo').value;
-			
-			var username = prompt("What's your name?");  
-			
-            var conversation, data, datasend, users;  
+			var username;
+            var conversation, data, datasend, users;
+            var form, connexion, inscription;
           
             var socket = io.connect();  
-
-            // on connection to server, ask for user's name with an anonymous callback  
+            // on connection to server, ask for user's name with an anonymous callback
+            //while (typeof username=="undefined"){
             socket.on('connect', function(){  
-                // call the server-side function 'adduser' and send one parameter (value of prompt)  
-                socket.emit('adduser', username);  
+                    // call the server-side function 'adduser' and send one parameter (value of prompt) 
+                   // var username = document.getElementById("nomPseudo").value;
+                    //socket.emit('adduser', username);  
             });  
+            //}
           
             // listener, whenever the server emits 'updatechat', this updates the chat body   
             socket.on('updatechat', function (username, data) {  
@@ -57,53 +56,55 @@
                 }  
             });  
           
-            // update the whole list of players, useful when a player  
-            // connects or disconnects, we must update the whole list  
-            //socket.on('updatePlayers', function(listOfplayers) {  
-              //  updatePlayers(listOfplayers);  
-            //});  
-
             //update players positions 
               // just one player moved
             socket.on('updatepos', function (username, newPos, dir) {
               console.log(dir);
               updatePlayerNewPos(username, newPos, dir);
             });
-
             //when the game is starting
             socket.on('startGame', function (lvl, listOfPlayers) {
               startGame(lvl, listOfPlayers);
             });
-
             // update players (isLvLDone? isDead?)
             socket.on('updatePlayers', function (listOfPlayer) {
               updatePlayers(listOfPlayer);
             });
-
             //updateGame
             socket.on('updategame', function (lvl, deads, isLost, menu,starting) {
               updateGame(lvl, deads, isLost, menu,starting);
             });
-
             //on commence le jeu
             socket.on('sendStart', function (lvl) {
               startGame(pos, lvl);
             });
-
-
           
             // on load of page  
             window.addEventListener("load", function(){  
                 // get handles on various GUI components  
-                conversation = document.querySelector("#conversation");  
+                conversation = document.querySelector("#conversation"); 
+                //console.log(document.getElementById('nomPseudo'));
+                form = document.querySelector("#formInsc");
+                connexion = document.querySelector("#connexion");
+                inscription =  document.querySelector("#inscription");
+               
                 data = document.querySelector("#data");  
                 datasend = document.querySelector("#datasend");  
                 users = document.querySelector("#users");  
-          
+                
+                connexion.addEventListener("click", function(evt) {  
+                        // à remplir par la suite, pour avoir le comportement souhaité  
+                });
+                inscription.addEventListener("click", function(evt) { 
+						Inscription();
+                        username = document.getElementById("nomPseudo").value;
+                        console.log("clique sur le bouton d'inscription on crée l'utilisateur "+username); 
+                        socket.emit('adduser', username);
+                });
                 // Listener for send button  
                 datasend.addEventListener("click", function(evt) {  
                     sendMessage();  
-            });  
+                });  
           
                 // detect if enter key pressed in the input field  
                 data.addEventListener("keypress", function(evt) {  
@@ -137,17 +138,17 @@
 			  <div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group">
-						<div id="divPseudo">
+						<div id="divPseudo" class="form-group">
 							<label class="col-sm-3 control-label" for="pseudo">Pseudo</label>
 							<div class="col-sm-4">
-								<input type="text" name="pseudo" id="nomPseudo" class="form-control"/>
+								<input type="text" name="pseudo" id="nomPseudo" class="form-control" onfocus="SuppMessageError()"/>
 							</div>
 						</div>
 					</div>
 				</form>
 				<div>
-					<input type="submit" name="Inscription" value="Inscription" class="btn btn-primary" onclick="inscription()"/>
-					<input type="submit" name="Connexion" value="Connexion" class="btn btn-primary" href="#Serveurs" data-toggle="modal" data-target="#Serveurs" data-dismiss="modal" aria-label="Close"/>
+					<input id="inscription" type="submit" name="Inscription" value="Inscription" class="btn btn-primary"/>
+					<input id="connexion" type="submit" name="Connexion" value="Connexion" class="btn btn-primary" href="#Serveurs" data-toggle="modal" data-target="#Serveurs" data-dismiss="modal" aria-label="Close"/>
 				</div>
 			  </div>
 			</div>

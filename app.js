@@ -63,33 +63,46 @@ var server =  http.createServer( app ).listen(3000, function (){
 app.post('/newJoueur', function (req, res){
   var pseudo = req.body.nomPseudo;
     console.log("POST: ");
-  console.log("Pseudo: "+req.body.nomPseudo );// + "\nDiagramme:" + JSON.stringify(req.body.diagramme["cells"]));
-  //Here we miss the diagram.cells part no ? yes but that's not required?
-  if(Joueur.findOne({pseudo : pseudo})){
-    console.log("already exist !!");
-	var input = document.querySelector('#nomPseudo');
-	var div = document.querySelector('#divPseudo');
-	div.class="form-group has-error";
-	input.innerHTML += "<"+"span id='ErrorPseudo' class='help-block'"+">"+"Ce pseudo existe déjà. Veuillez en choisir un autre."+"<"+"/span"+">";
+  console.log("Pseudo: "+ pseudo );
+  var find = '';
+function IsFind(){
+  if(find !== null){
+	console.log("already exist !!");
+	res.send('Failed');
   }
   else {
   joueur = new Joueur({
-    pseudo: req.body.nomPseudo,
+    pseudo: pseudo,
 	highScore : 0,
 	ghost : [],
-    //diagramme: req.body.diagramme["cells"]
   });
 
   joueur.save(function (err) {
     if (!err) {
-      return console.log("created");
-      res.redirect('index.html');
+		console.log("created");
+      return "Succes";
+	  //res.redirect('index.html');
     } else {
-      return console.log(err);
+		//console.log("already exist !!");
+      return "Failed";
+	  console.log(err);
     }
   });
-  return res.redirect('index.html');
+  res.send('Success');
 }
+}
+
+  Joueur.findOne({pseudo: req.body.nomPseudo}, function(err, doc) {
+	if (err) {
+		find = err;
+		return err;
+	}
+	else {
+		find = doc;
+		console.log(find);
+		IsFind();
+	}
+});
 });
 
 var io = require('socket.io')(server);
