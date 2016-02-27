@@ -18,6 +18,7 @@
         <script type="text/javascript" src="js/Utils.js"></script>
         <script type="text/javascript" src="js/Projectiles.js"></script>
         <script type="text/javascript" src="js/Joueur.js"></script>
+		<script type="text/javascript" src="js/bdd.js"></script>
         <script type="text/javascript" src="js/App.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -29,6 +30,7 @@
 			var username;
             var conversation, data, datasend, users;
             var form, connexion, inscription;
+
            //var currentRoom =  $( "#rooms").val();
             var socket = io.connect();  
 
@@ -69,22 +71,18 @@
               //console.log(dir);
               updatePlayerNewPos(username, newPos, dir, moving);
             });
-
             //when the game is starting
             socket.on('startGame', function (lvl, listOfPlayers) {
               startGame(lvl, listOfPlayers);
             });
-
             // update players (isLvLDone? isDead?)
             socket.on('updatePlayers', function (listOfPlayer) {
               updatePlayers(listOfPlayer);
             });
-
             //updateGame
             socket.on('updategame', function (lvl, deads, isLost, menu,starting) {
               updateGame(lvl, deads, isLost, menu,starting);
             });
-
             //on commence le jeu
             socket.on('sendStart', function (lvl) {
               startGame(pos, lvl);
@@ -94,8 +92,6 @@
               console.log(username + " : " + currentRoom + joiningRoom);
             });
 
-
-
             // on load of page  
             window.addEventListener("load", function(){  
                 // get handles on various GUI components  
@@ -103,24 +99,19 @@
                 //console.log(document.getElementById('nomPseudo'));
                 form = document.querySelector("#formInsc");
                 connexion = document.querySelector("#connexion");
-                inscription =  document.querySelector("#inscription");
-
-               
+                inscription =  document.querySelector("#inscription");        
                 data = document.querySelector("#data");  
                 datasend = document.querySelector("#datasend");  
                 users = document.querySelector("#users");  
                 
-
                 connexion.addEventListener("click", function(evt) {  
                         // à remplir par la suite, pour avoir le comportement souhaité  
                 });
-
-
                 inscription.addEventListener("click", function(evt) { 
+						Inscription();
                         username = document.getElementById("nomPseudo").value;
                         console.log("clique sur le bouton d'inscription on crée l'utilisateur "+username); 
                         socket.emit('adduser', username);
-
                 });
 
                 // Listener for send button  
@@ -167,42 +158,65 @@
 			  <div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group">
-						<div>
+						<div id="divPseudo" class="form-group">
 							<label class="col-sm-3 control-label" for="pseudo">Pseudo</label>
 							<div class="col-sm-4">
-								<input type="text" name="pseudo" id="nomPseudo" class="form-control"/>
+								<input type="text" name="pseudo" id="nomPseudo" class="form-control" onfocus="SuppMessageError()"/>
 							</div>
 						</div>
 					</div>
 				</form>
 				<div>
-					<input type="submit" id="inscription" name="Inscription" value="Inscription" class="btn btn-primary" />
-					<input type="submit" id="connexion" name="Connexion" value="Connexion" class="btn btn-primary" />
+					<input id="inscription" type="submit" name="Inscription" value="Inscription" class="btn btn-primary"/>
+					<input id="connexion" type="submit" name="Connexion" value="Connexion" class="btn btn-primary" href="#Serveurs" data-toggle="modal" data-target="#Serveurs" data-dismiss="modal" aria-label="Close"/>
 				</div>
 			  </div>
 			</div>
 		  </div>
 		</div>
-
+		<div class="modal fade" id="Serveurs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="NomJeuS">Kawaigame</h4>
+			  </div>
+			  <div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div>
+							<label class="col-sm-3 control-label" for="serveur">Serveur : </label>
+							<div class="col-sm-5">
+								<select name="serveur" id="serveur" class="form-control">
+									<option>Room 1</option>
+									<option>Room 2</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<input type="submit" name="Sauvegarde" value="Sauvegarder" class="btn btn-primary" />
+				</form>
+				<div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
 		<h1>Kawaigame</h1>
-
-        <div class="canvas"><canvas id="canvas" width="640" height="480"></canvas>
-        <div id="P_serveurs">
-            <b>Rooms:</b>  
-            <select name="rooms" id="rooms">
-				
-			</select>
-            <button id="switchRoom">Switch room</button>
-        </div>
-		<div id="P_users">
-            <b>Joueurs:</b>
-            <div id="users"></div>
-        </div>
-        <div id="P_conversation">
-			<b>Tchat:</b>
-            <div id="conversation"></div>
-            <input id="data" placeholder="Ecrivez ici..."/>
-            <input type="button" id="datasend" value="send" />
+        <div class="canvas"><canvas id="canvas" width="640" height="480"></canvas></div>
+        <div id="P_serveurs">  
+            <b>Serveurs:</b>  
+			<button id="switchRoom">Switch room</button>
+        </div> 
+		<div id="P_users">  
+            <b>Joueurs:</b>  
+            <div id="users"></div>  
+        </div>  
+        <div id="P_conversation">  
+			<b>Tchat:</b> 
+            <div id="conversation"></div>  
+            <input id="data" placeholder="Ecrivez ici..."/>  
+            <input type="button" id="datasend" value="send" />  
         </div>
     </body>
 </html>
