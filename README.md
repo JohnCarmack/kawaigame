@@ -10,18 +10,18 @@
 3) bis) JSBIN) Lien JSBIN du projet : http://output.jsbin.com/tijuze/4/
                                (MAJ)  http://jsbin.com/qodela/7/
 
-4) préparer le terrain pour des updates des joueurs via socket.io -> In progress
+4) préparer le terrain pour des updates des joueurs via socket.io -> Done
 
 5) ajouter un chat mono salle dans le jeu => done
 
-6) faire en sorte que le jeu en ligne marche et que les joueurs puissent chatter (on mélange le code du jeu et le code du chat)
+6) faire en sorte que le jeu en ligne marche et que les joueurs puissent chatter (on mélange le code du jeu et le code du chat) => Done
 
-7) On essaie de faire passer juste les positions des joueurs via le chat en mode texte, pour débugger
+7) On essaie de faire passer juste les positions des joueurs via le chat en mode texte, pour débugger => Done
 
-8) on passe les positions en tant qu'objets, et on essaie d'updater les positions des autres joueurs
+8) on passe les positions en tant qu'objets, et on essaie d'updater les positions des autres joueurs => Done
 
 9) On essaie de faire marcher la logique du jeu (écran d'accueil, game over, changement de niveau)
 
-10) On passe tout en multi room (gestion de parties simultanées mais indépendantes)
+10) On passe tout en multi room (gestion de parties simultanées mais indépendantes) => In progress
 
 11) On commence à réfléchir aux ghosts et à la persistence.
