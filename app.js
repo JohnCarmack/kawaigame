@@ -65,6 +65,15 @@ var server =  http.createServer( app ).listen(3000, function (){
     console.log( 'Express server listening on port 3000');
 });
 
+app.get('/Joueur/:pseudo', function(req, res){
+	Joueur.findOne({pseudo: req.params.pseudo}).then(function(joueur){
+    if (joueur === null)
+      res.send('NOT FOUND');
+    else 
+      res.send(joueur.pseudo);
+  });
+});
+
 app.post('/newJoueur', function (req, res){
   var pseudo = req.body.nomPseudo;
     console.log("POST: ");
@@ -104,7 +113,7 @@ function IsFind(){
 	}
 	else {
 		find = doc;
-		console.log(find);
+		//console.log(find);
 		IsFind();
 	}
 });
@@ -113,8 +122,6 @@ function IsFind(){
 var io = require('socket.io')(server);
 
 // usernames which are currently connected to the chat
-var usernames = {};
-var listOfPlayers = {};
  defaultRoom = rooms[0];
 var welcome = "Welcome in room :  ";
 console.log(rooms);

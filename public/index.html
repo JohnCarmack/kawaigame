@@ -18,11 +18,11 @@
         <script type="text/javascript" src="js/Utils.js"></script>
         <script type="text/javascript" src="js/Projectiles.js"></script>
         <script type="text/javascript" src="js/Joueur.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
 		<script type="text/javascript" src="js/bdd.js"></script>
         <script type="text/javascript" src="js/App.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script type="text/javascript" src="js/script.js"></script>
         <script src="/socket.io/socket.io.js"></script>
     </head>
 
@@ -104,14 +104,14 @@
                 datasend = document.querySelector("#datasend");  
                 users = document.querySelector("#users");  
                 
-                connexion.addEventListener("click", function(evt) {  
-                        // à remplir par la suite, pour avoir le comportement souhaité  
+               connexion.addEventListener("click", function(evt) { 
+					Connexion();	
+					username = document.getElementById("nomPseudo").value;
+                    console.log("clique sur le bouton d'inscription on crée l'utilisateur "+username); 
+					socket.emit('adduser', username);
                 });
                 inscription.addEventListener("click", function(evt) { 
-						Inscription();
-                        username = document.getElementById("nomPseudo").value;
-                        console.log("clique sur le bouton d'inscription on crée l'utilisateur "+username); 
-                        socket.emit('adduser', username);
+						Inscription();                        
                 });
 
                 // Listener for send button  
@@ -152,7 +152,7 @@
 		  <div id="P_formInsc" class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button id="CloseAccueil" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="NomJeu">Kawaigame</h4>
 			  </div>
 			  <div class="modal-body">
@@ -168,12 +168,13 @@
 				</form>
 				<div>
 					<input id="inscription" type="submit" name="Inscription" value="Inscription" class="btn btn-primary"/>
-					<input id="connexion" type="submit" name="Connexion" value="Connexion" class="btn btn-primary" href="#Serveurs" data-toggle="modal" data-target="#Serveurs" data-dismiss="modal" aria-label="Close"/>
+					<input id="connexion" type="submit" name="Connexion" value="Connexion" class="btn btn-primary"/>
 				</div>
 			  </div>
 			</div>
 		  </div>
 		</div>
+		<div id="LienServeurs"><a href="#Serveurs" data-toggle="modal" data-target="#Serveurs">Modal</a></div>
 		<div class="modal fade" id="Serveurs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -188,15 +189,13 @@
 							<label class="col-sm-3 control-label" for="serveur">Serveur : </label>
 							<div class="col-sm-5">
 								<select name="serveur" id="serveur" class="form-control">
-									<option>Room 1</option>
-									<option>Room 2</option>
 								</select>
 							</div>
 						</div>
 					</div>
 					<input type="submit" name="Sauvegarde" value="Sauvegarder" class="btn btn-primary" />
 				</form>
-				<div>
+				<div> 
 				</div>
 			  </div>
 			</div>
