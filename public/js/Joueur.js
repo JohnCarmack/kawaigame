@@ -48,6 +48,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         context.save();
         if(!this.dead){
 			if(!this.moving) {
+				//console.log(this.dir);
             this.spritesMan[this.dir].render(this.x, this.y);
         } else {
             this.spritesMan[this.dir].renderMoving(this.x, this.y);
@@ -57,6 +58,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
     };
 
 	this.move = function(delta){
+		//context.save();
 		context.clearRect(0, 0, w, h);
         if (!this.dead){
             if(this.moving){
@@ -64,37 +66,40 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 				
                 if (inputStates.left) {
                     this.speedX = -this.speed;
-					this.dir = DIR_W;
-					this.spritesMan[this.dir].renderMoving(this.x, this.y);
+					//this.dir = DIR_W;
+					//this.spritesMan[this.dir].renderMoving(this.x, this.y);
                 }  
                 if (inputStates.up) {   
                    this.speedY = -this.speed; 
-				   this.dir = DIR_N;	
-					this.spritesMan[this.dir].renderMoving(this.x, this.y);				   
-                   console.log("up");
+				   //this.dir = DIR_N;	
+					//this.spritesMan[this.dir].renderMoving(this.x, this.y);				   
+                   //console.log("up");
                 }  
                if (inputStates.right) {  
                     this.speedX = this.speed; 
-					this.dir = DIR_E;
-					this.spritesMan[this.dir].renderMoving(this.x, this.y);
-                    console.log("right"); 
+					//this.dir = DIR_E;
+					//this.spritesMan[this.dir].renderMoving(this.x, this.y);
+                    //console.log("right"); 
                 }  
                 if (inputStates.down) {  
-                    console.log("down");
+                    //console.log("down");
                     this.speedY = this.speed; 
-					this.dir = DIR_S;					
-					this.spritesMan[this.dir].renderMoving(this.x, this.y);
+					//this.dir = DIR_S;					
                 }
+                /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
 				
 				
-			} if(!this.moving){
+			} else{
 				this.spritesMan[this.dir].render(this.x, this.y);
-			}
+			}*/
              
             } 
 			this.x += calcDistanceToMove(delta, this.speedX);  
 			this.y += calcDistanceToMove(delta, this.speedY);
+			//context.restore();   
+			//console.log("x:"+this.x+" y:"+this.y);
         }
 		
     }
+}
 
