@@ -56,3 +56,35 @@ function Connexion(){
 	});
 }
 
+function UpdateScore(joueur, highScore){
+		$.ajax({ url : '/updateScore/'+joueur.pseudo, 
+		type : 'put',
+		data :{ highScore },
+		dataType : 'text',
+		success : function(data){
+			if(data === 'error updating highScore'){
+				//FaireInscrip();
+			}else{
+			//document.getElementById('CloseAccueil').click();
+			//document.querySelector("#LienServeurs").getElementsByTagName('a')[0].click();
+			}
+		}
+	});
+}
+
+function TestUpdateScore(joueur, highScore){
+		$.ajax({ url : '/highScore/'+joueur.pseudo, 
+		type : 'get',
+		dataType : 'text',
+		success : function(data){
+			if(data === 'NOT FOUND'){
+				//FaireInscrip();
+			}else{
+				if(data < highScore){
+					UpdateScore(joueur,highScore);
+				}
+			}
+		}
+	});
+}
+
