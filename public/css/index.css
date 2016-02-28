@@ -48,7 +48,7 @@ body h1{
 
 #conversation{
 	display:block;
-	height:320px;
+	height:350px;
 	overflow-y:auto;
 }
 

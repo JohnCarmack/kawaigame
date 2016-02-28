@@ -46,12 +46,14 @@
             // listener, whenever the server emits 'updatechat', this updates the chat body   
             socket.on('updatechat', function (username, data) {  
                 var chatMessage = "<b>" + username + ":</b> " + data + "<br>";  
-                conversation.innerHTML += chatMessage;   
+                conversation.innerHTML += chatMessage;  
+				conversation.scrollTop = conversation.scrollHeight;
             });  
                    // listener, whenever the server emits 'updateroom', this updates the chat body
             socket.on('updateroom', function (message , room, clientSize) {
                 var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
                 conversation.innerHTML += chatMessage;
+				conversation.scrollTop = conversation.scrollHeight;
             });
 
           
@@ -62,6 +64,8 @@
                     var userLineOfHTML = '<div>' + name + '</div>';  
                     users.innerHTML += userLineOfHTML;  
                 }  
+				var taille = conversation.offsetHeight - users.offsetHeight;
+				conversation.style.height = taille+"px";
             });  
           
             //update players positions 
@@ -102,7 +106,7 @@
                 inscription =  document.querySelector("#inscription");        
                 data = document.querySelector("#data");  
                 datasend = document.querySelector("#datasend");  
-                users = document.querySelector("#users");  
+                users = document.querySelector("#users"); 
                 
                connexion.addEventListener("click", function(evt) { 
 					Connexion();	
