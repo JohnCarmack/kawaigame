@@ -179,7 +179,7 @@
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button id="CloseServeurs" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="NomJeuS">Kawaigame</h4>
 			  </div>
 			  <div class="modal-body">
@@ -193,8 +193,8 @@
 							</div>
 						</div>
 					</div>
-					<input type="submit" name="Sauvegarde" value="Sauvegarder" class="btn btn-primary" />
 				</form>
+				<input type="submit" name="Sauvegarde" value="Sauvegarder" class="btn btn-primary" onclick="FirstRoom()"/>
 				<div> 
 				</div>
 			  </div>
@@ -203,19 +203,23 @@
 		</div>
 		<h1>Kawaigame</h1>
         <div class="canvas"><canvas id="canvas" width="640" height="480"></canvas></div>
-        <div id="P_serveurs">  
-            <b>Serveurs:</b>  
-			<button id="switchRoom">Switch room</button>
-        </div> 
+		<form class="form-inline">
+        <div id="P_serveurs" class="form-group">  
+            <label class="col-sm-3 control-label" for="rooms">Serveur :</label>
+			<select name="P_serveurs" id="rooms" class="form-control input-sm">
+			</select>
+			<button id="switchRoom" type="button" class="btn btn-primary btn-sm">Switch Room</button>
+		</div>
+		</form>
 		<div id="P_users">  
             <b>Joueurs:</b>  
             <div id="users"></div>  
         </div>  
-        <div id="P_conversation">  
+        <div id="P_conversation" class="input-group">  
 			<b>Tchat:</b> 
             <div id="conversation"></div>  
-            <input id="data" placeholder="Ecrivez ici..."/>  
-            <input type="button" id="datasend" value="send" />  
+            <input type="text" id="data" placeholder="Ecrivez ici..." class="form-control input-sm"/>  
+            <button id="datasend" type="button" class="btn btn-primary btn-sm">Send</button> 
         </div>
     </body>
 </html>

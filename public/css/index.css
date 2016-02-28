@@ -18,9 +18,9 @@ body h1{
 
 #P_serveurs{
 	float:left;
-	width:25%;
+	width:30%;
 	height:15%;
-	padding:10px;
+	padding-top:7px;
 	overflow:scroll-y;
 }
 
@@ -44,6 +44,12 @@ body h1{
 	padding:5px;
 	border-left:1px solid black;
 	margin-left:10px;
+}
+
+#conversation{
+	display:block;
+	height:320px;
+	overflow-y:auto;
 }
 
 #data{
