@@ -86,6 +86,14 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                     this.speedY = this.speed; 
 					//this.dir = DIR_S;					
                 }
+				if (inputStates.mousedown) {
+					this.speed = 4;
+					var dx = this.x - inputStates.mousePos.x;
+					var dy = this.y - inputStates.mousePos.y;
+					var angle = Math.atan2(dy, dx);
+					this.x -= calcDistanceToMove(delta,2*Math.cos(angle));
+					this.y -= calcDistanceToMove(delta,2*Math.sin(angle));
+				}
                 /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
 				
 				
