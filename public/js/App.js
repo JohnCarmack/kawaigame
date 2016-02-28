@@ -70,15 +70,16 @@ function App() {
     //joueur test
 
 
-	MapLevel1 = new Map(3, context);
+	MapLevel1 = new Map(4, context);
 
    // j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
-    //j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
-
-
-	
+    j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "./images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+    j.initSprites(52,76,4,4);
+    allPlayers[username] = j;
+    //createOnePlayer("Sal1am", 100, 100, 10);	
     //ajout des actions pour chaque menu
-    requestAnimationFrame(mainLoop);
+    startGame(3, allPlayers);
+
 	recupereMap(MapLevel1);
 
     currentGameState = gameStates.home;
@@ -180,7 +181,6 @@ function drawCurrentMenu(){
 
 	if(currentGameState == gameStates.running) // pas de menu
 	{
-		drawAllPlayers();
 		/*
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
@@ -191,6 +191,7 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
 		dessineMap(MapLevel1, context);
+		drawAllPlayers();
 		for( name in allPlayers){
 		MonsterCollisionWithWalls(allPlayers[name], h, w);
 		}
@@ -447,6 +448,9 @@ function startGame(lvl,listOfPlayers){
 		}
 		currentGameState = gameStates.running;
 	}
+        
+        requestAnimationFrame(mainLoop);
+        
 	//console.log("on commence le jeu, au niveau : "+level);
 }
 function updateOnePlayer(name,speed,isLvLDone,isDead){
