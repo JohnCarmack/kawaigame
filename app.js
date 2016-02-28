@@ -119,6 +119,33 @@ function IsFind(){
 });
 });
 
+app.get('/highScore/:pseudo', function(req, res){
+	Joueur.findOne({pseudo: req.params.pseudo}).then(function(joueur){
+    if (joueur === null)
+      res.send('NOT FOUND');
+    else 
+      res.send(joueur.highScore);
+  });
+});
+
+app.put('/updateScore/:pseudo', function(req, res){
+var pseudo = req.params.pseudo;
+var highScoreNew = req.body.highScore;
+if ((pseudo && highScore) != undefined){
+Joueur.update({
+  highScore: highScore,
+}, {
+  where: {
+    pseudo: pseudo,
+  }
+}).then(function(){
+  sequelize.sync();
+});
+res.send('Update OK');
+}
+else res.send('error updating highScore');
+}); 
+
 var io = require('socket.io')(server);
 
 // usernames which are currently connected to the chat
