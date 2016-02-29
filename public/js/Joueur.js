@@ -47,12 +47,14 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 
     this.draw = function (context) {
         context.save();
-        if (!this.dead) {
-            if (!this.moving) {
-                this.spritesMan[this.dir].render(this.x, this.y);
-            } else {
-                this.spritesMan[this.dir].renderMoving(this.x, this.y);
-            }
+        if(!this.dead){
+			if(!this.moving) {
+				//console.log(this.dir);
+            this.spritesMan[this.dir].render(this.x, this.y);
+        } else {
+            this.spritesMan[this.dir].renderMoving(this.x, this.y);
+        } 
+             context.restore();   
         }
         
         this.context.fillStyle = "rgba(0, 200, 0, 0.5)";
@@ -61,42 +63,58 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         context.restore();
     };
 
-    this.move = function (delta) {
-        context.clearRect(0, 0, w, h);
-        if (!this.dead) {
-            if (this.moving) {
-                this.speedX = this.speedY = 0;
-
+	this.move = function(delta){
+		//context.save();
+		context.clearRect(0, 0, w, h);
+        if (!this.dead){
+            if(this.moving){
+                this.speedX = this.speedY = 0; 
+				
                 if (inputStates.left) {
                     this.speedX = -this.speed;
-                    this.dir = DIR_W;
-                    this.spritesMan[this.dir].renderMoving(this.x, this.y);
+					//this.dir = DIR_W;
+					//this.spritesMan[this.dir].renderMoving(this.x, this.y);
+                }  
+                if (inputStates.up) {   
+                   this.speedY = -this.speed; 
+				   //this.dir = DIR_N;	
+					//this.spritesMan[this.dir].renderMoving(this.x, this.y);				   
+                   //console.log("up");
+                }  
+               if (inputStates.right) {  
+                    this.speedX = this.speed; 
+					//this.dir = DIR_E;
+					//this.spritesMan[this.dir].renderMoving(this.x, this.y);
+                    //console.log("right"); 
+                }  
+                if (inputStates.down) {  
+                    //console.log("down");
+                    this.speedY = this.speed; 
+					//this.dir = DIR_S;					
                 }
-                if (inputStates.up) {
-                    this.speedY = -this.speed;
-                    this.dir = DIR_N;
-                    this.spritesMan[this.dir].renderMoving(this.x, this.y);
-                    console.log("up");
-                }
-                if (inputStates.right) {
-                    this.speedX = this.speed;
-                    this.dir = DIR_E;
-                    this.spritesMan[this.dir].renderMoving(this.x, this.y);
-                    console.log("right");
-                }
-                if (inputStates.down) {
-                    console.log("down");
-                    this.speedY = this.speed;
-                    this.dir = DIR_S;
-                    this.spritesMan[this.dir].renderMoving(this.x, this.y);
-                }
-            }
-            if (!this.moving) {
-                this.spritesMan[this.dir].render(this.x, this.y);
-            }
+				if (inputStates.mousedown) {
+					var dx = this.x - inputStates.mousePos.x;
+					var dy = this.y - inputStates.mousePos.y;
+					var angle = Math.atan2(dy, dx);
+					var deplX -= calcDistanceToMove(delta,2*Math.cos(angle));
+					var deplY -= calcDistanceToMove(delta,2*Math.sin(angle));
 
-        }
+                    this.x += deplX;
+                    this.y += deplY;
 
+                        if (this.isCollision()) {
+                            this.x -= deplX;
+                            this.y -= deplY;
+                        }
+				}
+                /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
+				
+				
+			} else{
+				this.spritesMan[this.dir].render(this.x, this.y);
+			}*/
+             
+            } 
         var deplX = calcDistanceToMove(delta, this.speedX);
         var deplY = calcDistanceToMove(delta, this.speedY);
 
@@ -125,5 +143,6 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         }
     };
 
+}
 }
 

@@ -50,6 +50,7 @@ function testCollisionWithWalls(ball) {
     }
 }
 
+
 function MonsterCollisionWithWalls(joueur, h, w) {
     // left
     if (joueur.x < '0') {
@@ -69,11 +70,6 @@ function MonsterCollisionWithWalls(joueur, h, w) {
     }
 }
 
-calcDistanceToMove = function (delta, speed) {
-    //console.log("#delta = " + delta + " speed = " + speed);
-    return (speed * delta) / 1000;
-}
-
 function timer(currentTime, oldTime) {
     var delta = currentTime - oldTime;
     oldTime = currentTime;
@@ -91,3 +87,10 @@ collisionRectangles = function (x1, y1, w1, h1, x2, y2, w2, h2) {
         return true;
     }
 };
+
+	var calcDistanceToMove = function(delta, speed) {
+        //console.log("#delta = " + delta + " speed = " + speed);
+        return (speed * delta) /10;
+    };
+	
+

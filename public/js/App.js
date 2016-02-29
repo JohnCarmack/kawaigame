@@ -15,6 +15,8 @@ var allPlayersStates = {};
 var allPlayers={};
 //position du joueur
 var pos;
+//direction envoyée sous forme de string
+var direct;
 //pseudo du joueur
 var username;
 var j;
@@ -25,13 +27,15 @@ var delta, oldTime = 0;
 var nbImages =0;
 var nbFramesOfAnimationBetweenRedraws = 0;
 
-var DIR_S=  0;
-var DIR_W=  1;
-var DIR_N = 3;
-var DIR_E = 2;
+var DIR_S=  1;
+var DIR_W=  2;
+var DIR_N = 0;
+var DIR_E = 3;
 var NB_DIRECTIONS = 4;
-var NB_FRAMES_PER_POSTURE = 4;
+var NB_FRAMES_PER_POSTURE = 3;
 
+var etoile = new Image();
+etoile.src = "images/etoile.png";
 
 var MapLevel1;
 
@@ -55,6 +59,12 @@ var gameStates = {
     homeInfos: 5
 };
 
+var timer = function(currentTime) {
+	var delta = currentTime - oldTime;
+	oldTime = currentTime;
+	return delta;
+};
+
 function App() {
 
     //console.log("Constructeur principal");
@@ -70,13 +80,8 @@ function App() {
     //joueur test
 
 
-	MapLevel1 = new Map(4, context);
+	MapLevel1 = new Map(1, context);
 
-   // j = new Joueur(0, 0, null, 0, 0, 4, 0, 0, 0);
-    j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "./images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
-    j.initSprites(52,76,4,4);
-    allPlayers[username] = j;
-    //createOnePlayer("Sal1am", 100, 100, 10);	
     //ajout des actions pour chaque menu
     startGame(3, allPlayers);
 
@@ -91,7 +96,7 @@ function App() {
 var mainLoop = function(time)
 {
 	//console.log(cooldown);
-	delta = timer(time, oldTime);
+	delta = timer(time);
 	clearCanvas();
 	//console.log("k");
 	//console.log(displayMenu);
@@ -190,14 +195,17 @@ function drawCurrentMenu(){
 		context.textAlign = 'center'; 
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
+		movePlayer(allPlayers[username], delta);
 		dessineMap(MapLevel1, context);
 		drawAllPlayers();
 		for( name in allPlayers){
-		MonsterCollisionWithWalls(allPlayers[name], h, w);
+			MonsterCollisionWithWalls(allPlayers[name], h, w);
 		}
+		drawAllPlayers();
+
 	}
 
-	if(currentGameState == gameStates.homeInfos) // pas de menu
+	if(currentGameState == gameStates.homeInfos) // menu d'infos
 	{
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
@@ -210,16 +218,25 @@ function drawCurrentMenu(){
 		
 	}
 
-	if(currentGameState == gameStates.homeScores) // pas de menu
+	if(currentGameState == gameStates.homeScores) // menu de scores
 	{
 		context.textBaseline = 'middle';
 	  	context.textAlign = "center";
 		context.font = '40pt Calibri';
-		policeSize = 40;
+		policeSize = 30;
 		context.fillStyle = 'white';
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
-		context.fillText("Vous avez cliqué sur scores !!", w/2, spaceBetweenMenus*2);
+		context.fillText("Meilleurs scores", w/2, spaceBetweenMenus+50);
+		//context.fillText("Score:", w/2, spaceBetweenMenus + 100);
+		var t = 120;
+		for( name in allPlayers){
+			context.save();
+			drawHighScore(allPlayers[name],context, t);
+			t += 50;
+			context.restore();
+		}
+		context.drawImage(etoile, w/4+25, 0);
 	}
 }
 
@@ -240,23 +257,32 @@ function addKeyListeners() {
   	}
     if (event.keyCode === 37){
       inputStates.left = true;
-      movePlayer(allPlayers[username]);
+      allPlayers[username].moving = true;
+      allPlayers[username].dir=DIR_W;
+      //movePlayer(allPlayers[username], delta);
       //console.log("left");
   	}
     if (event.keyCode === 38){
       inputStates.up = true;
-      movePlayer(allPlayers[username]);
+      allPlayers[username].moving = true;
+      allPlayers[username].dir=DIR_N;
+      //movePlayer(allPlayers[username], delta);
       //console.log("down");
   	}
     if (event.keyCode === 39){
         inputStates.right = true;
-        movePlayer(allPlayers[username]);
+        allPlayers[username].moving = true;
+        allPlayers[username].dir=DIR_E;
+        //movePlayer(allPlayers[username], delta);
         //console.log("right");
     }
     if (event.keyCode === 40){
       inputStates.down = true;
-      movePlayer(allPlayers[username]);
+      allPlayers[username].moving = true;
+      allPlayers[username].dir=DIR_S;
+      //movePlayer(allPlayers[username], delta);
   	}
+	
     if (event.keyCode === 32)
       inputStates.space = true;
   }, false);
@@ -265,27 +291,32 @@ function addKeyListeners() {
   window.addEventListener('keyup', function(event) {
   	if(event.keyCode === 27){
   		inputStates.esc = false;
-  		stopPlayer(allPlayers[username]);
+  		allPlayers[username].moving = false;
+  		//stopPlayer(allPlayers[username]);
   		//setPlayerMoving(j, false);
   	}
     if (event.keyCode === 37){
       inputStates.left = false;
-      stopPlayer(allPlayers[username]);
+      allPlayers[username].moving = false;
+      //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
     }
     if (event.keyCode === 38){
       inputStates.up = false;
-      stopPlayer(allPlayers[username]);
+      allPlayers[username].moving = false;
+      //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 39){
       inputStates.right = false;
-      stopPlayer(allPlayers[username]);
+      allPlayers[username].moving = false;
+      //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 40){
       inputStates.down = false;
-      stopPlayer(allPlayers[username]);
+      allPlayers[username].moving = false;
+      //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 32){
@@ -297,15 +328,34 @@ function addKeyListeners() {
   // Mouse event listeners
   canvas.addEventListener('mousemove', function(evt) {
     inputStates.mousePos = getMousePos(evt);
+	//allPlayers[username].moving = true;
   }, false);
 
   canvas.addEventListener('mousedown', function(evt) {
     inputStates.mousedown = true;
     inputStates.mouseButton = evt.button;
+	if(currentGameState === gameStates.running){
+		allPlayers[username].moving = true;
+		var diffx = inputStates.mousePos.x-allPlayers[username].x;
+		var diffy = inputStates.mousePos.y-allPlayers[username].y; 
+		if(inputStates.mousePos.y < allPlayers[username].y && inputStates.mousePos.x >= inputStates.mousePos.x-diffx-diffy && inputStates.mousePos.x <= inputStates.mousePos.x-diffx+diffy){
+				allPlayers[username].dir = DIR_N;
+		} 
+		if(inputStates.mousePos.y > allPlayers[username].y && inputStates.mousePos.x <= inputStates.mousePos.x-diffx-diffy && inputStates.mousePos.x >= inputStates.mousePos.x-diffx+diffy){
+				allPlayers[username].dir = DIR_S;
+		}
+		if(inputStates.mousePos.x < allPlayers[username].x && inputStates.mousePos.y > inputStates.mousePos.y+diffx-diffy && inputStates.mousePos.y < inputStates.mousePos.y-diffx+diffy){
+				allPlayers[username].dir = DIR_W;
+		}
+		if(inputStates.mousePos.x > allPlayers[username].x && inputStates.mousePos.y < inputStates.mousePos.y+diffx-diffy && inputStates.mousePos.y > inputStates.mousePos.y-diffx-diffy){
+				allPlayers[username].dir = DIR_E;
+		}
+	}
   }, false);
 
   canvas.addEventListener('mouseup', function(evt) {
     inputStates.mousedown = false;
+	allPlayers[username].moving = false;
   }, false);
 }
 
@@ -321,18 +371,31 @@ function drawAllPlayers(){
 	}
 }
 
-function movePlayer(player){
-	player.moving=true;
-	player.move(delta);
+function movePlayer(player, delta){
+	//console.log("le joueur bouge");
+	if(player.moving){
+		//player.moving=true;
+		player.move(delta);
+	}
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
-	socket.emit('sendpos', pos);
+	//console.log("moving to the "+player.dir);
+	if(player.dir==1)
+		direct = "down";
+	if(player.dir==2)
+		direct = "left";
+	if(player.dir==3)
+		direct = "right";
+	if(player.dir==0)
+		direct = "up";
+	//console.log(direct);	
+	socket.emit('sendpos', pos, direct, player.moving);
 }
-
+/*
 function stopPlayer(player){
 	player.moving=false;
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
-	socket.emit('sendpos', pos);
-}
+	socket.emit('sendpos', pos, direct, player.moving);
+}*/
 function addMenuClicks(){
 
 	//clique sur le menu start
@@ -411,6 +474,15 @@ function dessineMap(map,ctx){
 	map.drawMap(ctx);
 }
 
+function drawHighScore(joueur, context, t){
+	var pseudo = joueur.pseudo;
+	var highScore = joueur.highScore;
+	//context.save();
+	policeSize = 10;
+	context.fillText(pseudo + " : " + highScore, w/2, spaceBetweenMenus + t);
+	//context.restore();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////// Fonctions "réponses" socket.on /////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -425,9 +497,21 @@ function updatePlayers(listOfPlayers){
 	}
 }
 
-function updatePlayerNewPos(user, newPos){
+function updatePlayerNewPos(user, newPos, dir, moving){
 	allPlayers[user].x = newPos.posX;
 	allPlayers[user].y = newPos.posY;
+	//console.log("newPlayerPos : dir="+dir);
+	if(dir=="down")
+		allPlayers[user].dir = DIR_S;
+	if(dir=="left")
+		allPlayers[user].dir = DIR_W;
+	if(dir=="up")
+		allPlayers[user].dir = DIR_N;
+	if(dir=="right")
+		allPlayers[user].dir = DIR_E;
+
+	allPlayers[user].moving = moving;
+
 }
 
 //le jeu commence,  au niveau lvl
@@ -444,7 +528,7 @@ function startGame(lvl,listOfPlayers){
 		}
 		for (name in allPlayers)
 		{
-			allPlayers[name].initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			allPlayers[name].initSprites(33, 33, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 		}
 		currentGameState = gameStates.running;
 	}
@@ -457,11 +541,13 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 	if(typeof allPlayers[name]!='undefined'){
 		allPlayers[name].speed = speed;
 		allPlayers[name].isLevelDone = isLvLDone;
-		allPlayers[name].isDead = dead;
+		allPlayers[name].dead = isDead;
 	}
 }
 function createOnePlayer(name,x,y,speed){
-	var j = new Joueur(name, 0, x, y, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+
+	var j = new Joueur(name, 0, x, y, 1, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
@@ -469,3 +555,5 @@ function createOnePlayer(name,x,y,speed){
 	allPlayers[name]=j;
 	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
 }
+
+
