@@ -1,3 +1,4 @@
+function RecuperationRooms(){
 $.ajax({url: "/rooms", success: function(result){
 	
 	for(i = 0; i < result.length; i++){
@@ -10,6 +11,7 @@ $.ajax({url: "/rooms", success: function(result){
 	}
               
 }});
+}
 
 function FirstRoom(){
 	var roomBefore = document.getElementById('rooms').value;

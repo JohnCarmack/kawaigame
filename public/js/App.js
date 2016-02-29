@@ -283,6 +283,7 @@ function addKeyListeners() {
       allPlayers[username].dir=DIR_S;
       //movePlayer(allPlayers[username], delta);
   	}
+	
     if (event.keyCode === 32)
       inputStates.space = true;
   }, false);
@@ -328,15 +329,34 @@ function addKeyListeners() {
   // Mouse event listeners
   canvas.addEventListener('mousemove', function(evt) {
     inputStates.mousePos = getMousePos(evt);
+	//allPlayers[username].moving = true;
   }, false);
 
   canvas.addEventListener('mousedown', function(evt) {
     inputStates.mousedown = true;
     inputStates.mouseButton = evt.button;
+	if(currentGameState === gameStates.running){
+		allPlayers[username].moving = true;
+		var diffx = inputStates.mousePos.x-allPlayers[username].x;
+		var diffy = inputStates.mousePos.y-allPlayers[username].y; 
+		if(inputStates.mousePos.y < allPlayers[username].y && inputStates.mousePos.x >= inputStates.mousePos.x-diffx-diffy && inputStates.mousePos.x <= inputStates.mousePos.x-diffx+diffy){
+				allPlayers[username].dir = DIR_N;
+		} 
+		if(inputStates.mousePos.y > allPlayers[username].y && inputStates.mousePos.x <= inputStates.mousePos.x-diffx-diffy && inputStates.mousePos.x >= inputStates.mousePos.x-diffx+diffy){
+				allPlayers[username].dir = DIR_S;
+		}
+		if(inputStates.mousePos.x < allPlayers[username].x && inputStates.mousePos.y > inputStates.mousePos.y+diffx-diffy && inputStates.mousePos.y < inputStates.mousePos.y-diffx+diffy){
+				allPlayers[username].dir = DIR_W;
+		}
+		if(inputStates.mousePos.x > allPlayers[username].x && inputStates.mousePos.y < inputStates.mousePos.y+diffx-diffy && inputStates.mousePos.y > inputStates.mousePos.y-diffx-diffy){
+				allPlayers[username].dir = DIR_E;
+		}
+	}
   }, false);
 
   canvas.addEventListener('mouseup', function(evt) {
     inputStates.mousedown = false;
+	allPlayers[username].moving = false;
   }, false);
 }
 
@@ -353,20 +373,20 @@ function drawAllPlayers(){
 }
 
 function movePlayer(player, delta){
-	console.log("le joueur bouge");
+	//console.log("le joueur bouge");
 	if(player.moving){
 		//player.moving=true;
 		player.move(delta);
 	}
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
 	//console.log("moving to the "+player.dir);
-	if(player.dir==0)
-		direct = "down";
 	if(player.dir==1)
-		direct = "left";
+		direct = "down";
 	if(player.dir==2)
-		direct = "right";
+		direct = "left";
 	if(player.dir==3)
+		direct = "right";
+	if(player.dir==0)
 		direct = "up";
 	//console.log(direct);	
 	socket.emit('sendpos', pos, direct, player.moving);
@@ -524,7 +544,7 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 }
 function createOnePlayer(name,x,y,speed){
 
-	var j = new Joueur(name, 0, x, y, 2, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
+	var j = new Joueur(name, 0, x, y, 1, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
 
 
 	//j.spritesheet.onload = function(){
