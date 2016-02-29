@@ -83,7 +83,7 @@ function App() {
     //j = new Joueur(0, 0, 0, 0, 1, 51, 78, DIR_S, "images/serge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
 
 
-	MapLevel1 = new Map(4, context);
+	MapLevel1 = new Map(4 , context);
 	
     //ajout des actions pour chaque menu
     requestAnimationFrame(mainLoop);
@@ -337,19 +337,19 @@ function addKeyListeners() {
     inputStates.mouseButton = evt.button;
 	if(currentGameState === gameStates.running){
 		allPlayers[username].moving = true;
-		var diffx = inputStates.mousePos.x-allPlayers[username].x;
+		var diffx = inputStates.mousePos.x-allPlayers[username].x;   
 		var diffy = inputStates.mousePos.y-allPlayers[username].y; 
-		if(inputStates.mousePos.y < allPlayers[username].y && inputStates.mousePos.x >= inputStates.mousePos.x-diffx-diffy && inputStates.mousePos.x <= inputStates.mousePos.x-diffx+diffy){
+		if(inputStates.mousePos.y < allPlayers[username].y && diffx >= diffy && diffx <= diffy*(-1)){
 				allPlayers[username].dir = DIR_N;
 		} 
-		if(inputStates.mousePos.y > allPlayers[username].y && inputStates.mousePos.x <= inputStates.mousePos.x-diffx-diffy && inputStates.mousePos.x >= inputStates.mousePos.x-diffx+diffy){
+		if(inputStates.mousePos.y > allPlayers[username].y && diffx <= diffy && diffx >= diffy*(-1)){
 				allPlayers[username].dir = DIR_S;
 		}
-		if(inputStates.mousePos.x < allPlayers[username].x && inputStates.mousePos.y > inputStates.mousePos.y+diffx-diffy && inputStates.mousePos.y < inputStates.mousePos.y-diffx+diffy){
+		if(inputStates.mousePos.x < allPlayers[username].x && diffy >= diffx && diffy <= diffx*(-1)){
 				allPlayers[username].dir = DIR_W;
 		}
-		if(inputStates.mousePos.x > allPlayers[username].x && inputStates.mousePos.y < inputStates.mousePos.y+diffx-diffy && inputStates.mousePos.y > inputStates.mousePos.y-diffx-diffy){
-				allPlayers[username].dir = DIR_E;
+		if(inputStates.mousePos.x > allPlayers[username].x && diffy <= diffx && diffy >= diffx*(-1)){
+				allPlayers[username].dir = DIR_E; 
 		}
 	}
   }, false);
