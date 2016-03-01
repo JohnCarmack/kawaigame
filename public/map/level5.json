@@ -36,10 +36,10 @@
         {
          "draworder":"topdown",
          "height":15,
-         "name":"objetCollisions",
+         "name":"objetCollision",
          "objects":[
                 {
-                 "height":384,
+                 "height":383,
                  "id":3,
                  "name":"",
                  "properties":
@@ -49,12 +49,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":63,
+                 "width":62,
                  "x":-1,
-                 "y":63
+                 "y":64
                 }, 
                 {
-                 "height":66,
+                 "height":64,
                  "id":5,
                  "name":"",
                  "properties":
@@ -64,12 +64,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":63,
-                 "x":577,
+                 "width":62,
+                 "x":578,
                  "y":416
                 }, 
                 {
-                 "height":65,
+                 "height":64,
                  "id":7,
                  "name":"",
                  "properties":

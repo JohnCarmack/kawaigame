@@ -23,7 +23,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
      this.dir;*/
     this.isLevelDone = false;
     this.width = width;
-    this.height = width;
+    this.height = height;
     this.dir = dir;
     this.context = context;
     this.nbImages = nbImages;
@@ -57,10 +57,8 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         } 
              context.restore();   
         }
-        
-        this.context.fillStyle = "rgba(0, 200, 0, 0.5)";
-        this.context.fillRect (this.x, this.y, this.width, this.height);
-        
+//context.fillStyle = "rgba(0, 0, 200, 0.5)";
+  //          context.fillRect (this.x, this.y, this.width, this.height);        
         context.restore();
     };
 
@@ -136,7 +134,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
             var objet = listeObjets[objetIndex];
 
             if (objet.properties.blocking) {
-                var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y+(objet.height/2), objet.width, objet.height);
+                var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
                 if (boolCollision) {
                     return true;
                 }

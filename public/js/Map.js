@@ -41,7 +41,7 @@ function Map(index, canvas) {
     this.drawMap = function (canvasC) {
         
         var x = 0;
-        for (var a = 0; a < this.layersT.length; a++) {
+        for (var a = 0; a < this.layersT.length-1; a++) {
             x = 0;
             for (var u = 0; u < this.tiles.length; u++) {
                 
@@ -66,8 +66,8 @@ function Map(index, canvas) {
         for(var i in this.objetsCollision){
             var objet = this.objetsCollision[i];
             
-            canvasC.fillStyle = "rgba(0, 0, 200, 0.5)";
-            canvasC.fillRect (objet.x, objet.y+objet.height/2, objet.width, objet.height);
+            //canvasC.fillStyle = "rgba(0, 0, 200, 0.5)";
+            //canvasC.fillRect(objet.x, objet.y, objet.width, objet.height);
         }
     };
 

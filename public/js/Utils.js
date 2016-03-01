@@ -15,11 +15,11 @@ function circRectsOverlap(x0, y0, w0, h0, cx, cy, r) {
     return (((cx - testX) * (cx - testX) + (cy - testY) * (cy - testY)) < r * r);
 }
 // Collisions between aligned rectangles
-function rectsOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
+function collisionRectangles(x1, y1, w1, h1, x2, y2, w2, h2) {
 
-    if ((x1 > (x2 + w2)) || ((x1 + w1) < x2))
+    if ((x1 >= (x2 + w2)) || ((x1 + w1) <= x2))
         return false; // No horizontal axis projection overlap
-    if ((y1 > (y2 + h2)) || ((y1 + h1) < y2))
+    if ((y1 >= (y2 + h2)) || ((y1 + h1) <= y2))
         return false; // No vertical axis projection overlap
     return true;    // If previous tests failed, then both axis projections
     // overlap and the rectangles intersect
@@ -77,7 +77,7 @@ function timer(currentTime, oldTime) {
 
 }
 
-collisionRectangles = function (x1, y1, w1, h1, x2, y2, w2, h2) {
+/*collisionRectangles = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 
     if (    x1 < (x2 + w2) &&
             (x1 + w1) > x2 &&
@@ -86,7 +86,7 @@ collisionRectangles = function (x1, y1, w1, h1, x2, y2, w2, h2) {
     {
         return true;
     }
-};
+};*/
 
 	var calcDistanceToMove = function(delta, speed) {
         //console.log("#delta = " + delta + " speed = " + speed);
