@@ -44,7 +44,7 @@ function Map(index, canvas) {
         for (var a = 0; a < this.layersT.length; a++) {
             x = 0;
             for (var u = 0; u < this.tiles.length; u++) {
-
+                
 
                 x = 0;
                 for (var i = 0; i < this.height; i++) {
@@ -78,11 +78,16 @@ function Map(index, canvas) {
                 index = i;
             }
         }
+        
+        if(index){
+            var collision = this.layersT[index];
+           var objetsArray = collision.objects;
 
-        var collision = this.layersT[index];
-        var objetsArray = collision.objects;
-
-        this.objetsCollision = objetsArray;
+            this.objetsCollision = objetsArray;
+        }else{
+            // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
+            this.objetsCollision = null;
+        }
     };
 
 }

@@ -80,7 +80,7 @@ function App() {
     //joueur test
 
 
-	MapLevel1 = new Map(1, context);
+	MapLevel1 = new Map(4, context);
 
     //ajout des actions pour chaque menu
     startGame(3, allPlayers);
@@ -517,6 +517,10 @@ function updatePlayerNewPos(user, newPos, dir, moving){
 //le jeu commence,  au niveau lvl
 function startGame(lvl,listOfPlayers){
 	
+        for(var i in listOfPlayers){
+            createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v);
+        }
+        
 	allPlayersStates = listOfPlayers;
 	level = lvl;
 	if(level == 0)
@@ -546,8 +550,8 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 }
 function createOnePlayer(name,x,y,speed){
 
-	var j = new Joueur(name, 0, x, y, 1, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context);
-
+	var j = new Joueur(name, 0, x, y, 1, 33, 33, DIR_S, "images/hero.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+        j.initSprites(32,32,4,3);
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};

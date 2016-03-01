@@ -47,6 +47,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 
     this.draw = function (context) {
         context.save();
+        
         if(!this.dead){
 			if(!this.moving) {
 				//console.log(this.dir);
@@ -96,8 +97,8 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 					var dx = this.x - inputStates.mousePos.x;
 					var dy = this.y - inputStates.mousePos.y;
 					var angle = Math.atan2(dy, dx);
-					var deplX -= calcDistanceToMove(delta,2*Math.cos(angle));
-					var deplY -= calcDistanceToMove(delta,2*Math.sin(angle));
+					var deplX = calcDistanceToMove(delta,2*Math.cos(angle));
+					var deplY = calcDistanceToMove(delta,2*Math.sin(angle));
 
                     this.x += deplX;
                     this.y += deplY;
@@ -126,9 +127,9 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
             this.y -= deplY;
         }
     };
+        }
 
     this.isCollision = function () {
-        
         var listeObjets = this.map.objetsCollision;
 
         for (var objetIndex in listeObjets) {
@@ -143,6 +144,5 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         }
     };
 
-}
 }
 
