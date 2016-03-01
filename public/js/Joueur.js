@@ -58,7 +58,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
              context.restore();   
         }
 //context.fillStyle = "rgba(0, 0, 200, 0.5)";
-  //          context.fillRect (this.x, this.y, this.width, this.height);        
+ //           context.fillRect (this.x, this.y, this.width, this.height);        
         context.restore();
     };
 
