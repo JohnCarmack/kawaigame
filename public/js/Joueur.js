@@ -1,51 +1,53 @@
 
 
 /*function Joueur(pseudo, x, y, speed) {
-    this.pseudo = pseudo;
-	this.highScore;
-	this.sprite;*/
+ this.pseudo = pseudo;
+ this.highScore;
+ this.sprite;*/
 
-function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImages, nbFramesOfAnimationBetweenRedraws, context) {
+function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImages, nbFramesOfAnimationBetweenRedraws, context, map) {
     this.pseudo = pseudo;
-	this.highScore = highScore;
-	this.spritesheet = new Image();
-    this.spritesheet.src=img;
-	this.spritesMan = [];
-	this.dead = false;
-	this.moving = false;
-	this.x = x;
-	this.y = y;
-	this.speed = speed;
-    this.speedX;
-    this.speedY;
-	/*this.width;
-	this.height;
-	this.dir;*/
-    this.isLevelDone=false;
-	this.width = width;
-	this.height = width;
-	this.dir=dir;
-	this.context=context;
-	this.nbImages =nbImages;
+    this.highScore = highScore;
+    this.spritesheet = new Image();
+    this.spritesheet.src = img;
+    this.spritesMan = [];
+    this.dead = false;
+    this.moving = false;
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.speedX = this.speed;
+    this.speedY = this.speed;
+    /*this.width;
+     this.height;
+     this.dir;*/
+    this.isLevelDone = false;
+    this.width = width;
+    this.height = width;
+    this.dir = dir;
+    this.context = context;
+    this.nbImages = nbImages;
     this.nbFramesOfAnimationBetweenRedraws = nbFramesOfAnimationBetweenRedraws;
-	
-	this.initSprites = function(spriteWidth, spriteHeight, nbLinesOfSprites,nbSpritesPerLine) { 	
-		// on parcour l'image et pour chaque ligne (correspondant à une direction)
-		// on extrait un sprite
-		for(var i= 0; i < nbLinesOfSprites; i++) {
-			var yLineForCurrentDir = i*spriteHeight;
+    this.map = map;
 
-			var sprite = new Sprite(this.spritesheet, 0, yLineForCurrentDir, 
-									spriteWidth, spriteHeight, 
-									nbSpritesPerLine,
-									3, this.context); // draw every 1s
-			this.spritesMan[i] = sprite;
-		}
-    
-	}
-	
-    this.draw = function(context) {
+    this.initSprites = function (spriteWidth, spriteHeight, nbLinesOfSprites, nbSpritesPerLine) {
+
+        // on parcour l'image et pour chaque ligne (correspondant à une direction)
+        // on extrait un sprite
+        for (var i = 0; i < nbLinesOfSprites; i++) {
+            var yLineForCurrentDir = i * spriteHeight;
+
+            var sprite = new Sprite(this.spritesheet, 0, yLineForCurrentDir,
+                    spriteWidth, spriteHeight,
+                    nbSpritesPerLine,
+                    3, this.context); // draw every 1s
+            this.spritesMan[i] = sprite;
+        }
+    }
+
+    this.draw = function (context) {
         context.save();
+        
         if(!this.dead){
 			if(!this.moving) {
 				//console.log(this.dir);
@@ -55,6 +57,11 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         } 
              context.restore();   
         }
+        
+        this.context.fillStyle = "rgba(0, 200, 0, 0.5)";
+        this.context.fillRect (this.x, this.y, this.width, this.height);
+        
+        context.restore();
     };
 
 	this.move = function(delta){
@@ -90,8 +97,16 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 					var dx = this.x - inputStates.mousePos.x;
 					var dy = this.y - inputStates.mousePos.y;
 					var angle = Math.atan2(dy, dx);
-					this.x -= calcDistanceToMove(delta,2*Math.cos(angle));
-					this.y -= calcDistanceToMove(delta,2*Math.sin(angle));
+					var deplX = calcDistanceToMove(delta,2*Math.cos(angle));
+					var deplY = calcDistanceToMove(delta,2*Math.sin(angle));
+
+                    this.x += deplX;
+                    this.y += deplY;
+
+                        if (this.isCollision()) {
+                            this.x -= deplX;
+                            this.y -= deplY;
+                        }
 				}
                 /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
 				
@@ -101,12 +116,33 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 			}*/
              
             } 
-			this.x += calcDistanceToMove(delta, this.speedX);  
-			this.y += calcDistanceToMove(delta, this.speedY);
-			//context.restore();   
-			//console.log("x:"+this.x+" y:"+this.y);
+        var deplX = calcDistanceToMove(delta, this.speedX);
+        var deplY = calcDistanceToMove(delta, this.speedY);
+
+        this.x += deplX;
+        this.y += deplY;
+
+        if (this.isCollision()) {
+            this.x -= deplX;
+            this.y -= deplY;
         }
-		
-    }
+    };
+        }
+
+    this.isCollision = function () {
+        var listeObjets = this.map.objetsCollision;
+
+        for (var objetIndex in listeObjets) {
+            var objet = listeObjets[objetIndex];
+
+            if (objet.properties.blocking) {
+                var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y+(objet.height/2), objet.width, objet.height);
+                if (boolCollision) {
+                    return true;
+                }
+            }
+        }
+    };
+
 }
 
