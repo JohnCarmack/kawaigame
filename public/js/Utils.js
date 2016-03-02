@@ -93,4 +93,8 @@ function timer(currentTime, oldTime) {
         return (speed * delta) /10;
     };
 	
+    function goToNextLevel() {
+        currentLevelTime = 0;
+        level++;         
+    }
 

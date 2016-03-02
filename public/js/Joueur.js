@@ -105,6 +105,20 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                             this.x += SdeplX;
                             this.y += SdeplY;
                         }
+						
+						if (this.isRetourDebut()) {
+							this.x = 35;
+							this.y = 35;
+						}
+						
+						if (this.isFin()) {
+							this.isLevelDone = true;
+							this.moving = false;
+						}
+						
+						if (this.isRalentisseur()) {
+							this.speed = 1;
+						}
 				}
                 /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
 				
@@ -124,6 +138,20 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
             this.x -= deplX;
             this.y -= deplY;
         }
+		
+		if (this.isRetourDebut()) {
+            this.x = 35;
+            this.y = 35;
+        }
+		
+		if (this.isFin()) {
+            this.isLevelDone = true;
+			this.moving = false;
+        }
+		
+		if (this.isRalentisseur()) {
+            this.speed = 1;
+        }
     };
         }
 
@@ -141,6 +169,45 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
             }
         }
     };
+	
+	this.isFin = function (){
+		var fin = this.map.objetFin;
+		
+		for (var objetIndex in fin) {
+            var objet = fin[objetIndex];
+
+                var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
+                if (boolCollision) {
+                    return true;
+                }
+        }
+	};
+	
+	this.isRalentisseur = function (){
+		var ralentisseur = this.map.objetsRalentisseur;
+		
+		for (var objetIndex in ralentisseur) {
+            var objet = ralentisseur[objetIndex];
+
+                var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
+                if (boolCollision) {
+                    return true;
+                }
+        }
+	};
+	
+	this.isRetourDebut = function (){
+		var retourDebut = this.map.objetsRetourDebut;
+		
+		for (var objetIndex in retourDebut) {
+            var objet = retourDebut[objetIndex];
+
+                var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
+                if (boolCollision) {
+                    return true;
+                }
+        }
+	};
 
 }
 

@@ -9,6 +9,9 @@ function Map(index, canvas) {
     this.tileheight = 0;
 
     this.objetsCollision = [];
+	this.objetFin = [];
+	this.objetsRalentisseur = [];
+	this.objetsRetourDebut = [];
 
     this.getMap = function () {
         $.ajax(
@@ -34,6 +37,9 @@ function Map(index, canvas) {
                         }
 
                         this.initialiserCollisions();
+						this.initialiserFin();
+						this.initialiserRalentisseurs();
+						this.initialiserRetourDebut();
 
                     }.bind(this)});
     };
@@ -50,7 +56,7 @@ function Map(index, canvas) {
                 for (var i = 0; i < this.height; i++) {
                     for (var j = 0; j < this.width; j++) {
 
-                        if (this.layersT[a].name === "objetCollision" ||this.layersT[a].name === "fin" || this.layersT[a].name === "ralentisseur") {
+                        if (this.layersT[a].name === "objetCollision" ||this.layersT[a].name === "fin" || this.layersT[a].name === "ralentisseur" || this.layersT[a].name === "retourDebut") {
                             continue;
                         }
                         if (this.layersT[a].data[x] === this.tiles[u].firstgid) {
@@ -64,12 +70,12 @@ function Map(index, canvas) {
             }
         }
         
-        for(var i in this.objetsCollision){
+        /*for(var i in this.objetsCollision){
             var objet = this.objetsCollision[i];
             
             //canvasC.fillStyle = "rgba(0, 0, 200, 0.5)";
             //canvasC.fillRect(objet.x, objet.y, objet.width, objet.height);
-        }
+        }*/
     };
 
     this.initialiserCollisions = function () {
@@ -88,6 +94,63 @@ function Map(index, canvas) {
         }else{
             // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
             this.objetsCollision = null;
+        }
+    };
+	
+	    this.initialiserFin = function () {
+        var index;
+        for (var i = 0; i < this.layersT.length; i++) {
+            if (this.layersT[i].name === "fin") {
+                index = i;
+            }
+        }
+        
+        if(index){
+            var fin = this.layersT[index];
+           var objetsArray = fin.objects;
+
+            this.objetFin = objetsArray;
+        }else{
+            // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
+            this.objetFin = null;
+        }
+    };
+	
+	this.initialiserRalentisseurs = function () {
+        var index;
+        for (var i = 0; i < this.layersT.length; i++) {
+            if (this.layersT[i].name === "ralentisseur") {
+                index = i;
+            }
+        }
+        
+        if(index){
+            var ralentisseur = this.layersT[index];
+           var objetsArray = ralentisseur.objects;
+
+            this.objetRalentisseur = objetsArray;
+        }else{
+            // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
+            this.objetRalentisseur = null;
+        }
+    };
+	
+	this.initialiserRetourDebut = function () {
+        var index;
+        for (var i = 0; i < this.layersT.length; i++) {
+            if (this.layersT[i].name === "retourDebut") {
+                index = i;
+            }
+        }
+        
+        if(index){
+            var retourDebut = this.layersT[index];
+           var objetsArray = retourDebut.objects;
+
+            this.objetRetourDebut = objetsArray;
+        }else{
+            // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
+            this.objetRetourDebut = null;
         }
     };
 

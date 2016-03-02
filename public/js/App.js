@@ -22,6 +22,7 @@ var direct;
 var username;
 var j;
 var level=0;
+var currentLevelTime =0;
 
 var delta, oldTime = 0;
 
@@ -81,12 +82,15 @@ function App() {
     //joueur test
 
 
-	MapLevel1 = new Map(6 , context);
+	MapLevel1 = new Map(1 , context);
+	MapLevel2 = new Map(2 , context);
+
 	
     //ajout des actions pour chaque menu
-    startGame(3, allPlayers);
+    startGame(1, allPlayers);
 
 	recupereMap(MapLevel1);
+	recupereMap(MapLevel2);
 
     currentGameState = gameStates.home;
     //set le cooldown ࠴00ms (un clic tous les 400ms sera pris en compte)
@@ -129,6 +133,16 @@ function keyFunctions(){
 		{
 			currentGameState = gameStates.home;
 		}
+	}
+}
+
+
+function ToLevel(lvl){
+	if(lvl === 1){
+		dessineMap(MapLevel1, context);
+	}
+	if(lvl === 2){
+		dessineMap(MapLevel2, context);
 	}
 }
 
@@ -196,13 +210,14 @@ function drawCurrentMenu(){
 		context.textAlign = 'center'; 
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
+		currentLevelTime += delta;
 		movePlayer(allPlayers[username], delta);
-		dessineMap(MapLevel1, context);
+		ToLevel(level);
 		drawAllPlayers();
 		for( name in allPlayers){
 			MonsterCollisionWithWalls(allPlayers[name], h, w);
 		}
-		drawAllPlayers();
+		//drawAllPlayers();
 
 	}
 
@@ -551,7 +566,7 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 }
 function createOnePlayer(name,x,y,speed){
 
-	var j = new Joueur(name, 0, x, y, 1, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+	var j = new Joueur(name, 0, x, y, speed, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
        j.initSprites(32,32,4,3);
 	   RecuperationDonnees(j);
 	//j.spritesheet.onload = function(){
