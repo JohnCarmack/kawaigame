@@ -11,6 +11,7 @@ var cooldown=true;
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
 
+
 var allPlayersStates = {};
 var allPlayers={};
 //position du joueur
@@ -532,7 +533,7 @@ function startGame(lvl,listOfPlayers){
 		}
 		for (name in allPlayers)
 		{
-			allPlayers[name].initSprites(33, 33, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 		}
 		currentGameState = gameStates.running;
 	}
@@ -550,8 +551,8 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 }
 function createOnePlayer(name,x,y,speed){
 
-	var j = new Joueur(name, 0, x, y, 1, 22, 28, DIR_S, "images/hero2.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
-        j.initSprites(32,32,4,3);
+	var j = new Joueur(name, 0, x, y, 1, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+       j.initSprites(32,32,4,3);
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
