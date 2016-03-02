@@ -81,7 +81,7 @@ function App() {
     //joueur test
 
 
-	MapLevel1 = new Map(5 , context);
+	MapLevel1 = new Map(6 , context);
 	
     //ajout des actions pour chaque menu
     startGame(3, allPlayers);
