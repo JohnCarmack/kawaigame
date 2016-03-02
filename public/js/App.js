@@ -553,6 +553,7 @@ function createOnePlayer(name,x,y,speed){
 
 	var j = new Joueur(name, 0, x, y, 1, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
        j.initSprites(32,32,4,3);
+	   RecuperationDonnees(j);
 	//j.spritesheet.onload = function(){
 	//j.initSprites(51, 78, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 	//};
