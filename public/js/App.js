@@ -84,7 +84,6 @@ function App() {
 
 	MapLevel1 = new Map(1 , context);
 	MapLevel2 = new Map(2 , context);
-
 	
     //ajout des actions pour chaque menu
     startGame(1, allPlayers);

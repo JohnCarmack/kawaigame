@@ -181,7 +181,9 @@ io.sockets.on('connection', function (socket) {
         // listOfPlayer = {'michel':{'x':0, 'y':0, 'v':0},
         //                          john:{'x':10, 'y':10, 'v':0}}
         // for this example we have x, y and v for speed... ?
+
         var player = {'x':35, 'y':35, 'v':2};
+
         listOfPlayers[username] = player;
         console.log("user created : "+username);
         io.sockets.emit('updatePlayers',listOfPlayers);

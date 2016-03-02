@@ -1,17 +1,374 @@
 { "height":15,
  "layers":[
         {
-         "data":[1, 2, 2577, 2577, 5153, 5154, 1289, 1290, 1289, 1290, 1289, 1290, 1289, 1290, 1289, 1290, 2577, 2577, 2577, 2577, 47, 48, 2577, 2577, 5199, 5200, 1335, 1336, 1335, 1336, 1335, 1336, 1335, 1336, 1335, 1336, 2577, 1, 2, 2577, 1, 2, 2577, 1289, 1290, 1289, 1290, 2577, 2577, 2577, 2577, 1, 2, 2577, 2577, 2577, 5200, 47, 48, 2577, 47, 48, 2577, 1335, 1336, 1335, 1336, 2577, 1, 2, 2577, 47, 48, 2577, 1289, 1290, 2577, 2577, 2577, 2577, 1, 2, 2577, 2577, 2577, 2577, 2577, 2577, 47, 48, 2577, 1289, 1290, 2577, 1335, 1336, 2577, 1289, 1290, 2577, 47, 48, 2577, 1289, 1290, 5153, 5154, 1, 2, 1, 2, 1335, 1336, 2577, 1289, 1290, 2577, 1335, 1336, 2577, 1, 2, 2577, 1335, 1336, 5199, 5200, 47, 48, 47, 48, 2577, 5153, 5154, 1335, 1336, 2577, 1, 2, 2577, 47, 48, 2577, 2577, 2577, 2577, 1, 2, 2577, 2577, 2577, 2577, 5199, 5200, 5153, 5154, 2577, 47, 48, 2577, 1, 2, 2577, 1289, 1290, 2577, 47, 48, 2577, 1289, 1290, 2577, 1, 2, 5199, 5200, 2577, 1, 2, 2577, 47, 48, 2577, 1335, 1336, 2577, 1, 2, 2577, 1335, 1336, 2577, 47, 48, 2577, 2577, 2577, 47, 48, 2577, 1, 2, 2577, 1289, 1290, 2577, 47, 48, 2577, 1289, 1290, 2577, 5200, 5200, 2577, 1289, 1290, 1289, 1290, 2577, 47, 48, 2577, 1335, 1336, 2577, 2577, 2577, 2577, 1335, 1336, 2577, 2577, 2577, 2577, 1335, 1336, 1335, 1336, 2577, 1, 2, 1289, 1290, 1289, 1290, 1289, 1290, 5153, 5154, 1, 2, 1, 2, 5200, 1289, 1290, 2577, 2577, 2577, 47, 48, 1335, 1336, 1335, 1336, 1335, 1336, 5199, 5200, 47, 48, 47, 48, 5200, 1335, 1336, 2577, 1, 2, 6441, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 47, 48],
+         "data":[9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
          "height":15,
-         "name":"Calque de Tile 1",
+         "name":"sol",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
          "width":20,
          "x":0,
          "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 5, 6, 5, 6, 5, 6, 5, 6, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 7, 8, 7, 8, 7, 8, 7, 8, 0, 1, 2, 0, 1, 2, 0, 5, 6, 5, 6, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 3, 4, 0, 3, 4, 0, 7, 8, 7, 8, 0, 1, 2, 0, 3, 4, 0, 5, 6, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 3, 4, 0, 5, 6, 0, 7, 8, 0, 5, 6, 0, 3, 4, 0, 5, 6, 0, 0, 1, 2, 1, 2, 7, 8, 0, 5, 6, 0, 7, 8, 0, 1, 2, 0, 7, 8, 0, 0, 3, 4, 3, 4, 0, 0, 0, 7, 8, 0, 1, 2, 0, 3, 4, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 0, 1, 2, 0, 5, 6, 0, 3, 4, 0, 5, 6, 0, 1, 2, 0, 0, 0, 1, 2, 0, 3, 4, 0, 7, 8, 0, 1, 2, 0, 7, 8, 0, 3, 4, 0, 0, 0, 3, 4, 0, 1, 2, 0, 5, 6, 0, 3, 4, 0, 5, 6, 0, 0, 0, 0, 5, 6, 5, 6, 0, 3, 4, 0, 7, 8, 0, 0, 0, 0, 7, 8, 0, 0, 0, 0, 7, 8, 7, 8, 0, 1, 2, 5, 6, 5, 6, 5, 6, 0, 0, 1, 2, 1, 2, 0, 5, 6, 0, 0, 0, 3, 4, 7, 8, 7, 8, 7, 8, 0, 0, 3, 4, 3, 4, 0, 7, 8, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4],
+         "height":15,
+         "name":"arbre",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[15, 15, 15, 15, 10, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 12, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 13, 0, 0, 0, 0, 0, 10, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 13, 10, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 11, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 13, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":15,
+         "name":"rocher",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":15,
+         "name":"objetCollision",
+         "objects":[
+                {
+                 "height":362,
+                 "id":3,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":56,
+                 "x":0,
+                 "y":64
+                }, 
+                {
+                 "height":59,
+                 "id":5,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":58,
+                 "x":582,
+                 "y":421
+                }, 
+                {
+                 "height":46,
+                 "id":7,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":374,
+                 "x":132,
+                 "y":-1
+                }, 
+                {
+                 "height":45,
+                 "id":8,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":116,
+                 "x":102,
+                 "y":63
+                }, 
+                {
+                 "height":61,
+                 "id":9,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":52,
+                 "x":262,
+                 "y":100
+                }, 
+                {
+                 "height":109,
+                 "id":10,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":352,
+                 "y":64
+                }, 
+                {
+                 "height":42,
+                 "id":11,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":247,
+                 "x":102,
+                 "y":164
+                }, 
+                {
+                 "height":139,
+                 "id":12,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":56,
+                 "x":388,
+                 "y":192
+                }, 
+                {
+                 "height":168,
+                 "id":13,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":54,
+                 "x":453,
+                 "y":102
+                }, 
+                {
+                 "height":13,
+                 "id":14,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":51,
+                 "x":514,
+                 "y":66
+                }, 
+                {
+                 "height":42,
+                 "id":15,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":50,
+                 "x":551,
+                 "y":37
+                }, 
+                {
+                 "height":232,
+                 "id":16,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":51,
+                 "x":550,
+                 "y":129
+                }, 
+                {
+                 "height":103,
+                 "id":17,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":56,
+                 "x":483,
+                 "y":323
+                }, 
+                {
+                 "height":37,
+                 "id":18,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":478,
+                 "x":34,
+                 "y":389
+                }, 
+                {
+                 "height":122,
+                 "id":19,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":52,
+                 "x":101,
+                 "y":261
+                }, 
+                {
+                 "height":111,
+                 "id":20,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":54,
+                 "x":198,
+                 "y":224
+                }, 
+                {
+                 "height":126,
+                 "id":21,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":54,
+                 "x":292,
+                 "y":259
+                }, 
+                {
+                 "height":19,
+                 "id":23,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":131,
+                 "x":0,
+                 "y":0
+                }, 
+                {
+                 "height":58,
+                 "id":27,
+                 "name":"",
+                 "properties":
+                    {
+                     "blocking":"true"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":26,
+                 "x":0,
+                 "y":4
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":15,
+         "name":"Arriver",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":15,
+         "name":"fin",
+         "objects":[
+                {
+                 "height":23,
+                 "id":30,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":2,
+                 "y":450
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":1,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "properties":
     {
@@ -21,11 +378,11 @@
  "tileheight":32,
  "tilesets":[
         {
-         "columns":46,
+         "columns":2,
          "firstgid":1,
-         "image":"images/Arbre1.png",
-         "imageheight":906,
-         "imagewidth":1498,
+         "image":"..\/images\/Arbre1.png",
+         "imageheight":64,
+         "imagewidth":64,
          "margin":0,
          "name":"Arbre1",
          "properties":
@@ -33,16 +390,16 @@
 
             },
          "spacing":0,
-         "tilecount":1288,
+         "tilecount":4,
          "tileheight":32,
          "tilewidth":32
         }, 
         {
-         "columns":46,
-         "firstgid":1289,
-         "image":"images/Arbre2.png",
-         "imageheight":906,
-         "imagewidth":1498,
+         "columns":2,
+         "firstgid":5,
+         "image":"..\/images\/Arbre2.png",
+         "imageheight":64,
+         "imagewidth":64,
          "margin":0,
          "name":"Arbre2",
          "properties":
@@ -50,16 +407,16 @@
 
             },
          "spacing":0,
-         "tilecount":1288,
+         "tilecount":4,
          "tileheight":32,
          "tilewidth":32
         }, 
         {
-         "columns":46,
-         "firstgid":2577,
-         "image":"images/herbe.png",
-         "imageheight":906,
-         "imagewidth":1498,
+         "columns":1,
+         "firstgid":9,
+         "image":"..\/images\/herbe.png",
+         "imageheight":32,
+         "imagewidth":32,
          "margin":0,
          "name":"herbe",
          "properties":
@@ -67,33 +424,16 @@
 
             },
          "spacing":0,
-         "tilecount":1288,
+         "tilecount":1,
          "tileheight":32,
          "tilewidth":32
         }, 
         {
-         "columns":46,
-         "firstgid":3865,
-         "image":"images/Petit rocher.png",
-         "imageheight":906,
-         "imagewidth":1498,
-         "margin":0,
-         "name":"Petit rocher",
-         "properties":
-            {
-
-            },
-         "spacing":0,
-         "tilecount":1288,
-         "tileheight":32,
-         "tilewidth":32
-        }, 
-        {
-         "columns":46,
-         "firstgid":5153,
-         "image":"images/Rocher.png",
-         "imageheight":906,
-         "imagewidth":1498,
+         "columns":2,
+         "firstgid":10,
+         "image":"..\/images\/Rocher.png",
+         "imageheight":64,
+         "imagewidth":64,
          "margin":0,
          "name":"Rocher",
          "properties":
@@ -101,16 +441,16 @@
 
             },
          "spacing":0,
-         "tilecount":1288,
+         "tilecount":4,
          "tileheight":32,
          "tilewidth":32
         }, 
         {
-         "columns":46,
-         "firstgid":6441,
-         "image":"images/coffre fermer.png",
-         "imageheight":906,
-         "imagewidth":1498,
+         "columns":1,
+         "firstgid":14,
+         "image":"..\/images\/coffre fermer.png",
+         "imageheight":32,
+         "imagewidth":32,
          "margin":0,
          "name":"coffre fermer",
          "properties":
@@ -118,7 +458,24 @@
 
             },
          "spacing":0,
-         "tilecount":1288,
+         "tilecount":1,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":1,
+         "firstgid":15,
+         "image":"..\/images\/Petit rocher.png",
+         "imageheight":32,
+         "imagewidth":32,
+         "margin":0,
+         "name":"Petit rocher",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1,
          "tileheight":32,
          "tilewidth":32
         }],

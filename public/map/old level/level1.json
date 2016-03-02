@@ -1,0 +1,128 @@
+{ "height":15,
+ "layers":[
+        {
+         "data":[1, 2, 2577, 2577, 5153, 5154, 1289, 1290, 1289, 1290, 1289, 1290, 1289, 1290, 1289, 1290, 2577, 2577, 2577, 2577, 47, 48, 2577, 2577, 5199, 5200, 1335, 1336, 1335, 1336, 1335, 1336, 1335, 1336, 1335, 1336, 2577, 1, 2, 2577, 1, 2, 2577, 1289, 1290, 1289, 1290, 2577, 2577, 2577, 2577, 1, 2, 2577, 2577, 2577, 5200, 47, 48, 2577, 47, 48, 2577, 1335, 1336, 1335, 1336, 2577, 1, 2, 2577, 47, 48, 2577, 1289, 1290, 2577, 2577, 2577, 2577, 1, 2, 2577, 2577, 2577, 2577, 2577, 2577, 47, 48, 2577, 1289, 1290, 2577, 1335, 1336, 2577, 1289, 1290, 2577, 47, 48, 2577, 1289, 1290, 5153, 5154, 1, 2, 1, 2, 1335, 1336, 2577, 1289, 1290, 2577, 1335, 1336, 2577, 1, 2, 2577, 1335, 1336, 5199, 5200, 47, 48, 47, 48, 2577, 5153, 5154, 1335, 1336, 2577, 1, 2, 2577, 47, 48, 2577, 2577, 2577, 2577, 1, 2, 2577, 2577, 2577, 2577, 5199, 5200, 5153, 5154, 2577, 47, 48, 2577, 1, 2, 2577, 1289, 1290, 2577, 47, 48, 2577, 1289, 1290, 2577, 1, 2, 5199, 5200, 2577, 1, 2, 2577, 47, 48, 2577, 1335, 1336, 2577, 1, 2, 2577, 1335, 1336, 2577, 47, 48, 2577, 2577, 2577, 47, 48, 2577, 1, 2, 2577, 1289, 1290, 2577, 47, 48, 2577, 1289, 1290, 2577, 5200, 5200, 2577, 1289, 1290, 1289, 1290, 2577, 47, 48, 2577, 1335, 1336, 2577, 2577, 2577, 2577, 1335, 1336, 2577, 2577, 2577, 2577, 1335, 1336, 1335, 1336, 2577, 1, 2, 1289, 1290, 1289, 1290, 1289, 1290, 5153, 5154, 1, 2, 1, 2, 5200, 1289, 1290, 2577, 2577, 2577, 47, 48, 1335, 1336, 1335, 1336, 1335, 1336, 5199, 5200, 47, 48, 47, 48, 5200, 1335, 1336, 2577, 1, 2, 6441, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 2577, 47, 48],
+         "height":15,
+         "name":"Calque de Tile 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }],
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "renderorder":"left-up",
+ "tileheight":32,
+ "tilesets":[
+        {
+         "columns":46,
+         "firstgid":1,
+         "image":"images/Arbre1.png",
+         "imageheight":906,
+         "imagewidth":1498,
+         "margin":0,
+         "name":"Arbre1",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1288,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":46,
+         "firstgid":1289,
+         "image":"images/Arbre2.png",
+         "imageheight":906,
+         "imagewidth":1498,
+         "margin":0,
+         "name":"Arbre2",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1288,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":46,
+         "firstgid":2577,
+         "image":"images/herbe.png",
+         "imageheight":906,
+         "imagewidth":1498,
+         "margin":0,
+         "name":"herbe",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1288,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":46,
+         "firstgid":3865,
+         "image":"images/Petit rocher.png",
+         "imageheight":906,
+         "imagewidth":1498,
+         "margin":0,
+         "name":"Petit rocher",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1288,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":46,
+         "firstgid":5153,
+         "image":"images/Rocher.png",
+         "imageheight":906,
+         "imagewidth":1498,
+         "margin":0,
+         "name":"Rocher",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1288,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":46,
+         "firstgid":6441,
+         "image":"images/coffre fermer.png",
+         "imageheight":906,
+         "imagewidth":1498,
+         "margin":0,
+         "name":"coffre fermer",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tilecount":1288,
+         "tileheight":32,
+         "tilewidth":32
+        }],
+ "tilewidth":32,
+ "version":1,
+ "width":20
+}
