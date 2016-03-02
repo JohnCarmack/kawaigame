@@ -50,7 +50,7 @@ function Map(index, canvas) {
                 for (var i = 0; i < this.height; i++) {
                     for (var j = 0; j < this.width; j++) {
 
-                        if (this.layersT[a].name === "objetCollision") {
+                        if (this.layersT[a].name === "objetCollision" ||this.layersT[a].name === "fin" || this.layersT[a].name === "ralentisseur") {
                             continue;
                         }
                         if (this.layersT[a].data[x] === this.tiles[u].firstgid) {
