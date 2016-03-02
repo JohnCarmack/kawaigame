@@ -59,7 +59,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         }
 //context.fillStyle = "rgba(0, 0, 200, 0.5)";
  //           context.fillRect (this.x, this.y, this.width, this.height);        
-        context.restore();
+        //context.restore();
     };
 
 	this.move = function(delta){
@@ -95,15 +95,15 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 					var dx = this.x - inputStates.mousePos.x;
 					var dy = this.y - inputStates.mousePos.y;
 					var angle = Math.atan2(dy, dx);
-					var deplX = calcDistanceToMove(delta,2*Math.cos(angle));
-					var deplY = calcDistanceToMove(delta,2*Math.sin(angle));
+					var SdeplX = calcDistanceToMove(delta,Math.cos(angle));
+					var SdeplY = calcDistanceToMove(delta,Math.sin(angle));
 
-                    this.x += deplX;
-                    this.y += deplY;
+                    this.x -= SdeplX;
+                    this.y -= SdeplY;
 
                         if (this.isCollision()) {
-                            this.x -= deplX;
-                            this.y -= deplY;
+                            this.x += SdeplX;
+                            this.y += SdeplY;
                         }
 				}
                 /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
