@@ -41,7 +41,7 @@ function Map(index, canvas) {
     this.drawMap = function (canvasC) {
         
         var x = 0;
-        for (var a = 0; a < this.layersT.length-1; a++) {
+        for (var a = 0; a < this.layersT.length; a++) {
             x = 0;
             for (var u = 0; u < this.tiles.length; u++) {
                 
@@ -53,11 +53,13 @@ function Map(index, canvas) {
                         if (this.layersT[a].name === "objetCollision") {
                             continue;
                         }
+						if(this.layersT[a].data != 'undefined'){
                         if (this.layersT[a].data[x] === this.tiles[u].firstgid) {
 
                             canvasC.drawImage(this.images[u], j * this.tilewidth, i * this.tileheight);
                         }
                         x++;
+						}
                     }
                 }
             }

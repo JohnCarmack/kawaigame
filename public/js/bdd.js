@@ -88,3 +88,17 @@ function TestUpdateScore(joueur, highScore){
 	});
 }
 
+function RecuperationDonnees(joueur){
+		$.ajax({ url : '/highScore/'+joueur.pseudo, 
+		type : 'get',
+		dataType : 'text',
+		success : function(data){
+			if(data === 'NOT FOUND'){
+				//FaireInscrip();
+			}else{
+				joueur.highScore = data.highScore;
+			}
+		}
+	});
+}
+
