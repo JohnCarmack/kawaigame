@@ -128,23 +128,12 @@ app.get('/highScore/:pseudo', function(req, res){
   });
 });
 
-app.put('/updateScore/:pseudo', function(req, res){
-var pseudo = req.params.pseudo;
-var highScoreNew = req.body.highScore;
-if ((pseudo && highScore) != undefined){
-Joueur.update({
-  highScore: highScore,
-}, {
-  where: {
-    pseudo: pseudo,
-  }
-}).then(function(){
-  sequelize.sync();
+app.put('/updateScore/:pseudo', function(req, res, next) {
+  Joueur.findByIdAndUpdate(req.params.pseudo, req.body.highScore, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
 });
-res.send('Update OK');
-}
-else res.send('error updating highScore');
-}); 
 
 var io = require('socket.io')(server);
 
