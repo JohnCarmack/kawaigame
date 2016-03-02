@@ -53,13 +53,12 @@ function Map(index, canvas) {
                         if (this.layersT[a].name === "objetCollision") {
                             continue;
                         }
-						if(this.layersT[a].data != 'undefined'){
                         if (this.layersT[a].data[x] === this.tiles[u].firstgid) {
 
                             canvasC.drawImage(this.images[u], j * this.tilewidth, i * this.tileheight);
                         }
                         x++;
-						}
+
                     }
                 }
             }
