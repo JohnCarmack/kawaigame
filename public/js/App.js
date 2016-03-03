@@ -403,7 +403,7 @@ function movePlayer(player, delta){
 	if(player.dir==0)
 		direct = "up";
 	//console.log(direct);	
-	socket.emit('sendpos', pos, direct, player.moving);
+	socket.emit('sendpos', 'room1', pos, direct, player.moving);
 }
 /*
 function stopPlayer(player){
