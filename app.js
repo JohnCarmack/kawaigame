@@ -213,12 +213,12 @@ console.log("Current room after joiningRoom : " + currentRoom);
 
     //when a player moves
     socket.on('sendpos', function (currentRoom, newPos, dir, moving) {  
-        currentRoom = defaultRoom;
+        //currentRoom = defaultRoom;
         // we tell the client to execute 'updatepos' with 2 parameters  
         //console.log("recu sendPos : dir = "+dir);  
        // socket.broadcast.emit('updatepos', socket.username, newPos, dir, moving); 
         socket.in(currentRoom).emit('updatepos', socket.username, newPos, dir, moving);
-        console.log("recu sendpos : currentRoom = "+ currentRoom);  
+        console.log("recu sendpos : currentRoom = "+ currentRoom + " Socket.ID :  " + socket.id + " Socket.room ", socket.rooms);  
     });  
   
     // when the user disconnects.. perform this  

@@ -94,7 +94,7 @@ function App() {
     currentGameState = gameStates.home;
     //set le cooldown ࠴00ms (un clic tous les 400ms sera pris en compte)
     setInterval(setCooldown,400); 
-	
+
 }
 
 var mainLoop = function(time)
@@ -389,6 +389,8 @@ function drawAllPlayers(){
 function movePlayer(player, delta){
 	//console.log("le joueur bouge");
 	//console.log(checkInputStatesTrue());
+	room = $("#rooms").val();
+
 	if(player.moving){
 		player.move(delta);
 	}
@@ -402,8 +404,8 @@ function movePlayer(player, delta){
 		direct = "right";
 	if(player.dir==0)
 		direct = "up";
-	//console.log(direct);	
-	socket.emit('sendpos', 'room1', pos, direct, player.moving);
+	console.log("Room dans App.js" + room);	
+	socket.emit('sendpos', room, pos, direct, player.moving);
 }
 /*
 function stopPlayer(player){
