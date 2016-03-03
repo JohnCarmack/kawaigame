@@ -49,8 +49,8 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         context.save();
         
         if(!this.dead){
-			if(!this.moving) {
-				//console.log(this.dir);
+            if(!this.moving) {
+                //console.log(this.dir);
             this.spritesMan[this.dir].render(this.x, this.y);
         } else {
             this.spritesMan[this.dir].renderMoving(this.x, this.y);
@@ -62,41 +62,41 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         //context.restore();
     };
 
-	this.move = function(delta){
-		//context.save();
-		context.clearRect(0, 0, w, h);
+    this.move = function(delta){
+        //context.save();
+        context.clearRect(0, 0, w, h);
         if (!this.dead){
             if(this.moving){
                 this.speedX = this.speedY = 0; 
-				
+                
                 if (inputStates.left) {
                     this.speedX = -this.speed;
-					//this.dir = DIR_W;
-					//this.spritesMan[this.dir].renderMoving(this.x, this.y);
+                    //this.dir = DIR_W;
+                    //this.spritesMan[this.dir].renderMoving(this.x, this.y);
                 }  
                 if (inputStates.up) {   
                    this.speedY = -this.speed; 
-				   //this.dir = DIR_N;	
-					//this.spritesMan[this.dir].renderMoving(this.x, this.y);				   
+                   //this.dir = DIR_N;  
+                    //this.spritesMan[this.dir].renderMoving(this.x, this.y);                  
                    //console.log("up");
                 }  
                if (inputStates.right) {  
                     this.speedX = this.speed; 
-					//this.dir = DIR_E;
-					//this.spritesMan[this.dir].renderMoving(this.x, this.y);
+                    //this.dir = DIR_E;
+                    //this.spritesMan[this.dir].renderMoving(this.x, this.y);
                     //console.log("right"); 
                 }  
                 if (inputStates.down) {  
                     //console.log("down");
                     this.speedY = this.speed; 
-					//this.dir = DIR_S;					
+                    //this.dir = DIR_S;                 
                 }
-				if (inputStates.mousedown) {
-					var dx = this.x - inputStates.mousePos.x;
-					var dy = this.y - inputStates.mousePos.y;
-					var angle = Math.atan2(dy, dx);
-					var SdeplX = calcDistanceToMove(delta,Math.cos(angle));
-					var SdeplY = calcDistanceToMove(delta,Math.sin(angle));
+                if (inputStates.mousedown) {
+                    var dx = this.x - inputStates.mousePos.x;
+                    var dy = this.y - inputStates.mousePos.y;
+                    var angle = Math.atan2(dy, dx);
+                    var SdeplX = calcDistanceToMove(delta,Math.cos(angle));
+                    var SdeplY = calcDistanceToMove(delta,Math.sin(angle));
 
                     this.x -= SdeplX;
                     this.y -= SdeplY;
@@ -105,27 +105,27 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                             this.x += SdeplX;
                             this.y += SdeplY;
                         }
-						
-						if (this.isRetourDebut()) {
-							this.x = 35;
-							this.y = 35;
-						}
-						
-						if (this.isFin()) {
-							this.isLevelDone = true;
-							this.moving = false;
-						}
-						
-						if (this.isRalentisseur()) {
-							this.speed = 1;
-						}
-				}
+                        
+                        if (this.isRetourDebut()) {
+                            this.x = 35;
+                            this.y = 35;
+                        }
+                        
+                        if (this.isFin()) {
+                            this.isLevelDone = true;
+                            this.moving = false;
+                        }
+                        
+                        if (this.isRalentisseur()) {
+                            this.speed = 1;
+                        }
+                }
                 /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
-				
-				
-			} else{
-				this.spritesMan[this.dir].render(this.x, this.y);
-			}*/
+                
+                
+            } else{
+                this.spritesMan[this.dir].render(this.x, this.y);
+            }*/
              
             } 
         var deplX = calcDistanceToMove(delta, this.speedX);
@@ -138,18 +138,18 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
             this.x -= deplX;
             this.y -= deplY;
         }
-		
-		if (this.isRetourDebut()) {
+        
+        if (this.isRetourDebut()) {
             this.x = 35;
             this.y = 35;
         }
-		
-		if (this.isFin()) {
+        
+        if (this.isFin()) {
             this.isLevelDone = true;
-			this.moving = false;
+            this.moving = false;
         }
-		
-		if (this.isRalentisseur()) {
+        
+        if (this.isRalentisseur()) {
             this.speed = 1;
         }
     };
@@ -169,11 +169,11 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
             }
         }
     };
-	
-	this.isFin = function (){
-		var fin = this.map.objetFin;
-		
-		for (var objetIndex in fin) {
+    
+    this.isFin = function (){
+        var fin = this.map.objetFin;
+        
+        for (var objetIndex in fin) {
             var objet = fin[objetIndex];
 
                 var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
@@ -181,12 +181,12 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                     return true;
                 }
         }
-	};
-	
-	this.isRalentisseur = function (){
-		var ralentisseur = this.map.objetsRalentisseur;
-		
-		for (var objetIndex in ralentisseur) {
+    };
+    
+    this.isRalentisseur = function (){
+        var ralentisseur = this.map.objetsRalentisseur;
+        
+        for (var objetIndex in ralentisseur) {
             var objet = ralentisseur[objetIndex];
 
                 var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
@@ -194,12 +194,12 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                     return true;
                 }
         }
-	};
-	
-	this.isRetourDebut = function (){
-		var retourDebut = this.map.objetsRetourDebut;
-		
-		for (var objetIndex in retourDebut) {
+    };
+    
+    this.isRetourDebut = function (){
+        var retourDebut = this.map.objetsRetourDebut;
+        
+        for (var objetIndex in retourDebut) {
             var objet = retourDebut[objetIndex];
 
                 var boolCollision = collisionRectangles(this.x, this.y, this.width, this.height, objet.x, objet.y, objet.width, objet.height);
@@ -207,7 +207,6 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                     return true;
                 }
         }
-	};
+    };
 
 }
-

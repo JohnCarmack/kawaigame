@@ -306,31 +306,31 @@ function addKeyListeners() {
   window.addEventListener('keyup', function(event) {
   	if(event.keyCode === 27){
   		inputStates.esc = false;
-  		allPlayers[username].moving = false;
+  		if(!checkInputStatesTrue()) allPlayers[username].moving = false;
   		//stopPlayer(allPlayers[username]);
   		//setPlayerMoving(j, false);
   	}
     if (event.keyCode === 37){
       inputStates.left = false;
-      allPlayers[username].moving = false;
+      if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
     }
     if (event.keyCode === 38){
       inputStates.up = false;
-      allPlayers[username].moving = false;
+      if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 39){
       inputStates.right = false;
-      allPlayers[username].moving = false;
+      if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
     if (event.keyCode === 40){
       inputStates.down = false;
-      allPlayers[username].moving = false;
+      if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
@@ -388,8 +388,8 @@ function drawAllPlayers(){
 
 function movePlayer(player, delta){
 	//console.log("le joueur bouge");
+	//console.log(checkInputStatesTrue());
 	if(player.moving){
-		//player.moving=true;
 		player.move(delta);
 	}
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
@@ -576,4 +576,13 @@ function createOnePlayer(name,x,y,speed){
 	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
 }
 
+function checkInputStatesTrue(){
+	console.log("checking inputStates...");
+	var isTrue = false;
+	if(inputStates.left) isTrue=true;
+	if(inputStates.right) isTrue=true;
+	if(inputStates.up) isTrue=true;
+	if(inputStates.down) isTrue=true;
+	return isTrue;
+}
 
