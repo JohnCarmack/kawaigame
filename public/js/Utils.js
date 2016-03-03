@@ -92,9 +92,3 @@ function timer(currentTime, oldTime) {
         //console.log("#delta = " + delta + " speed = " + speed);
         return (speed * delta) /10;
     };
-	
-    function goToNextLevel() {
-        currentLevelTime = 0;
-        level++;         
-    }
-
