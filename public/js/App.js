@@ -40,6 +40,8 @@ var etoile = new Image();
 etoile.src = "images/etoile.png";
 
 var MapLevel1;
+var MapLevel2;
+var MapLevel3;
 
 //menu de pause
 var homeLength, resumeLength;
