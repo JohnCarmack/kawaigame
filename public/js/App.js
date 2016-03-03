@@ -89,13 +89,15 @@ function App() {
 
 	MapLevel1 = new Map(1 , context);
 	MapLevel2 = new Map(2 , context);
+	MapLevel3 = new Map(3 , context);
 	
     //ajout des actions pour chaque menu
     startGame(1, allPlayers);
 
 	recupereMap(MapLevel1);
 	recupereMap(MapLevel2);
-
+	recupereMap(MapLevel3);
+	
     currentGameState = gameStates.home;
     //set le cooldown ࠴00ms (un clic tous les 400ms sera pris en compte)
     setInterval(setCooldown,400); 
@@ -141,17 +143,16 @@ function keyFunctions(){
 }
 
 function EndLevel(){
+	var length = 0;
 	var count = 0;
-	console.log(count);
 	for( name in allPlayers){
 		if(allPlayers[name].isLevelDone === true){
 			count++;
-			console.log('count' + count);
 		}
+		length++;
 	}
-	if(count === allPlayers.length){
+	if(count === length){
 		goToNextLevel();
-		console.log(level);
 	}
 }
 
@@ -161,10 +162,20 @@ function ToLevel(lvl){
 		dessineMap(MapLevel1, context);
 	}
 	if(lvl === 2){
+		
 		for( name in allPlayers){
 			allPlayers[name].map = MapLevel2;
 		}
 		dessineMap(MapLevel2, context);
+		//startGame(lvl, allPlayers);
+	}
+		if(lvl === 3){
+		
+		for( name in allPlayers){
+			allPlayers[name].map = MapLevel3;
+		}
+		dessineMap(MapLevel3, context);
+		//startGame(lvl, allPlayers);
 	}
 }
 
@@ -239,7 +250,7 @@ function drawCurrentMenu(){
 		for( name in allPlayers){
 			MonsterCollisionWithWalls(allPlayers[name], h, w);
 		}
-		EndLevel();
+		//EndLevel();
 		//drawAllPlayers();
 
 	}
@@ -406,7 +417,9 @@ function drawPlayer(player){
 function drawAllPlayers(){
 	for(var name in allPlayers) {
 		//console.log("on déssine tous les joueurs");
+		if(allPlayers[name].isLevelDone != true){
 		drawPlayer(allPlayers[name]);
+		}
 	}
 }
 

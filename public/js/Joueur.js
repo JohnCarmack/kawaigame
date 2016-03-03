@@ -115,13 +115,14 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 							console.log('isFin');
                             this.isLevelDone = true;
                             this.moving = false;
-							updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
+							EndLevel();
+							//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
                         }
                         
                         if (this.isRalentisseur()) {
                             this.speed = 1;
-							updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
-                        }
+							//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
+                        }else {this.speed = 2;}
                 }
                 /*this.spritesMan[this.dir].renderMoving(this.x, this.y);
                 
@@ -151,13 +152,18 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 			console.log('isFin');
             this.isLevelDone = true;
             this.moving = false;
-			updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
+			this.isLevelDone = false;
+			this.x = 35;
+			this.y = 35;
+			this.dir = DIR_S;
+			EndLevel();
+			//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
         }
         
         if (this.isRalentisseur()) {
             this.speed = 1;
-			updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
-        }
+			//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
+        } else {this.speed = 2;}
     };
         }
 
