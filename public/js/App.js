@@ -67,6 +67,11 @@ var timer = function(currentTime) {
 	return delta;
 };
 
+function goToNextLevel(){
+        currentLevelTime = 0;
+        level++;        
+}
+
 function App() {
 
     //console.log("Constructeur principal");
@@ -135,12 +140,30 @@ function keyFunctions(){
 	}
 }
 
+function EndLevel(){
+	var count = 0;
+	console.log(count);
+	for( name in allPlayers){
+		if(allPlayers[name].isLevelDone === true){
+			count++;
+			console.log('count' + count);
+		}
+	}
+	if(count === allPlayers.length){
+		goToNextLevel();
+		console.log(level);
+	}
+}
+
 
 function ToLevel(lvl){
 	if(lvl === 1){
 		dessineMap(MapLevel1, context);
 	}
 	if(lvl === 2){
+		for( name in allPlayers){
+			allPlayers[name].map = MapLevel2;
+		}
 		dessineMap(MapLevel2, context);
 	}
 }
@@ -216,6 +239,7 @@ function drawCurrentMenu(){
 		for( name in allPlayers){
 			MonsterCollisionWithWalls(allPlayers[name], h, w);
 		}
+		EndLevel();
 		//drawAllPlayers();
 
 	}

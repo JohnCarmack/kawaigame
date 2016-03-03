@@ -70,11 +70,11 @@ function Map(index, canvas) {
             }
         }
         
-        /*for(var i in this.objetsCollision){
-            var objet = this.objetsCollision[i];
+        /*for(var i in this.objetFin){
+            var objet = this.objetFin[i];
             
-            //canvasC.fillStyle = "rgba(0, 0, 200, 0.5)";
-            //canvasC.fillRect(objet.x, objet.y, objet.width, objet.height);
+            canvasC.fillStyle = "rgba(0, 0, 200, 0.5)";
+            canvasC.fillRect(objet.x, objet.y, objet.width, objet.height);
         }*/
     };
 
