@@ -144,11 +144,11 @@ console.log(rooms);
 io.sockets.on('connection', function (socket) {
 
     // when the client emits 'sendchat', this listens and executes
-    socket.on('sendchat', function (data) {
+    socket.on('sendchat', function (currentRoom, data) {
         // we tell the client to execute 'updatechat' with 2 parameters
         console.log("dans le sendchat")
         console.log(data);
-        io.sockets.emit('updatechat', socket.username, data);
+        io.sockets.in(currentRoom).emit('updatechat', socket.username, data);
     });
 
     // when the client emits 'adduser', this listens and executes
