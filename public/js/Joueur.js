@@ -124,7 +124,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                         }
                         
                         if (this.isRalentisseur()) {
-                            this.speed -= 1;
+                            this.speed = 1;
 							console.log('isRalentisseur');
 							//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
                         }else {this.speed = 2;}
@@ -167,7 +167,7 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
         
         if (this.isRalentisseur()) {
 			console.log('isRalentisseur');
-            this.speed -= 1;
+            this.speed = 1;
 			//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
         } else {this.speed = 2;}
     };

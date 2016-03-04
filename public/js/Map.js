@@ -69,13 +69,13 @@ function Map(index, canvas) {
                 }
             }
         }
-        console.log(this.objetsRalentisseur);
-        for(var i in this.objetsRalentisseur){
-            var objet = this.objetsRalentisseur[i];
+        /*console.log(this.objetsRalentisseur);
+        for(var i in this.objetsRetourDebut){
+            var objet = this.objetsRetourDebut[i];
             
             canvasC.fillStyle = "rgba(0, 0, 200, 0.5)";
             canvasC.fillRect(objet.x, objet.y, objet.width, objet.height);
-        }
+        }*/
     };
 
     this.initialiserCollisions = function () {
@@ -128,10 +128,10 @@ function Map(index, canvas) {
             var ralentisseur = this.layersT[index];
            var objetsArray = ralentisseur.objects;
 
-            this.objetRalentisseur = objetsArray;
+            this.objetsRalentisseur = objetsArray;
         }else{
             // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
-            this.objetRalentisseur = null;
+            this.objetsRalentisseur = null;
         }
     };
 	
@@ -147,10 +147,10 @@ function Map(index, canvas) {
             var retourDebut = this.layersT[index];
            var objetsArray = retourDebut.objects;
 
-            this.objetRetourDebut = objetsArray;
+            this.objetsRetourDebut = objetsArray;
         }else{
             // Dans certaines map, il n'y a pas d'objets collision, il faut gérer ce cas
-            this.objetRetourDebut = null;
+            this.objetsRetourDebut = null;
         }
     };
 
