@@ -143,11 +143,12 @@
           
                 // sends the chat message to the server  
                 function sendMessage() {
+                     var currentRoom = $( "#rooms").val(); 
                     console.log("sendind a message : "+data.value);
                     var message = data.value;
                     data.value = "";
                     // tell server to execute 'sendchat' and send along one parameter
-                    socket.emit('sendchat', message);
+                    socket.emit('sendchat',  currentRoom, message);
                 }
             });
           //});
