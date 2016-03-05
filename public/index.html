@@ -52,9 +52,11 @@
             });  
                    // listener, whenever the server emits 'updateroom', this updates the chat body
             socket.on('updateroom', function (message , room, clientSize) {
+                console.log("dans le update room");
                 var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
                 conversation.innerHTML += chatMessage;
 				conversation.scrollTop = conversation.scrollHeight;
+                updateUserRoom(room);
             });
 
           
@@ -77,8 +79,8 @@
               updatePlayerNewPos(username, newPos, dir, moving);
             });
             //when the game is starting
-            socket.on('startGame', function (lvl, listOfPlayers) {
-              startGame(lvl, listOfPlayers);
+            socket.on('startGame', function (lvl, listOfPlayers, room) {
+              startGame(lvl, listOfPlayers, room);
             });
             // update players (isLvLDone? isDead?)
             socket.on('updatePlayers', function (listOfPlayer) {
@@ -144,7 +146,7 @@
                 // sends the chat message to the server  
                 function sendMessage() {
                      var currentRoom = $( "#rooms").val(); 
-                    console.log("sendind a message : "+data.value);
+                    console.log("sendind a message : "+data.value+" in room = "+currentRoom);
                     var message = data.value;
                     data.value = "";
                     // tell server to execute 'sendchat' and send along one parameter
