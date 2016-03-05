@@ -54,7 +54,7 @@ app.use( bodyParser.urlencoded({ extended : true  }));
 
 
 
-var countdown = 1000;  
+var countdown = 15;  
 setInterval(function() {  
   countdown--;
   io.sockets.emit('timer', { countdown: countdown });
@@ -229,7 +229,7 @@ console.log("Current room after joiningRoom : " + currentRoom);
         //console.log("recu sendPos : dir = "+dir);  
        // socket.broadcast.emit('updatepos', socket.username, newPos, dir, moving); 
         socket.in(currentRoom).emit('updatepos', socket.username, newPos, dir, moving);
-        console.log("recu sendpos : currentRoom = "+ currentRoom + " Socket.ID :  " + socket.id + " Socket.room ", socket.rooms);  
+       // console.log("recu sendpos : currentRoom = "+ currentRoom + " Socket.ID :  " + socket.id + " Socket.room ", socket.rooms);  
     });  
   
     // when the user disconnects.. perform this  
