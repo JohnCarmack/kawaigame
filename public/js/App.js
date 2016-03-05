@@ -10,7 +10,8 @@ var cooldown=true;
 // "taille" des différents menus
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
-
+// room actuelle du joueur
+var currentRoom;
 
 var allPlayersStates = {};
 var allPlayers={};
@@ -467,7 +468,8 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))))
 				{
 					//console.log("clique sur le menu start");
-					socket.emit('sendStartGame', level);
+					console.log("on start le jeu dans la room : "+currentRoom);
+					socket.emit('sendStartGame', level, currentRoom);
 					currentGameState = gameStates.running;
 					
 				}
@@ -571,24 +573,31 @@ function updatePlayerNewPos(user, newPos, dir, moving){
 }
 
 //le jeu commence,  au niveau lvl
-function startGame(lvl,listOfPlayers){
-	
+function startGame(lvl,listOfPlayers, room){
+	console.log("startGame recu, on commence, room = "+room);
+	if(currentRoom == room)
+	{
         for(var i in listOfPlayers){
-            createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v);
+        	if(listOfPlayers[i].room == room)
+            	createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v);
         }
         
-	allPlayersStates = listOfPlayers;
-	level = lvl;
-	if(level == 0)
-	{
-		for (name in allPlayersStates)
+		allPlayersStates = listOfPlayers;
+		level = lvl;
+		console.log(lvl);
+		if(level == 0)
 		{
-			createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
-	//		console.log(name+" crée");
-		}
-		for (name in allPlayers)
-		{
-			allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			for (name in allPlayersStates)
+			{
+				if(allPlayersStates[name].room == room)
+					createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
+		//		console.log(name+" crée");
+			}
+			for (name in allPlayers)
+			{
+				allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			}
+			currentGameState = gameStates.running;
 		}
 		currentGameState = gameStates.running;
 	}
@@ -615,6 +624,12 @@ function createOnePlayer(name,x,y,speed){
 	//var j = new Joueur(name, x, y, speed);
 	allPlayers[name]=j;
 	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
+}
+
+function updateUserRoom(room){
+	console.log("updateUserRoom");
+	currentRoom = room;
+	console.log("currentRoom = "+currentRoom);
 }
 
 function checkInputStatesTrue(){
