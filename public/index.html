@@ -52,8 +52,9 @@
             });  
                    // listener, whenever the server emits 'updateroom', this updates the chat body
             socket.on('updateroom', function (message , room, clientSize) {
-                console.log("dans le update room");
-                var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
+                //console.log("dans le update room");
+                var chatMessage = "<b>" + message + "</b>" + room + "<br>";
+                // + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
                 conversation.innerHTML += chatMessage;
 				conversation.scrollTop = conversation.scrollHeight;
                 updateUserRoom(room);
@@ -61,11 +62,15 @@
 
           
             // listener, whenever the server emits 'updateusers', this updates the username list  
-            socket.on('updateusers', function(listOfUsers) {  
-                users.innerHTML = "";  
+            socket.on('updateusers', function(listOfUsers, listOfPlayers) {  
+                users.innerHTML = "";
                 for(var name in listOfUsers) {  
-                    var userLineOfHTML = '<div>' + name + '</div>';  
-                    users.innerHTML += userLineOfHTML;  
+                    if(currentRoom==listOfPlayers[name].room)
+                    {
+                        console.log("updateusers currentRoom=room, currentRoom:"+currentRoom);
+                        var userLineOfHTML = '<div>' + name + '</div>';  
+                        users.innerHTML += userLineOfHTML; 
+                    } 
                 }  
 				var taille = conversation.offsetHeight - users.offsetHeight;
 				conversation.style.height = taille+"px";

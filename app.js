@@ -167,8 +167,7 @@ io.sockets.on('connection', function (socket) {
         // echo to all client except current, that a new person has connected
         socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
         // tell all clients to update the list of users on the GUI
-        io.sockets.emit('updateusers', usernames);
-       
+
         socket.join(defaultRoom);
         var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
         currentRoom=defaultRoom;
@@ -176,6 +175,7 @@ io.sockets.on('connection', function (socket) {
        // io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
        // io.in(rooms[1]).emit('updateroom', defaultRoom);
        io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+
         console.log(username+"'s room length : "+clientSize);
         //io.sockets.clients(rooms[1]);
         // Create a new player and store his position too... for that
@@ -187,6 +187,7 @@ io.sockets.on('connection', function (socket) {
         var player = {'x':35, 'y':35, 'v':2, 'room':currentRoom};
 
         listOfPlayers[username] = player;
+        io.sockets.emit('updateusers', usernames, listOfPlayers);
         console.log("user created : "+username);
         io.sockets.emit('updatePlayers',listOfPlayers);
     });
@@ -208,9 +209,10 @@ socket.on('switchRoom', function(username,joiningRoom){
   currentRoom = joiningRoom;
   listOfPlayers[username].room = joiningRoom;
   console.log("Current room after joiningRoom : " + currentRoom);
-   var clientSize = io.sockets.adapter.rooms[currentRoom].length;
-   console.log(clientSize + " People in the " + currentRoom );
-   io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+  var clientSize = io.sockets.adapter.rooms[currentRoom].length;
+  console.log(clientSize + " People in the " + currentRoom );
+  io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+  io.sockets.emit('updateusers', usernames, listOfPlayers);
 });
 
     //when a player moves
