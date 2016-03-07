@@ -327,29 +327,37 @@ function addKeyListeners() {
   	}
     if (event.keyCode === 37){
       inputStates.left = true;
-      allPlayers[username].moving = true;
-      allPlayers[username].dir=DIR_W;
+      if(typeof allPlayers[username] != "undefined"){
+	      allPlayers[username].moving = true;
+	      allPlayers[username].dir=DIR_W;
+      }
       //movePlayer(allPlayers[username], delta);
       //console.log("left");
   	}
     if (event.keyCode === 38){
       inputStates.up = true;
-      allPlayers[username].moving = true;
-      allPlayers[username].dir=DIR_N;
+      if(typeof allPlayers[username] != "undefined"){
+	      allPlayers[username].moving = true;
+	      allPlayers[username].dir=DIR_N;
+  	  }
       //movePlayer(allPlayers[username], delta);
       //console.log("down");
   	}
     if (event.keyCode === 39){
         inputStates.right = true;
-        allPlayers[username].moving = true;
-        allPlayers[username].dir=DIR_E;
+        if(typeof allPlayers[username] != "undefined"){
+	        allPlayers[username].moving = true;
+	        allPlayers[username].dir=DIR_E;
+    	}
         //movePlayer(allPlayers[username], delta);
         //console.log("right");
     }
     if (event.keyCode === 40){
       inputStates.down = true;
-      allPlayers[username].moving = true;
-      allPlayers[username].dir=DIR_S;
+      if(typeof allPlayers[username] != "undefined"){
+	      allPlayers[username].moving = true;
+	      allPlayers[username].dir=DIR_S;
+  	  }
       //movePlayer(allPlayers[username], delta);
   	}
 	
@@ -405,7 +413,8 @@ function addKeyListeners() {
     inputStates.mousedown = true;
     inputStates.mouseButton = evt.button;
 	if(currentGameState === gameStates.running){
-		allPlayers[username].moving = true;
+		if(typeof allPlayers[username] != "undefined")
+			allPlayers[username].moving = true;
 		var diffx = inputStates.mousePos.x-allPlayers[username].x;   
 		var diffy = inputStates.mousePos.y-allPlayers[username].y; 
 		if(inputStates.mousePos.y < allPlayers[username].y && diffx >= diffy && diffx <= diffy*(-1)){
@@ -425,7 +434,8 @@ function addKeyListeners() {
 
   canvas.addEventListener('mouseup', function(evt) {
     inputStates.mousedown = false;
-	allPlayers[username].moving = false;
+    if(typeof allPlayers[username] != "undefined")
+		allPlayers[username].moving = false;
   }, false);
 }
 
@@ -447,7 +457,7 @@ function movePlayer(player, delta){
 	//console.log("le joueur bouge");
 	//console.log(checkInputStatesTrue());
 	room = $("#rooms").val();
-	if(typeof player.moving != 'undefined'){
+	if(typeof player != "undefined"){
 		if(player.moving){
 			player.move(delta);
 		}
@@ -462,8 +472,9 @@ function movePlayer(player, delta){
 		direct = "right";
 	if(player.dir==0)
 		direct = "up";
-	//console.log("Room dans App.js" + room);	
-	socket.emit('sendpos', room, pos, direct, player.moving);
+	//console.log("Room dans App.js" + room);
+	if(typeof player != "undefined")
+		socket.emit('sendpos', room, pos, direct, player.moving);
 }
 /*
 function stopPlayer(player){
@@ -576,20 +587,21 @@ function updatePlayers(listOfPlayers){
 }
 
 function updatePlayerNewPos(user, newPos, dir, moving){
-	allPlayers[user].x = newPos.posX;
-	allPlayers[user].y = newPos.posY;
+	if(typeof allPlayers[user]!="undefined"){
+		allPlayers[user].x = newPos.posX;
+		allPlayers[user].y = newPos.posY;
 	//console.log("newPlayerPos : dir="+dir);
-	if(dir=="down")
-		allPlayers[user].dir = DIR_S;
-	if(dir=="left")
-		allPlayers[user].dir = DIR_W;
-	if(dir=="up")
-		allPlayers[user].dir = DIR_N;
-	if(dir=="right")
-		allPlayers[user].dir = DIR_E;
-
-	allPlayers[user].moving = moving;
-
+		if(dir=="down")
+			allPlayers[user].dir = DIR_S;
+		if(dir=="left")
+			allPlayers[user].dir = DIR_W;
+		if(dir=="up")
+			allPlayers[user].dir = DIR_N;
+		if(dir=="right")
+			allPlayers[user].dir = DIR_E;
+		if(typeof allPlayers[user] != "undefined")
+			allPlayers[user].moving = moving;
+	}
 }
 
 //le jeu commence,  au niveau lvl
@@ -614,15 +626,17 @@ function startGame(lvl,listOfPlayers, room){
 		{
 			for (name in allPlayersStates)
 			{
-
-				if(allPlayersStates[name].room == room)
-					createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v, sprite[j]);
+				if(typeof allPlayers[name] != "undefined"){
+					if(allPlayersStates[name].room == room)
+						createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v, sprite[j]);
+				}
 					j++;
 		//		console.log(name+" crée");
 			}
 			for (name in allPlayers)
 			{
-				allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+				if(typeof allPlayers[name] != "undefined")
+					allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
 			}
 			currentGameState = gameStates.running;
 		}
@@ -687,14 +701,16 @@ function nextLevel(listOfPlayers, room)
 	if(room==currentRoom)
 	{
 		currentLevelTime = 0;
-		level++; 
-		allPlayers[username].isLevelDone=false;
-		//console.log("on remet les joueurs au début"+ allPlayers[username].x, allPlayers[username].y);
-		allPlayers[username].x = 35;
-		allPlayers[username].y = 35;
-		//console.log("."+ allPlayers[username].x, allPlayers[username].y);
-		socket.emit('resetLevelDone', username, allPlayers[username].isLevelDone);
-		//console.log(allPlayers[username].isLevelDone);
+		level++;
+		if(typeof allPlayers[username] != "undefined"){ 
+			allPlayers[username].isLevelDone=false;
+			//console.log("on remet les joueurs au début"+ allPlayers[username].x, allPlayers[username].y);
+			allPlayers[username].x = 35;
+			allPlayers[username].y = 35;
+			//console.log("."+ allPlayers[username].x, allPlayers[username].y);
+			socket.emit('resetLevelDone', username, allPlayers[username].isLevelDone);
+			//console.log(allPlayers[username].isLevelDone);
+		}
 
 	}
 }

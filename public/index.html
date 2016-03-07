@@ -64,12 +64,17 @@
             // listener, whenever the server emits 'updateusers', this updates the username list  
             socket.on('updateusers', function(listOfUsers, listOfPlayers) {  
                 users.innerHTML = "";
-                for(var name in listOfUsers) {  
-                    if(currentRoom==listOfPlayers[name].room)
-                    {
-                        //console.log("updateusers currentRoom=room, currentRoom:"+currentRoom);
-                        var userLineOfHTML = '<div>' + name + '</div>';  
-                        users.innerHTML += userLineOfHTML; 
+                for(var name in listOfUsers) {
+                    if(typeof name!="undefined"){
+                        if(typeof listOfPlayers[name]!="undefined")
+                        {
+                            if(currentRoom==listOfPlayers[name].room)
+                            {
+                                //console.log("updateusers currentRoom=room, currentRoom:"+currentRoom);
+                                var userLineOfHTML = '<div>' + name + '</div>';  
+                                users.innerHTML += userLineOfHTML; 
+                            }
+                        }
                     } 
                 }  
 				var taille = conversation.offsetHeight - users.offsetHeight;
