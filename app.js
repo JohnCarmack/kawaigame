@@ -52,6 +52,17 @@ app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({ extended : true  }));
 
 
+
+
+
+var countdown = 1000;  
+setInterval(function() {  
+  countdown--;
+  io.sockets.emit('timer', { countdown: countdown });
+}, 1000);
+
+
+
 //Rendu de l'index.html
 app.get('/', function(req, res) {
   res.render('index');
