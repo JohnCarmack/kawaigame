@@ -67,7 +67,7 @@
                 for(var name in listOfUsers) {  
                     if(currentRoom==listOfPlayers[name].room)
                     {
-                        console.log("updateusers currentRoom=room, currentRoom:"+currentRoom);
+                        //console.log("updateusers currentRoom=room, currentRoom:"+currentRoom);
                         var userLineOfHTML = '<div>' + name + '</div>';  
                         users.innerHTML += userLineOfHTML; 
                     } 
@@ -86,6 +86,10 @@
             //when the game is starting
             socket.on('startGame', function (lvl, listOfPlayers, room) {
               startGame(lvl, listOfPlayers, room);
+            });
+            socket.on('sendNextLevel', function (listOfPlayers, room) {
+                console.log("le niveau est fini");
+                nextLevel(listOfPlayers, room);
             });
             // update players (isLvLDone? isDead?)
             socket.on('updatePlayers', function (listOfPlayer) {
