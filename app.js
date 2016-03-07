@@ -55,7 +55,7 @@ app.use( bodyParser.urlencoded({ extended : true  }));
 
 
 
-var countdown = 15;  
+var countdown = 20;  
 setInterval(function() {  
   countdown--;
   io.sockets.emit('timer', { countdown: countdown });
