@@ -104,6 +104,11 @@
               console.log(username + " : " + currentRoom + joiningRoom);
             });
 
+            socket.on('timer', function (data) {  
+    $('#timer').html(data.countdown);
+    console.log("TIMER : " + data.countdown);
+});
+
             // on load of page  
             window.addEventListener("load", function(){  
                 // get handles on various GUI components  
@@ -235,5 +240,7 @@
             <input type="text" id="data" placeholder="Ecrivez ici..." class="form-control input-sm"/>  
             <button id="datasend" type="button" class="btn btn-primary btn-sm">Send</button> 
         </div>
+        <div id="timer"></div>  
+
     </body>
 </html>
