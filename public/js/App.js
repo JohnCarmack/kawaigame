@@ -575,11 +575,15 @@ function updatePlayerNewPos(user, newPos, dir, moving){
 //le jeu commence,  au niveau lvl
 function startGame(lvl,listOfPlayers, room){
 	console.log("startGame recu, on commence, room = "+room);
+	sprite = ["images/heroRouge.png","images/heroJaune.png","images/heroVert.png","images/heroBleu.png"];
+	var j = 0;
+	
 	if(currentRoom == room)
 	{
         for(var i in listOfPlayers){
         	if(listOfPlayers[i].room == room)
-            	createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v);
+            	createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v, sprite[j]);
+				j++;
         }
         
 		allPlayersStates = listOfPlayers;
@@ -590,7 +594,8 @@ function startGame(lvl,listOfPlayers, room){
 			for (name in allPlayersStates)
 			{
 				if(allPlayersStates[name].room == room)
-					createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
+					createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v, sprite[j]);
+					j++;
 		//		console.log(name+" crée");
 			}
 			for (name in allPlayers)
@@ -613,9 +618,9 @@ function updateOnePlayer(name,speed,isLvLDone,isDead){
 		allPlayers[name].dead = isDead;
 	}
 }
-function createOnePlayer(name,x,y,speed){
+function createOnePlayer(name,x,y,speed, sprite){
 
-	var j = new Joueur(name, 0, x, y, speed, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+	var j = new Joueur(name, 0, x, y, speed, 21, 27, DIR_S, sprite, nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
        j.initSprites(32,32,4,3);
 	   RecuperationDonnees(j);
 	//j.spritesheet.onload = function(){

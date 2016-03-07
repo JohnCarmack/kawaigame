@@ -173,6 +173,7 @@ io.sockets.on('connection', function (socket) {
         // similar to usernames.michel = 'michel', usernames.toto = 'toto'
         usernames[username] = username;
         // echo to the current client that he is connecter
+		
         socket.emit('updatechat', 'SERVER', 'you have connected');
 
         // echo to all client except current, that a new person has connected
