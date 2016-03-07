@@ -256,4 +256,41 @@ socket.on('switchRoom', function(username,joiningRoom){
         console.log("on commence le jeu dans la room : "+playerRoom);
         io.sockets.emit('startGame', lvl, listOfPlayers, playerRoom);
     });
+
+
+   socket.on('resetLevelDone', function (name, levelDone) {
+       // we tell the client to execute 'updatechat' with 2 parameters
+       listOfPlayers[name].isLevelDone = levelDone;
+   });
+
+   // when the game starts
+   socket.on('sendEnd', function (username, playerRoom, levelDone) {
+       // we tell the client to execute 'updatechat' with 2 parameters
+       //console.log("niveau fini pour le joueur : "+username);
+       listOfPlayers[username].isLevelDone = levelDone;
+       var nbJoueurRoom=0;
+       var nbJoueurDone=0;
+       for (name in listOfPlayers)
+       {
+          if(playerRoom == listOfPlayers[name].room)
+          {
+            nbJoueurRoom++;
+            if(listOfPlayers[name].isLevelDone)
+            {
+              nbJoueurDone++;
+            }
+          }
+       }
+        if(nbJoueurDone == nbJoueurRoom)
+          io.sockets.emit('sendNextLevel', listOfPlayers, playerRoom);
+        else
+        {
+          io.sockets.emit('updatePlayers', listOfPlayers);
+        }
+   });
+
+
+
+   
+
 });

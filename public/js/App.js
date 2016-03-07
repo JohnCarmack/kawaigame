@@ -117,6 +117,13 @@ var mainLoop = function(time)
 	keyFunctions();
 	drawCurrentMenu();
 	addMenuClicks(); 
+	/*
+	if(typeof allPlayers[username]!='undefined')
+	{
+		console.log("on checkEnd()");
+		checkEnd();
+	}
+	*/
 	//console.log(inputStates.mousePos);
 	requestAnimationFrame(mainLoop);
 }
@@ -145,16 +152,23 @@ function keyFunctions(){
 	}
 }
 
+
 function EndLevel(){
 	var length = 0;
 	var count = 0;
-	for( name in allPlayers){
-		if(allPlayers[name].isLevelDone === true){
-			count++;
+	//console.log("dans le endLevel, pour le joueur "+username);
+	for(name in allPlayers){
+		if(allPlayersStates[name].room == currentRoom)
+		{
+			if(allPlayers[name].isLevelDone === true){
+				count++;
+			}
+			length++;
 		}
-		length++;
 	}
+	console.log(count+"players ont fini le niveau / "+length+" players au total dans cette room");
 	if(count === length){
+		console.log("on change de niveau");
 		goToNextLevel();
 	}
 }
@@ -247,7 +261,8 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
 		currentLevelTime += delta;
-		movePlayer(allPlayers[username], delta);
+		if(!(typeof allPlayers[username] == 'undefined'))
+			movePlayer(allPlayers[username], delta);
 		ToLevel(level);
 		drawAllPlayers();
 		for( name in allPlayers){
@@ -430,9 +445,10 @@ function movePlayer(player, delta){
 	//console.log("le joueur bouge");
 	//console.log(checkInputStatesTrue());
 	room = $("#rooms").val();
-
-	if(player.moving){
-		player.move(delta);
+	if(typeof player.moving != 'undefined'){
+		if(player.moving){
+			player.move(delta);
+		}
 	}
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
 	//console.log("moving to the "+player.dir);
@@ -444,7 +460,7 @@ function movePlayer(player, delta){
 		direct = "right";
 	if(player.dir==0)
 		direct = "up";
-	console.log("Room dans App.js" + room);	
+	//console.log("Room dans App.js" + room);	
 	socket.emit('sendpos', room, pos, direct, player.moving);
 }
 /*
@@ -468,7 +484,7 @@ function addMenuClicks(){
 				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))))
 				{
 					//console.log("clique sur le menu start");
-					console.log("on start le jeu dans la room : "+currentRoom);
+					//console.log("on start le jeu dans la room : "+currentRoom);
 					socket.emit('sendStartGame', level, currentRoom);
 					currentGameState = gameStates.running;
 					
@@ -549,9 +565,11 @@ function drawHighScore(joueur, context, t){
 function updatePlayers(listOfPlayers){
 	allPlayersStates = listOfPlayers;
 	for (name in allPlayersStates){
-	//	console.log(name);
-		if(typeof allPlayersStates[name] != 'undefined')
-			updateOnePlayer(name, allPlayersStates[name].v,allPlayersStates[name].isLvLDone,allPlayersStates[name].isDead);
+			if(typeof allPlayersStates[name] != 'undefined')
+			{
+				console.log("updatePlayers name : "+name+ " speed : "+listOfPlayers.v);
+				updateOnePlayer(name, allPlayersStates[name].v,allPlayersStates[name].isLvLDone,allPlayersStates[name].isDead);
+			}
 	}
 }
 
@@ -574,12 +592,14 @@ function updatePlayerNewPos(user, newPos, dir, moving){
 
 //le jeu commence,  au niveau lvl
 function startGame(lvl,listOfPlayers, room){
-	console.log("startGame recu, on commence, room = "+room);
+	//console.log("startGame recu, on commence, room = "+room);
 	if(currentRoom == room)
 	{
         for(var i in listOfPlayers){
-        	if(listOfPlayers[i].room == room)
+        	if(listOfPlayers[i].room == room){
+        		//console.log("startgame : name : "+i);
             	createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v);
+            }
         }
         
 		allPlayersStates = listOfPlayers;
@@ -589,6 +609,7 @@ function startGame(lvl,listOfPlayers, room){
 		{
 			for (name in allPlayersStates)
 			{
+
 				if(allPlayersStates[name].room == room)
 					createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
 		//		console.log(name+" crée");
@@ -606,15 +627,23 @@ function startGame(lvl,listOfPlayers, room){
         
 	//console.log("on commence le jeu, au niveau : "+level);
 }
+
 function updateOnePlayer(name,speed,isLvLDone,isDead){
-	if(typeof allPlayers[name]!='undefined'){
-		allPlayers[name].speed = speed;
-		allPlayers[name].isLevelDone = isLvLDone;
-		allPlayers[name].dead = isDead;
+	console.log("updatePlayers");
+	if(typeof allPlayers[name]!="undefined"){
+		//console.log(typeof allPlayers[name]);
+		//console.log(typeof allPlayers[name].speed);
+		if(typeof allPlayers[name].speed!="undefined")
+			allPlayers[name].speed = speed;
+		if(typeof allPlayers[name].isLevelDone!="undefined")
+			allPlayers[name].isLevelDone = isLvLDone;
+		//console.log("isLevelDone du joueur "+name+" : "+allPlayers[name].isLevelDone);
+		if(typeof allPlayers[name].dead!="undefined")
+			allPlayers[name].dead = isDead;
 	}
 }
-function createOnePlayer(name,x,y,speed){
 
+function createOnePlayer(name,x,y,speed){
 	var j = new Joueur(name, 0, x, y, speed, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
        j.initSprites(32,32,4,3);
 	   RecuperationDonnees(j);
@@ -623,17 +652,17 @@ function createOnePlayer(name,x,y,speed){
 	//};
 	//var j = new Joueur(name, x, y, speed);
 	allPlayers[name]=j;
-	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
+	//console.log("joueur crée ! : name : "+name+" "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].speed);
 }
 
 function updateUserRoom(room){
-	console.log("updateUserRoom");
+	//console.log("updateUserRoom");
 	currentRoom = room;
-	console.log("currentRoom = "+currentRoom);
+	//console.log("currentRoom = "+currentRoom);
 }
 
 function checkInputStatesTrue(){
-	console.log("checking inputStates...");
+	//console.log("checking inputStates...");
 	var isTrue = false;
 	if(inputStates.left) isTrue=true;
 	if(inputStates.right) isTrue=true;
@@ -641,4 +670,22 @@ function checkInputStatesTrue(){
 	if(inputStates.down) isTrue=true;
 	return isTrue;
 }
+
+function nextLevel(listOfPlayers, room)
+{
+	if(room==currentRoom)
+	{
+		currentLevelTime = 0;
+		level++; 
+		allPlayers[username].isLevelDone=false;
+		//console.log("on remet les joueurs au début"+ allPlayers[username].x, allPlayers[username].y);
+		allPlayers[username].x = 35;
+		allPlayers[username].y = 35;
+		//console.log("."+ allPlayers[username].x, allPlayers[username].y);
+		socket.emit('resetLevelDone', username, allPlayers[username].isLevelDone);
+		//console.log(allPlayers[username].isLevelDone);
+
+	}
+}
+
 
