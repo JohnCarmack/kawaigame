@@ -64,6 +64,8 @@ var gameStates = {
     homeInfos: 5
 };
 
+var roomStart = false;
+
 var timer = function(currentTime) {
 	var delta = currentTime - oldTime;
 	oldTime = currentTime;
@@ -444,7 +446,7 @@ function movePlayer(player, delta){
 		direct = "right";
 	if(player.dir==0)
 		direct = "up";
-	console.log("Room dans App.js" + room);	
+	console.log("Room dans App.js " + room);	
 	socket.emit('sendpos', room, pos, direct, player.moving);
 }
 /*
@@ -465,7 +467,7 @@ function addMenuClicks(){
 			if((inputStates.mousePos.x >= (w/2-startLength/2)) && (inputStates.mousePos.x <= (w/2+startLength/2)))
 			{
 				
-				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))))
+				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))) && roomStart == true)
 				{
 					//console.log("clique sur le menu start");
 					console.log("on start le jeu dans la room : "+currentRoom);
@@ -642,3 +644,6 @@ function checkInputStatesTrue(){
 	return isTrue;
 }
 
+function setRoomStart(){
+	roomStart = true;
+}
