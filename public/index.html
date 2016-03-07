@@ -105,7 +105,16 @@
             });
 
             socket.on('timer', function (data) {  
-    $('#timer').html(data.countdown);
+    $('#timer').html(data.countdown + " before the game start");
+    if (data.countdown <= 10){
+        $('#timer').html(data.countdown + " game will begin soon" + socket.id);
+      disableMovment();
+    }
+    if (data.countdown <= 0){
+        data.countdown = 0;
+        $('#timer').html(data.countdown + " game started" + socket.id);
+        enableMovment();
+    }
     console.log("TIMER : " + data.countdown);
 });
 
