@@ -91,3 +91,33 @@ div#chat {
 #LienServeurs{
 	display:none;
 }
+
+div#replay {
+    width: 645px;
+    height: 485px;
+    background-color: rgba(10,10,10, 0.5);
+    position: absolute;
+    display: none;
+}
+
+.img_loading_replay {
+    width: 50px;
+    display: block;
+    margin: auto;
+}
+
+.texte_loading {
+    color: white;
+    position: absolute;
+    bottom: 50px;
+    left: 27%;
+}
+
+.presentation_loading {
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    position: absolute;
+    top: 75px;
+    left: 35%;
+}
