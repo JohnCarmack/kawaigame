@@ -66,6 +66,7 @@ var gameStates = {
 
 var roomStart = false;
 
+
 var timer = function(currentTime) {
 	var delta = currentTime - oldTime;
 	oldTime = currentTime;
@@ -95,7 +96,7 @@ function App() {
 	MapLevel1 = new Map(1 , context);
 	MapLevel2 = new Map(2 , context);
 	MapLevel3 = new Map(3 , context);
-	
+					
     //ajout des actions pour chaque menu
     startGame(1, allPlayers);
 
@@ -235,6 +236,7 @@ function drawCurrentMenu(){
 		var scoresText = "SCORES";
 	    scoresLength = context.measureText(scoresText).width;
 		context.fillText(scoresText, w/2, spaceBetweenMenus*3);
+
 	}
 
 	if(currentGameState == gameStates.running) // pas de menu
@@ -473,6 +475,7 @@ function addMenuClicks(){
 					console.log("on start le jeu dans la room : "+currentRoom);
 					socket.emit('sendStartGame', level, currentRoom);
 					currentGameState = gameStates.running;
+
 					
 				}
 			}
