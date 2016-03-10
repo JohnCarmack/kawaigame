@@ -11,6 +11,7 @@
 
 		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.6-dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/howler.js"></script>
 		<script type="text/javascript" src="js/SpritesSheet.js"></script>
         <script type="text/javascript" src="js/Objets.js"></script>
         <script type="text/javascript" src="js/Loading.js"></script>
@@ -28,6 +29,15 @@
     </head>
 
         <script>  
+
+        var sound = new Howl({
+         urls: ['music/forest.mp3']
+            }).play();
+
+
+
+
+
 			var username;
             var conversation, data, datasend, users;
             var form, connexion, inscription;
@@ -114,14 +124,14 @@
             });
 
             socket.on('timer', function (data) {  
-    $('#timer').html(data.countdown + " before the game start");
+    $('#timer').html(data.countdown + " remaining before the game start");
     if (data.countdown <= 10){
-        $('#timer').html(data.countdown + " game will begin soon");
+        $('#timer').html(data.countdown + " remaining, the game will start soon");
       //disableMovment();
     }
     if (data.countdown <= 0){
         data.countdown = 0;
-        $('#timer').html(data.countdown + " game started");
+        $('#timer').html(data.countdown + " the game started");
         //enableMovment();
         setRoomStart();
     }
@@ -259,7 +269,7 @@
             <input type="text" id="data" placeholder="Ecrivez ici..." class="form-control input-sm"/>  
             <button id="datasend" type="button" class="btn btn-primary btn-sm">Send</button> 
         </div>
-        <div id="timer"></div>  
+        <div id="timer" style="text-shadow:1px 1px 1px red"></div>  
 
     </body>
 </html>
