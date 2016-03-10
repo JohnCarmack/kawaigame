@@ -18,6 +18,7 @@ var usernames = {};
 var listOfPlayers = {};
 var Joueur = mongoose.model('Joueur','joueur');
 var rooms=["room1", "room2"];
+var currentRoom;
 //var Sequelize = require('sequelize');
 
 /*sequelize = new Sequelize('vtmiage', 'root', 'root', {
@@ -49,6 +50,17 @@ app.set( 'views',  __dirname + '/public/' );
 app.set('json spaces', 4);
 app.use( bodyParser.json());
 app.use( bodyParser.urlencoded({ extended : true  }));
+
+
+
+
+
+var countdown = 20;  
+setInterval(function() {  
+  countdown--;
+  io.sockets.emit('timer', { countdown: countdown });
+}, 1000);
+
 
 
 //Rendu de l'index.html
@@ -138,7 +150,7 @@ app.put('/updateScore/:pseudo', function(req, res, next) {
 var io = require('socket.io')(server);
 
 // usernames which are currently connected to the chat
- defaultRoom = rooms[0];
+defaultRoom = rooms[0];
 var welcome = "Welcome in room :  ";
 console.log(rooms);
 io.sockets.on('connection', function (socket) {
@@ -161,20 +173,22 @@ io.sockets.on('connection', function (socket) {
         // similar to usernames.michel = 'michel', usernames.toto = 'toto'
         usernames[username] = username;
         // echo to the current client that he is connecter
+		
         socket.emit('updatechat', 'SERVER', 'you have connected');
+
         // echo to all client except current, that a new person has connected
         socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
         // tell all clients to update the list of users on the GUI
-        io.sockets.emit('updateusers', usernames);
-       
 
         socket.join(defaultRoom);
         var clientSize = io.sockets.adapter.rooms[defaultRoom].length;
+        currentRoom=defaultRoom;
         //put that in switchRoom in order to avoid there is 3 in room2 (0 actually)
        // io.in(defaultRoom).emit('updateroom',welcome, defaultRoom, clientSize);
        // io.in(rooms[1]).emit('updateroom', defaultRoom);
-  
-        console.log(clientSize);
+       io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+
+        console.log(username+"'s room length : "+clientSize);
         //io.sockets.clients(rooms[1]);
         // Create a new player and store his position too... for that
         // we have an object that is a "list of players" in that form
@@ -182,34 +196,36 @@ io.sockets.on('connection', function (socket) {
         //                          john:{'x':10, 'y':10, 'v':0}}
         // for this example we have x, y and v for speed... ?
 
-        var player = {'x':35, 'y':35, 'v':2};
+        var player = {'x':35, 'y':35, 'v':2, 'room':currentRoom};
 
         listOfPlayers[username] = player;
+        io.sockets.emit('updateusers', usernames, listOfPlayers);
         console.log("user created : "+username);
         io.sockets.emit('updatePlayers',listOfPlayers);
     });
 
 //When a player switch a room
-  socket.on('switchRoom', function(username,joiningRoom){
+socket.on('switchRoom', function(username,joiningRoom){
 
-currentRoom = defaultRoom;
-socket.leave(currentRoom);
+  currentRoom = defaultRoom;
+  socket.leave(currentRoom);
 
-console.log(username + " is  leaving currentRoom : " + currentRoom);
+  console.log(username + " is  leaving currentRoom : " + currentRoom);
 
-io.in(currentRoom).emit('switchRoom', username, joiningRoom)
+  io.in(currentRoom).emit('switchRoom', username, joiningRoom)
 
-console.log("Joining the room  " + joiningRoom);
-console.log("Current room  : " + currentRoom);
+  console.log("Joining the room  " + joiningRoom);
+  console.log("Current room  : " + currentRoom);
 
-socket.join(joiningRoom);
-currentRoom = joiningRoom;
-
-console.log("Current room after joiningRoom : " + currentRoom);
- var clientSize = io.sockets.adapter.rooms[currentRoom].length;
- console.log(clientSize + " People in the " + currentRoom );
- io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
-  });
+  socket.join(joiningRoom);
+  currentRoom = joiningRoom;
+  listOfPlayers[username].room = joiningRoom;
+  console.log("Current room after joiningRoom : " + currentRoom);
+  var clientSize = io.sockets.adapter.rooms[currentRoom].length;
+  console.log(clientSize + " People in the " + currentRoom );
+  io.in(currentRoom).emit('updateroom',welcome, currentRoom, clientSize);
+  io.sockets.emit('updateusers', usernames, listOfPlayers);
+});
 
     //when a player moves
     socket.on('sendpos', function (currentRoom, newPos, dir, moving) {  
@@ -218,7 +234,6 @@ console.log("Current room after joiningRoom : " + currentRoom);
         //console.log("recu sendPos : dir = "+dir);  
        // socket.broadcast.emit('updatepos', socket.username, newPos, dir, moving); 
         socket.in(currentRoom).emit('updatepos', socket.username, newPos, dir, moving);
-        console.log("recu sendpos : currentRoom = "+ currentRoom + " Socket.ID :  " + socket.id + " Socket.room ", socket.rooms);  
     });  
   
     // when the user disconnects.. perform this  
@@ -237,9 +252,46 @@ console.log("Current room after joiningRoom : " + currentRoom);
     }); 
 
     // when the game starts
-    socket.on('sendStartGame', function (lvl) {
+    socket.on('sendStartGame', function (lvl, playerRoom) {
         // we tell the client to execute 'updatechat' with 2 parameters
-        console.log("on commence le jeu")
-        io.sockets.emit('startGame', lvl, listOfPlayers);
+        console.log("on commence le jeu dans la room : "+playerRoom);
+        io.sockets.emit('startGame', lvl, listOfPlayers, playerRoom);
     });
+
+
+   socket.on('resetLevelDone', function (name, levelDone) {
+       // we tell the client to execute 'updatechat' with 2 parameters
+       listOfPlayers[name].isLevelDone = levelDone;
+   });
+
+   // when the game starts
+   socket.on('sendEnd', function (username, playerRoom, levelDone) {
+       // we tell the client to execute 'updatechat' with 2 parameters
+       //console.log("niveau fini pour le joueur : "+username);
+       listOfPlayers[username].isLevelDone = levelDone;
+       var nbJoueurRoom=0;
+       var nbJoueurDone=0;
+       for (name in listOfPlayers)
+       {
+          if(playerRoom == listOfPlayers[name].room)
+          {
+            nbJoueurRoom++;
+            if(listOfPlayers[name].isLevelDone)
+            {
+              nbJoueurDone++;
+            }
+          }
+       }
+        if(nbJoueurDone == nbJoueurRoom)
+          io.sockets.emit('sendNextLevel', listOfPlayers, playerRoom);
+        else
+        {
+          io.sockets.emit('updatePlayers', listOfPlayers);
+        }
+   });
+
+
+
+   
+
 });

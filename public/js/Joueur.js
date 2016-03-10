@@ -118,8 +118,15 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 							this.x = 35;
 							this.y = 35;
 							this.dir = DIR_S;
-							EndLevel();
-							this.isLevelDone = false;
+							if(typeof this.isLevelDone != 'undefined')
+                            {
+                                //console.log(allPlayers[username].isLevelDone);
+                                if(this.isLevelDone)
+                                {
+                                    console.log("le joueur "+username+" a fini le niveau");
+                                    socket.emit('sendEnd', username, room, this.isLevelDone);
+                                }
+                            }
 							//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
                         }
                         
@@ -160,8 +167,17 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
 			this.x = 35;
 			this.y = 35;
 			this.dir = DIR_S;
-			EndLevel();
-			this.isLevelDone = false;
+//			EndLevel();
+            if(typeof this.isLevelDone != 'undefined')
+            {
+                //console.log(allPlayers[username].isLevelDone);
+                if(this.isLevelDone)
+                {
+                    console.log("le joueur "+username+" a fini le niveau");
+                    socket.emit('sendEnd', username, room, this.isLevelDone);
+                }
+            }
+//			this.isLevelDone = false;
 			//updateOnePlayer(this.pseudo,this.speed,this.isLvLDone,this.dead);
         }
         

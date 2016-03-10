@@ -10,7 +10,8 @@ var cooldown=true;
 // "taille" des différents menus
 // menu start
 var startLength, infosLength, scoresLength, policeSize;
-
+// room actuelle du joueur
+var currentRoom;
 
 var allPlayersStates = {};
 var allPlayers={};
@@ -63,6 +64,9 @@ var gameStates = {
     homeInfos: 5
 };
 
+var roomStart = false;
+
+
 var timer = function(currentTime) {
 	var delta = currentTime - oldTime;
 	oldTime = currentTime;
@@ -92,7 +96,7 @@ function App() {
 	MapLevel1 = new Map(1 , context);
 	MapLevel2 = new Map(2 , context);
 	MapLevel3 = new Map(3 , context);
-	
+					
     //ajout des actions pour chaque menu
     startGame(1, allPlayers);
 
@@ -116,6 +120,13 @@ var mainLoop = function(time)
 	keyFunctions();
 	drawCurrentMenu();
 	addMenuClicks(); 
+	/*
+	if(typeof allPlayers[username]!='undefined')
+	{
+		console.log("on checkEnd()");
+		checkEnd();
+	}
+	*/
 	//console.log(inputStates.mousePos);
 	requestAnimationFrame(mainLoop);
 }
@@ -144,16 +155,23 @@ function keyFunctions(){
 	}
 }
 
+
 function EndLevel(){
 	var length = 0;
 	var count = 0;
-	for( name in allPlayers){
-		if(allPlayers[name].isLevelDone === true){
-			count++;
+	//console.log("dans le endLevel, pour le joueur "+username);
+	for(name in allPlayers){
+		if(allPlayersStates[name].room == currentRoom)
+		{
+			if(allPlayers[name].isLevelDone === true){
+				count++;
+			}
+			length++;
 		}
-		length++;
 	}
+	console.log(count+"players ont fini le niveau / "+length+" players au total dans cette room");
 	if(count === length){
+		console.log("on change de niveau");
 		goToNextLevel();
 	}
 }
@@ -232,6 +250,7 @@ function drawCurrentMenu(){
 		var scoresText = "SCORES";
 	    scoresLength = context.measureText(scoresText).width;
 		context.fillText(scoresText, w/2, spaceBetweenMenus*3);
+
 	}
 
 	if(currentGameState == gameStates.running) // pas de menu
@@ -246,7 +265,8 @@ function drawCurrentMenu(){
 		context.fillText("Vous avez cliqué sur start !!", w/2, spaceBetweenMenus*2);
 		*/
 		currentLevelTime += delta;
-		movePlayer(allPlayers[username], delta);
+		if(!(typeof allPlayers[username] == 'undefined'))
+			movePlayer(allPlayers[username], delta);
 		ToLevel(level);
 		drawAllPlayers();
 		for( name in allPlayers){
@@ -309,29 +329,37 @@ function addKeyListeners() {
   	}
     if (event.keyCode === 37){
       inputStates.left = true;
-      allPlayers[username].moving = true;
-      allPlayers[username].dir=DIR_W;
+      if(typeof allPlayers[username] != "undefined"){
+	      allPlayers[username].moving = true;
+	      allPlayers[username].dir=DIR_W;
+      }
       //movePlayer(allPlayers[username], delta);
       //console.log("left");
   	}
     if (event.keyCode === 38){
       inputStates.up = true;
-      allPlayers[username].moving = true;
-      allPlayers[username].dir=DIR_N;
+      if(typeof allPlayers[username] != "undefined"){
+	      allPlayers[username].moving = true;
+	      allPlayers[username].dir=DIR_N;
+  	  }
       //movePlayer(allPlayers[username], delta);
       //console.log("down");
   	}
     if (event.keyCode === 39){
         inputStates.right = true;
-        allPlayers[username].moving = true;
-        allPlayers[username].dir=DIR_E;
+        if(typeof allPlayers[username] != "undefined"){
+	        allPlayers[username].moving = true;
+	        allPlayers[username].dir=DIR_E;
+    	}
         //movePlayer(allPlayers[username], delta);
         //console.log("right");
     }
     if (event.keyCode === 40){
       inputStates.down = true;
-      allPlayers[username].moving = true;
-      allPlayers[username].dir=DIR_S;
+      if(typeof allPlayers[username] != "undefined"){
+	      allPlayers[username].moving = true;
+	      allPlayers[username].dir=DIR_S;
+  	  }
       //movePlayer(allPlayers[username], delta);
   	}
 	
@@ -387,7 +415,8 @@ function addKeyListeners() {
     inputStates.mousedown = true;
     inputStates.mouseButton = evt.button;
 	if(currentGameState === gameStates.running){
-		allPlayers[username].moving = true;
+		if(typeof allPlayers[username] != "undefined")
+			allPlayers[username].moving = true;
 		var diffx = inputStates.mousePos.x-allPlayers[username].x;   
 		var diffy = inputStates.mousePos.y-allPlayers[username].y; 
 		if(inputStates.mousePos.y < allPlayers[username].y && diffx >= diffy && diffx <= diffy*(-1)){
@@ -407,7 +436,8 @@ function addKeyListeners() {
 
   canvas.addEventListener('mouseup', function(evt) {
     inputStates.mousedown = false;
-	allPlayers[username].moving = false;
+    if(typeof allPlayers[username] != "undefined")
+		allPlayers[username].moving = false;
   }, false);
 }
 
@@ -429,9 +459,10 @@ function movePlayer(player, delta){
 	//console.log("le joueur bouge");
 	//console.log(checkInputStatesTrue());
 	room = $("#rooms").val();
-
-	if(player.moving){
-		player.move(delta);
+	if(typeof player != "undefined"){
+		if(player.moving){
+			player.move(delta);
+		}
 	}
 	pos = {'user':username, 'posX':player.x, 'posY':player.y};
 	//console.log("moving to the "+player.dir);
@@ -443,8 +474,9 @@ function movePlayer(player, delta){
 		direct = "right";
 	if(player.dir==0)
 		direct = "up";
-	console.log("Room dans App.js" + room);	
-	socket.emit('sendpos', room, pos, direct, player.moving);
+	//console.log("Room dans App.js" + room);
+	if(typeof player != "undefined")
+		socket.emit('sendpos', room, pos, direct, player.moving);
 }
 /*
 function stopPlayer(player){
@@ -464,11 +496,13 @@ function addMenuClicks(){
 			if((inputStates.mousePos.x >= (w/2-startLength/2)) && (inputStates.mousePos.x <= (w/2+startLength/2)))
 			{
 				
-				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))))
+				if((inputStates.mousePos.y >= (spaceBetweenMenus-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus+(policeSize/2))) && roomStart == true)
 				{
 					//console.log("clique sur le menu start");
-					socket.emit('sendStartGame', level);
+					//console.log("on start le jeu dans la room : "+currentRoom);
+					socket.emit('sendStartGame', level, currentRoom);
 					currentGameState = gameStates.running;
+
 					
 				}
 			}
@@ -547,48 +581,67 @@ function drawHighScore(joueur, context, t){
 function updatePlayers(listOfPlayers){
 	allPlayersStates = listOfPlayers;
 	for (name in allPlayersStates){
-	//	console.log(name);
-		if(typeof allPlayersStates[name] != 'undefined')
-			updateOnePlayer(name, allPlayersStates[name].v,allPlayersStates[name].isLvLDone,allPlayersStates[name].isDead);
+			if(typeof allPlayersStates[name] != 'undefined')
+			{
+				console.log("updatePlayers name : "+name+ " speed : "+listOfPlayers.v);
+				updateOnePlayer(name, allPlayersStates[name].v,allPlayersStates[name].isLvLDone,allPlayersStates[name].isDead);
+			}
 	}
 }
 
 function updatePlayerNewPos(user, newPos, dir, moving){
-	allPlayers[user].x = newPos.posX;
-	allPlayers[user].y = newPos.posY;
+	if(typeof allPlayers[user]!="undefined"){
+		allPlayers[user].x = newPos.posX;
+		allPlayers[user].y = newPos.posY;
 	//console.log("newPlayerPos : dir="+dir);
-	if(dir=="down")
-		allPlayers[user].dir = DIR_S;
-	if(dir=="left")
-		allPlayers[user].dir = DIR_W;
-	if(dir=="up")
-		allPlayers[user].dir = DIR_N;
-	if(dir=="right")
-		allPlayers[user].dir = DIR_E;
-
-	allPlayers[user].moving = moving;
-
+		if(dir=="down")
+			allPlayers[user].dir = DIR_S;
+		if(dir=="left")
+			allPlayers[user].dir = DIR_W;
+		if(dir=="up")
+			allPlayers[user].dir = DIR_N;
+		if(dir=="right")
+			allPlayers[user].dir = DIR_E;
+		if(typeof allPlayers[user] != "undefined")
+			allPlayers[user].moving = moving;
+	}
 }
 
 //le jeu commence,  au niveau lvl
-function startGame(lvl,listOfPlayers){
+function startGame(lvl,listOfPlayers, room){
+	console.log("startGame recu, on commence, room = "+room);
+	sprite = ["images/heroRouge.png","images/heroJaune.png","images/heroVert.png","images/heroBleu.png"];
+	var j = 0;
 	
+	if(currentRoom == room)
+	{
         for(var i in listOfPlayers){
-            createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v);
+        	if(listOfPlayers[i].room == room)
+            	createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v, sprite[j]);
+				j++;
+
         }
         
-	allPlayersStates = listOfPlayers;
-	level = lvl;
-	if(level == 0)
-	{
-		for (name in allPlayersStates)
+		allPlayersStates = listOfPlayers;
+		level = lvl;
+		console.log(lvl);
+		if(level == 0)
 		{
-			createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v);
-	//		console.log(name+" crée");
-		}
-		for (name in allPlayers)
-		{
-			allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			for (name in allPlayersStates)
+			{
+				if(typeof allPlayers[name] != "undefined"){
+					if(allPlayersStates[name].room == room)
+						createOnePlayer(name, allPlayersStates[name].x, allPlayersStates[name].y, allPlayersStates[name].v, sprite[j]);
+				}
+					j++;
+		//		console.log(name+" crée");
+			}
+			for (name in allPlayers)
+			{
+				if(typeof allPlayers[name] != "undefined")
+					allPlayers[name].initSprites(32, 32, NB_DIRECTIONS, NB_FRAMES_PER_POSTURE);
+			}
+			currentGameState = gameStates.running;
 		}
 		currentGameState = gameStates.running;
 	}
@@ -597,16 +650,24 @@ function startGame(lvl,listOfPlayers){
         
 	//console.log("on commence le jeu, au niveau : "+level);
 }
+
 function updateOnePlayer(name,speed,isLvLDone,isDead){
-	if(typeof allPlayers[name]!='undefined'){
-		allPlayers[name].speed = speed;
-		allPlayers[name].isLevelDone = isLvLDone;
-		allPlayers[name].dead = isDead;
+	console.log("updatePlayers");
+	if(typeof allPlayers[name]!="undefined"){
+		//console.log(typeof allPlayers[name]);
+		//console.log(typeof allPlayers[name].speed);
+		if(typeof allPlayers[name].speed!="undefined")
+			allPlayers[name].speed = speed;
+		if(typeof allPlayers[name].isLevelDone!="undefined")
+			allPlayers[name].isLevelDone = isLvLDone;
+		//console.log("isLevelDone du joueur "+name+" : "+allPlayers[name].isLevelDone);
+		if(typeof allPlayers[name].dead!="undefined")
+			allPlayers[name].dead = isDead;
 	}
 }
-function createOnePlayer(name,x,y,speed){
+function createOnePlayer(name,x,y,speed, sprite){
 
-	var j = new Joueur(name, 0, x, y, speed, 21, 27, DIR_S, "images/heroRouge.png", nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
+	var j = new Joueur(name, 0, x, y, speed, 21, 27, DIR_S, sprite, nbImages, nbFramesOfAnimationBetweenRedraws, context, MapLevel1);
        j.initSprites(32,32,4,3);
 	   RecuperationDonnees(j);
 	//j.spritesheet.onload = function(){
@@ -614,16 +675,46 @@ function createOnePlayer(name,x,y,speed){
 	//};
 	//var j = new Joueur(name, x, y, speed);
 	allPlayers[name]=j;
-	//console.log("joueur crée ! : "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].v);
+	//console.log("joueur crée ! : name : "+name+" "+allPlayers[name].x+":"+allPlayers[name].y+":v="+allPlayers[name].speed);
+}
+
+function updateUserRoom(room){
+	//console.log("updateUserRoom");
+	currentRoom = room;
+	//console.log("currentRoom = "+currentRoom);
 }
 
 function checkInputStatesTrue(){
-	console.log("checking inputStates...");
+	//console.log("checking inputStates...");
 	var isTrue = false;
 	if(inputStates.left) isTrue=true;
 	if(inputStates.right) isTrue=true;
 	if(inputStates.up) isTrue=true;
 	if(inputStates.down) isTrue=true;
 	return isTrue;
+}
+
+
+function setRoomStart(){
+	roomStart = true;
+}
+
+function nextLevel(listOfPlayers, room)
+{
+	if(room==currentRoom)
+	{
+		currentLevelTime = 0;
+		level++;
+		if(typeof allPlayers[username] != "undefined"){ 
+			allPlayers[username].isLevelDone=false;
+			//console.log("on remet les joueurs au début"+ allPlayers[username].x, allPlayers[username].y);
+			allPlayers[username].x = 35;
+			allPlayers[username].y = 35;
+			//console.log("."+ allPlayers[username].x, allPlayers[username].y);
+			socket.emit('resetLevelDone', username, allPlayers[username].isLevelDone);
+			//console.log(allPlayers[username].isLevelDone);
+		}
+
+	}
 }
 

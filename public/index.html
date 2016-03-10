@@ -11,6 +11,7 @@
 
 		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.6-dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/howler.js"></script>
 		<script type="text/javascript" src="js/SpritesSheet.js"></script>
         <script type="text/javascript" src="js/Objets.js"></script>
         <script type="text/javascript" src="js/Loading.js"></script>
@@ -28,6 +29,15 @@
     </head>
 
         <script>  
+
+        var sound = new Howl({
+         urls: ['music/forest.mp3']
+            }).play();
+
+
+
+
+
 			var username;
             var conversation, data, datasend, users;
             var form, connexion, inscription;
@@ -52,18 +62,30 @@
             });  
                    // listener, whenever the server emits 'updateroom', this updates the chat body
             socket.on('updateroom', function (message , room, clientSize) {
-                var chatMessage = "<b>" + message + ":</b> " + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
+                //console.log("dans le update room");
+                var chatMessage = "<b>" + message + "</b>" + room + "<br>";
+                // + room + "<br>" + "there is " + clientSize + " people in the  " + room + "<br>" ;
                 conversation.innerHTML += chatMessage;
 				conversation.scrollTop = conversation.scrollHeight;
+                updateUserRoom(room);
             });
 
           
             // listener, whenever the server emits 'updateusers', this updates the username list  
-            socket.on('updateusers', function(listOfUsers) {  
-                users.innerHTML = "";  
-                for(var name in listOfUsers) {  
-                    var userLineOfHTML = '<div>' + name + '</div>';  
-                    users.innerHTML += userLineOfHTML;  
+            socket.on('updateusers', function(listOfUsers, listOfPlayers) {  
+                users.innerHTML = "";
+                for(var name in listOfUsers) {
+                    if(typeof name!="undefined"){
+                        if(typeof listOfPlayers[name]!="undefined")
+                        {
+                            if(currentRoom==listOfPlayers[name].room)
+                            {
+                                //console.log("updateusers currentRoom=room, currentRoom:"+currentRoom);
+                                var userLineOfHTML = '<div>' + name + '</div>';  
+                                users.innerHTML += userLineOfHTML; 
+                            }
+                        }
+                    } 
                 }  
 				var taille = conversation.offsetHeight - users.offsetHeight;
 				conversation.style.height = taille+"px";
@@ -77,8 +99,12 @@
               updatePlayerNewPos(username, newPos, dir, moving);
             });
             //when the game is starting
-            socket.on('startGame', function (lvl, listOfPlayers) {
-              startGame(lvl, listOfPlayers);
+            socket.on('startGame', function (lvl, listOfPlayers, room) {
+              startGame(lvl, listOfPlayers, room);
+            });
+            socket.on('sendNextLevel', function (listOfPlayers, room) {
+                console.log("le niveau est fini");
+                nextLevel(listOfPlayers, room);
             });
             // update players (isLvLDone? isDead?)
             socket.on('updatePlayers', function (listOfPlayer) {
@@ -96,6 +122,21 @@
             socket.on('switchRoom', function (username, currentRoom, joiningRoom) {
               console.log(username + " : " + currentRoom + joiningRoom);
             });
+
+            socket.on('timer', function (data) {  
+    $('#timer').html(data.countdown + " remaining before the game start");
+    if (data.countdown <= 10){
+        $('#timer').html(data.countdown + " remaining, the game will start soon");
+      //disableMovment();
+    }
+    if (data.countdown <= 0){
+        data.countdown = 0;
+        $('#timer').html(data.countdown + " the game started");
+        //enableMovment();
+        setRoomStart();
+    }
+    console.log("TIMER : " + data.countdown);
+});
 
             // on load of page  
             window.addEventListener("load", function(){  
@@ -144,7 +185,7 @@
                 // sends the chat message to the server  
                 function sendMessage() {
                      var currentRoom = $( "#rooms").val(); 
-                    console.log("sendind a message : "+data.value);
+                    console.log("sendind a message : "+data.value+" in room = "+currentRoom);
                     var message = data.value;
                     data.value = "";
                     // tell server to execute 'sendchat' and send along one parameter
@@ -228,5 +269,7 @@
             <input type="text" id="data" placeholder="Ecrivez ici..." class="form-control input-sm"/>  
             <button id="datasend" type="button" class="btn btn-primary btn-sm">Send</button> 
         </div>
+        <div id="timer" style="text-shadow:1px 1px 1px red"></div>  
+
     </body>
 </html>
