@@ -123,6 +123,9 @@ function Joueur(pseudo, highScore, x, y, speed, width, height, dir, img, nbImage
                                 //console.log(allPlayers[username].isLevelDone);
                                 if(this.isLevelDone)
                                 {
+                                    this.x = 35; 
+                                    this.y = 35;
+                                    
                                     console.log("le joueur "+username+" a fini le niveau");
                                     socket.emit('sendEnd', username, room, this.isLevelDone);
                                 }

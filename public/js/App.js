@@ -66,6 +66,14 @@ var gameStates = {
 
 var roomStart = false;
 
+/* Cet array associatif permettra d'associer un temps d'appuie pour chaque touche. Quand l'utilisateur appuiera sur une fleche, on stockera la "date" de debut d'appuie, dès qu'il relachera la touche, on fera la différence en milliseconds et on saura combien de temps l'utilisateur a appuié sur la touche en question 
+38 = haut, 40 = bas, 37 = gauche, 39 = droite
+*/
+var keyAppuie = {38:null, 40:null, 37:null, 39:null};
+
+/* Cette liste correspondra à la liste des touches dans l'ordre sur lesquels l'utilisateur a appuié, avec pour chaque touche le temps d'appuies en milliseconds. Ce cera un tableau de tuples comme ceci { {codeTouche: tempsMs}, {etc..} } */
+var listeAppuies = [];
+var replay = false;
 
 var timer = function(currentTime) {
 	var delta = currentTime - oldTime;
@@ -119,6 +127,19 @@ var mainLoop = function(time)
 	//console.log(displayMenu);
 	keyFunctions();
 	drawCurrentMenu();
+        
+        if(allPlayers[username] && allPlayers[username].isLevelDone){
+            console.log("ici");
+            if(! replay){
+                replay = true;
+                $("#replay").show();
+            }
+            
+            jouerFantome();
+            
+            drawPlayer(allPlayers[username]);
+        }
+        
 	addMenuClicks(); 
 	/*
 	if(typeof allPlayers[username]!='undefined')
@@ -129,6 +150,49 @@ var mainLoop = function(time)
 	*/
 	//console.log(inputStates.mousePos);
 	requestAnimationFrame(mainLoop);
+}
+
+function jouerFantome(){
+    var xActuel = allPlayers[username].x;
+    var yActuel = allPlayers[username].y;
+    
+    var xVoulu = listeAppuies[0].fin[0];
+    var yVoulu = listeAppuies[0].fin[1];
+    
+    // 38 = haut, 40 = bas, 37 = gauche, 39 = droite 
+    var code = listeAppuies[0].code;
+    
+    if(code === 39){
+        xActuel += 2;
+        if(xVoulu <= xActuel){
+            listeAppuies.shift();
+        }
+        allPlayers[username].x = xActuel;
+    }
+    
+    else if(code === 40){
+        yActuel += 2;
+        if(yVoulu <= yActuel){
+            listeAppuies.shift();
+        }
+        allPlayers[username].y = yActuel;
+    }
+    
+    else if(code === 37){
+        xActuel -= 2;
+        if(xVoulu >= xActuel){
+            listeAppuies.shift();
+        }
+        allPlayers[username].x = xActuel;
+    }
+    
+    else if(code === 38){
+        yActuel -= 2;
+        if(yVoulu >= yActuel){
+            listeAppuies.shift();
+        }
+        allPlayers[username].y = yActuel;
+    }
 }
 
 function setCooldown(){
@@ -159,6 +223,8 @@ function keyFunctions(){
 function EndLevel(){
 	var length = 0;
 	var count = 0;
+            
+                
 	//console.log("dans le endLevel, pour le joueur "+username);
 	for(name in allPlayers){
 		if(allPlayersStates[name].room == currentRoom)
@@ -169,13 +235,23 @@ function EndLevel(){
 			length++;
 		}
 	}
+        
 	console.log(count+"players ont fini le niveau / "+length+" players au total dans cette room");
 	if(count === length){
+                replay = false;
+                listeAppuies = [];
+                allPlayers[username].x = 35;
+                allPlayers[username].y = 35;
+                allPlayers[username].replayLance = false;
+                allPlayers[username].isLevelDone = false;
+                $("#replay").hide();
+                
+                console.log(allPlayers[username]);
+                console.log(listeAppuies);
 		console.log("on change de niveau");
 		goToNextLevel();
 	}
 }
-
 
 function ToLevel(lvl){
 	if(lvl === 1){
@@ -268,10 +344,13 @@ function drawCurrentMenu(){
 		if(!(typeof allPlayers[username] == 'undefined'))
 			movePlayer(allPlayers[username], delta);
 		ToLevel(level);
-		drawAllPlayers();
-		for( name in allPlayers){
-			MonsterCollisionWithWalls(allPlayers[name], h, w);
-		}
+                
+                if(! replay){
+                    drawAllPlayers();
+                    for( name in allPlayers){
+                            MonsterCollisionWithWalls(allPlayers[name], h, w);
+                    }
+                }
 		//EndLevel();
 		//drawAllPlayers();
 
@@ -324,10 +403,15 @@ function getMousePos(evt) {
 function addKeyListeners() {
   //add the listener to the main, window object, and update the states  
   window.addEventListener('keydown', function(event) {
+      
+      if(replay){
+        return;
+    }
+      
   	if(event.keyCode === 27){
   		inputStates.esc = true;
   	}
-    if (event.keyCode === 37){
+    else if (event.keyCode === 37){
       inputStates.left = true;
       if(typeof allPlayers[username] != "undefined"){
 	      allPlayers[username].moving = true;
@@ -336,7 +420,7 @@ function addKeyListeners() {
       //movePlayer(allPlayers[username], delta);
       //console.log("left");
   	}
-    if (event.keyCode === 38){
+    else if (event.keyCode === 38){
       inputStates.up = true;
       if(typeof allPlayers[username] != "undefined"){
 	      allPlayers[username].moving = true;
@@ -345,7 +429,7 @@ function addKeyListeners() {
       //movePlayer(allPlayers[username], delta);
       //console.log("down");
   	}
-    if (event.keyCode === 39){
+    else if (event.keyCode === 39){
         inputStates.right = true;
         if(typeof allPlayers[username] != "undefined"){
 	        allPlayers[username].moving = true;
@@ -354,7 +438,7 @@ function addKeyListeners() {
         //movePlayer(allPlayers[username], delta);
         //console.log("right");
     }
-    if (event.keyCode === 40){
+    else if (event.keyCode === 40){
       inputStates.down = true;
       if(typeof allPlayers[username] != "undefined"){
 	      allPlayers[username].moving = true;
@@ -363,46 +447,79 @@ function addKeyListeners() {
       //movePlayer(allPlayers[username], delta);
   	}
 	
-    if (event.keyCode === 32)
+    else if (event.keyCode === 32)
       inputStates.space = true;
+  
+    var code = event.keyCode;
+    if (code == '38' || code == '40' || code == '37' || code == '39') {
+        if(listeAppuies.length > 0){
+            var tailleTab = listeAppuies.length;
+            var lastElmt = listeAppuies[tailleTab - 1];
+        }
+
+        if(lastElmt && (lastElmt.code == code)){
+            return;
+        }else{
+            listeAppuies.push({code: code, depart: [allPlayers[username].x, allPlayers[username].y], fin: []});
+        }
+    }
+  
   }, false);
 
   //if the key will be released, change the states object   
   window.addEventListener('keyup', function(event) {
+      
+      if(replay && event.keyCode == 32){
+            EndLevel();
+          return; 
+      }
+      else if(replay){
+        return;
+    }
+      
   	if(event.keyCode === 27){
   		inputStates.esc = false;
   		if(!checkInputStatesTrue()) allPlayers[username].moving = false;
   		//stopPlayer(allPlayers[username]);
   		//setPlayerMoving(j, false);
   	}
-    if (event.keyCode === 37){
+    else if (event.keyCode === 37){
       inputStates.left = false;
       if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
     }
-    if (event.keyCode === 38){
+    else if (event.keyCode === 38){
       inputStates.up = false;
       if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
-    if (event.keyCode === 39){
+    else if (event.keyCode === 39){
       inputStates.right = false;
       if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
-    if (event.keyCode === 40){
+    else if (event.keyCode === 40){
       inputStates.down = false;
       if(!checkInputStatesTrue()) allPlayers[username].moving = false;
       //stopPlayer(allPlayers[username]);
       //setPlayerMoving(j, false);
   	}
-    if (event.keyCode === 32){
+    else if (event.keyCode === 32){
       inputStates.space = false;
       //setPlayerMoving(j, false);
   	}
+        
+          var code = event.keyCode;
+    if (code == '38' || code == '40' || code == '37' || code == '39') {
+            var tailleTab = listeAppuies.length;
+            var lastElmt = listeAppuies[tailleTab - 1];
+
+            lastElmt.fin = [allPlayers[username].x, allPlayers[username].y];
+    }
+        
   }, false);
 
   // Mouse event listeners
@@ -701,6 +818,12 @@ function setRoomStart(){
 
 function nextLevel(listOfPlayers, room)
 {
+    if(replay){
+        return;
+    }
+    
+    console.log("next level");
+    
 	if(room==currentRoom)
 	{
 		currentLevelTime = 0;
