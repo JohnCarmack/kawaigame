@@ -19,6 +19,9 @@ Apparaitra alors
 Express server listening on port 3000
 
 ``` 
-Cela veut dire que tout se déroule sans erreurs, vous pouvez commencer à joueur au jeu vidéo.
-
+Cela veut dire que tout se déroule sans erreurs, vous pouvez commencer à jouer au jeu vidéo.
+Vous devez lancer un navigateur web et tapez l'adresse suivante:
+```console
+localhost:3000
+``` 
 
