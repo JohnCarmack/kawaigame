@@ -1,6 +1,6 @@
 # KawaiGame
 
-Le projet kawaigame est la création d'un jeu vidéo en ligne entre  l'université d'Evry et l'université de Sophia Antipolis.
+Le projet kawaigame est la création d'un jeu vidéo en ligne entre  l'université d'Evry et l'université de Nice Sophia Antipolis.
 Le jeu utilise exclusivement  les technologies web tels que Javascript, HTML 5, CSS3, Socket.io et Tiledmap.
 
 # Installation du projet
