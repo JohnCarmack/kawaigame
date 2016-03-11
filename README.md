@@ -1,16 +1,18 @@
 # KawaiGame
 
 Le projet kawaigame est la création d'un jeu vidéo en ligne entre  l'université d'Evry et l'université de Sophia Antipolis.
-Le utilise exclusivement  les technologies web tels que Javascript, HTML 5, CSS3, Socket.io et Tiledmap.
+Le jeu utilise exclusivement  les technologies web tels que Javascript, HTML 5, CSS3, Socket.io et Tiledmap.
 
 # Installation du projet
-Il faudra en pré-requis avoir une base NoSQL MongoDB, sinon le projet ne démarrera pas.
+Il faudra en pré-requis avoir une base NoSQL MongoDB et NodeJs, sinon le projet ne démarrera pas.
+
+Vous pouvez consulter les guides d'installation dans le Wiki.
 
 Ensuite, il suffit de cloner ce dépôt sur votre machine locale
 ```console
 git clone https://github.com/JohnCarmack/kawaigame.git
 ``` 
-dans une console il suffit de se rendre dans le répértoire courant et taper :
+dans une console il suffit de se rendre dans le répertoire courant et taper :
 ```console
 node app.js
 ``` 
