@@ -1,27 +1,28 @@
-# kawaigame
+# KawaiGame
 
-# Taches à réaliser pour le jeu
+Le projet kawaigame est la création d'un jeu vidéo en ligne entre  l'université d'Evry et l'université de Nice Sophia Antipolis.
+Le jeu utilise exclusivement  les technologies web tels que Javascript, HTML 5, CSS3, Socket.io et Tiledmap.
 
-1) un serveur min node/express de 120 lignes qui sert public/index.html -> Done (Faouzy)
+# Installation du projet
+Il faudra en pré-requis avoir une base NoSQL MongoDB et NodeJs, sinon le projet ne démarrera pas.
 
-2) on ajoute des niveaux et on code la logique de changement de niveau/game over -> Done  (Mazen Faouzy Quentin Benjamin Camille)
 
-3) Tester avec n joueurs simultanés en clavier partagé -> Done (Benjamin) 
-3) bis) JSBIN) Lien JSBIN du projet : http://output.jsbin.com/tijuze/4/
-                               (MAJ)  http://jsbin.com/qodela/7/
+Ensuite, il suffit de cloner ce dépôt sur votre machine locale
+```console
+git clone https://github.com/JohnCarmack/kawaigame.git
+``` 
+dans une console il suffit de se rendre dans le répertoire courant et taper :
+```console
+node app.js
+``` 
+Apparaitra alors 
+```console
+Express server listening on port 3000
 
-4) préparer le terrain pour des updates des joueurs via socket.io -> Done
+``` 
+Cela veut dire que tout se déroule sans erreurs, vous pouvez commencer à jouer au jeu vidéo.
+Vous devez lancer un navigateur web et tapez l'adresse suivante:
+```console
+localhost:3000
+``` 
 
-5) ajouter un chat mono salle dans le jeu => done
-
-6) faire en sorte que le jeu en ligne marche et que les joueurs puissent chatter (on mélange le code du jeu et le code du chat) => Done
-
-7) On essaie de faire passer juste les positions des joueurs via le chat en mode texte, pour débugger => Done
-
-8) on passe les positions en tant qu'objets, et on essaie d'updater les positions des autres joueurs => Done
-
-9) On essaie de faire marcher la logique du jeu (écran d'accueil, game over, changement de niveau)
-
-10) On passe tout en multi room (gestion de parties simultanées mais indépendantes) => In progress
-
-11) On commence à réfléchir aux ghosts et à la persistence.
