@@ -6,7 +6,6 @@ Le jeu utilise exclusivement  les technologies web tels que Javascript, HTML 5, 
 # Installation du projet
 Il faudra en pré-requis avoir une base NoSQL MongoDB et NodeJs, sinon le projet ne démarrera pas.
 
-Vous pouvez consulter les guides d'installation dans le Wiki.
 
 Ensuite, il suffit de cloner ce dépôt sur votre machine locale
 ```console
