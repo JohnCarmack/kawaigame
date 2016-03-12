@@ -11,7 +11,11 @@ Ensuite, il suffit de cloner ce dépôt sur votre machine locale
 ```console
 git clone https://github.com/JohnCarmack/kawaigame.git
 ``` 
-dans une console il suffit de se rendre dans le répertoire courant et taper :
+dans une console il suffit de taper :
+```console
+mongod
+``` 
+puis dans une autre console il suffit de se rendre dans le répertoire courant et taper :
 ```console
 node app.js
 ``` 
