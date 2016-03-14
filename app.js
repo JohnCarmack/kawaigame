@@ -99,8 +99,8 @@ function IsFind(){
   else {
   joueur = new Joueur({
     pseudo: pseudo,
-	highScore : 0,
-	ghost : [],
+	highScore: 0,
+	ghost: [],
   });
 
   joueur.save(function (err) {

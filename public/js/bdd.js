@@ -96,7 +96,7 @@ function RecuperationDonnees(joueur){
 			if(data === 'NOT FOUND'){
 				//FaireInscrip();
 			}else{
-				joueur.highScore = data.highScore;
+				joueur.highScore = data;
 			}
 		}
 	});
