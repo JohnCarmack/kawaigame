@@ -58,7 +58,7 @@ var currentGameState;
 var gameStates = {
 	home: 0,
     running: 1,
-    over: 2,
+    end: 2,
     pause: 3,
     homeScores: 4,
     homeInfos: 5
@@ -196,6 +196,9 @@ function ToLevel(lvl){
 		dessineMap(MapLevel3, context);
 		//startGame(lvl, allPlayers);
 	}
+		if(lvl === 4){
+			currentGameState = gameStates.end;
+	}
 }
 
 function drawCurrentMenu(){
@@ -297,16 +300,49 @@ function drawCurrentMenu(){
 		context.fillStyle = 'white';
 		context.textBaseline = 'middle';
 		context.textAlign = 'center'; 
-		context.fillText("Meilleurs scores", w/2, spaceBetweenMenus+50);
+		context.fillText("Meilleurs scores", w/2, spaceBetweenMenus+70);
 		//context.fillText("Score:", w/2, spaceBetweenMenus + 100);
 		var t = 120;
+		var roomJoueur = document.querySelector("#rooms").value;
 		for( name in allPlayers){
+			if(allPlayersStates[name].room == roomJoueur){
 			context.save();
 			drawHighScore(allPlayers[name],context, t);
 			t += 50;
 			context.restore();
+			}
 		}
 		context.drawImage(etoile, w/4+25, 0);
+		
+	}
+	if(currentGameState == gameStates.end) // menu de fin
+	{
+			context.save();
+			context.textBaseline = 'middle';
+			context.textAlign = "center";
+			context.font = '40pt Calibri';
+			policeSize = 30;
+			context.fillStyle = 'white';
+			context.textBaseline = 'middle';
+			context.textAlign = 'center'; 
+			context.fillText("Scores", w/2, 35);
+			var t = 50;
+			var roomJoueur = document.querySelector("#rooms").value;
+		for( name in allPlayers){
+			if(allPlayersStates[name].room == roomJoueur){
+			allPlayers[name].isLevelDone = true;
+			context.save();
+			drawHighScore(allPlayers[name],context, t);
+			t += 50;
+			}
+		}
+		context.restore();
+		context.save();
+		policeSize = 10;
+		var rejouerText = "Cliquez ici pour rejouer";
+	    rejouerLength = context.measureText(rejouerText).width;
+		context.fillText(rejouerText, w/2, spaceBetweenMenus*4);
+		context.restore();
 	}
 }
 
@@ -447,7 +483,7 @@ function drawPlayer(player){
 function drawAllPlayers(){
 	for(var name in allPlayers) {
 		//console.log("on déssine tous les joueurs");
-		if(allPlayers[name].isLevelDone != true){
+		if(allPlayers[name].isLevelDone !== true){
 		drawPlayer(allPlayers[name]);
 		}
 	}
@@ -549,6 +585,23 @@ function addMenuClicks(){
 				}
 			}
 		}
+		if(currentGameState == gameStates.end && cooldown == true)
+		{
+			if((inputStates.mousePos.x >= (w/2-rejouerLength/2)) && (inputStates.mousePos.x <= (w/2+rejouerLength/2)))
+			{
+				
+				if((inputStates.mousePos.y >= (spaceBetweenMenus*4-(policeSize/2))) && (inputStates.mousePos.y <= (spaceBetweenMenus*4+(policeSize/2))))
+				{
+					//console.log("clique sur le menu scores");
+					
+					currentGameState = gameStates.home;
+					level = 1;
+					for( name in allPlayers){
+						allPlayers[name].isLevelDone = false;
+					}
+				}
+			}
+		}
 		cooldown=false;
 	}
 }
@@ -613,10 +666,10 @@ function startGame(lvl,listOfPlayers, room){
 	if(currentRoom == room)
 	{
         for(var i in listOfPlayers){
-        	if(listOfPlayers[i].room == room)
+        	if(listOfPlayers[i].room == room){
             	createOnePlayer(i, listOfPlayers[i].x, listOfPlayers[i].y, listOfPlayers[i].v, sprite[j]);
 				j++;
-
+			}
         }
         
 		allPlayersStates = listOfPlayers;
